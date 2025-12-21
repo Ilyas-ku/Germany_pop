@@ -1,0 +1,20 @@
+{
+  "name": "germany-buffer",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@turf/turf": "^7.2.0",
+    "maplibre-gl": "^4.7.1",
+    "pmtiles": "^3.2.0",
+    "rbush": "^4.0.1"
+  },
+  "devDependencies": {
+    "vite": "^7.3.0"
+  }
+}

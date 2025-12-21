@@ -1,0 +1,106 @@
+html, body { margin: 0; height: 100%; }
+#map { position: absolute; inset: 0; }
+
+#hud{
+  position:absolute;
+  top:12px; left:12px;
+  background: rgba(255,255,255,0.92);
+  padding:10px 12px;
+  border-radius:10px;
+  font: 12px/1.35 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  max-width: 320px;
+  white-space: pre-wrap;
+}
+
+
+.click-dot{
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 2px solid #111111;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.20);
+}
+
+#hud-title{
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1px;
+  letter-spacing: 0.2px;
+}
+
+/* HUD card */
+#hud{
+  position: absolute;
+  top: 16px;
+  left: 16px;
+
+  width: 320px;            /* было слишком широко/больно */
+  padding: 14px 14px;      /* меньше воздуха */
+  border-radius: 14px;
+
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  backdrop-filter: blur(6px);
+}
+
+/* Title */
+#hud-title{
+  margin: 0 0 1px 0;      /* компактнее */
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+/* Row with spinner + text */
+#hud-row{
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+/* Make pre behave like normal text (no giant margins) */
+#hud-text{
+  margin: 0;               /* ВАЖНО: pre по умолчанию имеет margin */
+  white-space: pre-line;   /* сохраним переносы строк */
+  font-size: 13px;
+  line-height: 1.35;
+  color: #111827;
+}
+
+/* Optional: if your spinner has its own size */
+#hud-spinner{
+  margin-top: 1px;
+}
+
+/* убираем лишние внешние отступы у типографики внутри HUD */
+#hud h1, #hud h2, #hud h3, #hud p, #hud pre {
+  margin: 0;
+}
+
+/* делаем небольшой контролируемый зазор между title и stats */
+#hud-title{
+  margin: 0 0 1px 0 !important;
+}
+
+#hud-text{
+  margin: 0 !important;
+  white-space: pre-line;
+  line-height: 1.35;
+}
+
+#hud-row{
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+#hud-title{
+  margin: 0 0 1px 0 !important;  /* было 10px */
+}
+
+#hud pre,
+#hud-text{
+  margin: 0 !important;          /* убираем любые pre-margin */
+  padding: 0 !important;
+}
