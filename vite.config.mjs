@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: "/germany_pop/",
+  base: "/Germany_pop/",
 });
