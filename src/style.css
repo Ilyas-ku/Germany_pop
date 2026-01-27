@@ -121,3 +121,22 @@ html, body { margin: 0; height: 100%; }
 
   pointer-events: none; /* чтобы не мешал кликам по карте */
 }
+#hud-controls{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin: 6px 0 8px 0;
+}
+
+#hud-controls label{
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+#yearSelect{
+  font: inherit;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(17,17,17,0.15);
+  background: rgba(255,255,255,0.9);
+}

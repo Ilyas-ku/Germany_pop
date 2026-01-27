@@ -11,7 +11,27 @@
 
     <div id="hud">
   <div id="hud-title">How much land holds the same number of people as Berlin</div>
+
+  <div id="hud-controls">
+    <label for="yearSelect">Year</label>
+    <select id="yearSelect">
+      <option value="1871">1871</option>
+      <option value="1900-1910">1900–1910</option>
+      <option value="1939">1939</option>
+      <option value="1946-1950">1946–1950</option>
+      <option value="1961-1964">1961–1964</option>
+      <option value="1985-1987">1985–1987</option>
+      <option value="1996">1996</option>
+      <option value="2019" selected>2019</option>
+    </select>
+  </div>
+
   <div id="hud-row">
+    <span id="hud-spinner" style="display:none;">⏳</span>
+    <pre id="hud-text"></pre>
+  </div>
+</div>
+
     <span id="hud-spinner" style="display:none;"></span>
     <pre id="hud-text"></pre>
   </div>

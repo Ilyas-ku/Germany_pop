@@ -34,14 +34,11 @@ function makeMercatorCircleFeature(centerLngLat, radiusMeters, steps = 192) {
   return {
     type: "Feature",
     properties: { radiusMeters },
-    geometry: {
-      type: "Polygon",
-      coordinates: [ring]
-    }
+    geometry: { type: "Polygon", coordinates: [ring] }
   };
 }
 
-let index = null;    // RBush over municipality bbox in WebMerc meters
+let index = null; // RBush in WebMerc meters
 let byId = new Map();
 let isReady = false;
 
@@ -49,6 +46,7 @@ self.onmessage = async (e) => {
   const msg = e.data;
 
   try {
+    // ---------------- init ----------------
     if (msg.type === "init") {
       const { geomUrl } = msg;
 
@@ -60,12 +58,19 @@ self.onmessage = async (e) => {
       index = new RbushClass();
       byId = new Map();
 
-      for (const f of geo.features) {
-        if (!f?.geometry || !f?.properties) continue;
+      const feats = geo?.features || [];
+      console.log("WORKER: loaded geojson features:", feats.length);
+      console.log("WORKER: sample keys:", Object.keys(feats?.[0]?.properties || {}));
 
-        const id = String(f.properties.OBJECTID);
-        const pop = Number(f.properties.EWZ) || 0;
-        const areaSqm = Number(f.properties.area) || 0;
+      for (const f of feats) {
+        if (!f?.geometry) continue;
+        const props = f.properties || {};
+
+        const rawAGS = props.AGS ?? f.id ?? "";
+        const id = String(rawAGS).padStart(8, "0"); // <-- КЛЮЧЕВО
+        if (!id || id === "00000000") continue;
+
+        const areaSqm = turf.area(f); // вместо props.area
 
         const b = turf.bbox(f); // [minLon, minLat, maxLon, maxLat]
         const a = lonLatToMerc(b[0], b[1]);
@@ -80,7 +85,13 @@ self.onmessage = async (e) => {
 
         index.insert({ ...bboxMerc, id });
 
-        byId.set(id, { id, pop, areaSqm, geom: f.geometry, bboxMerc });
+        // храним ВЕСЬ feature (а не geometry), и props отдельно
+        byId.set(id, {
+          id,
+          feature: f,
+          props,
+          areaSqm
+        });
       }
 
       isReady = true;
@@ -88,10 +99,22 @@ self.onmessage = async (e) => {
       return;
     }
 
+    // ---------------- compute ----------------
     if (msg.type === "compute") {
       if (!isReady) return;
 
-      const { jobId, lng, lat, targetPop } = msg;
+      const { jobId, lng, lat, targetPop, popField } = msg;
+
+      if (!popField) {
+        self.postMessage({ type: "error", jobId, message: "popField is missing" });
+        return;
+      }
+
+      if (!Number.isFinite(targetPop) || targetPop <= 0) {
+        self.postMessage({ type: "error", jobId, message: `Bad targetPop: ${targetPop}` });
+        return;
+      }
+
       const center = [lng, lat];
       const cm = lonLatToMerc(lng, lat);
 
@@ -105,9 +128,7 @@ self.onmessage = async (e) => {
           maxY: cm.y + rMeters
         };
 
-        // IMPORTANT: circle built in WebMercator meters, then returned as lon/lat GeoJSON
         const circleFeature = makeMercatorCircleFeature(center, rMeters, 192);
-
         const candidates = index.search(searchRect);
 
         let totalPop = 0;
@@ -118,9 +139,11 @@ self.onmessage = async (e) => {
           const rec = byId.get(String(c.id));
           if (!rec) continue;
 
-          // Accurate test: polygon intersects the Mercator-distance circle
-          if (turf.booleanIntersects(circleFeature, rec.geom)) {
-            totalPop += rec.pop;
+          // пересечение круга и полигона
+          if (turf.booleanIntersects(circleFeature, rec.feature)) {
+            const v = Number(rec.props?.[popField] ?? 0);
+            totalPop += Number.isFinite(v) ? v : 0;
+
             totalAreaSqm += rec.areaSqm;
             if (needIds) ids.push(rec.id);
           }
@@ -129,18 +152,25 @@ self.onmessage = async (e) => {
         return { totalPop, totalAreaSqm, ids, circleFeature };
       };
 
-      // Expand upper bound
+      // expand upper bound (с предохранителем)
       let lo = 0;
-      let hi = 25;
-
-      while (true) {
+      let hi = 25; // км
+      for (let i = 0; i < 30; i++) {
         const { totalPop } = sumForRadius(hi, false);
         if (totalPop >= targetPop) break;
         hi *= 2;
       }
+      if (hi > 5000) {
+        self.postMessage({
+          type: "error",
+          jobId,
+          message: `Upper bound exploded (hi=${hi} km). popField=${popField}`
+        });
+        return;
+      }
 
-      // Binary search
-      const EPS = 0.05; // km
+      // binary search
+      const EPS = 0.05; // км
       while ((hi - lo) > EPS) {
         const mid = (lo + hi) / 2;
         const { totalPop } = sumForRadius(mid, false);
@@ -160,7 +190,6 @@ self.onmessage = async (e) => {
         count: final.ids.length,
         circle: final.circleFeature
       });
-      return;
     }
   } catch (err) {
     self.postMessage({
