@@ -4,8 +4,7 @@ import maplibregl from "maplibre-gl";
 import { Protocol, PMTiles } from "pmtiles";
 import * as turf from "@turf/turf";
 
-// --- Years / fields / Berlin population (UI shows hyphens) ---
-
+// --- Years / fields / Berlin population ---
 const normYearKey = (s) => String(s).replace(/-/g, "_");
 
 const YEARS = [
@@ -24,45 +23,141 @@ const YEAR_LABEL = Object.fromEntries(YEARS.map(y => [normYearKey(y.label), y.la
 const YEAR_TO_FIELD = Object.fromEntries(YEARS.map(y => [normYearKey(y.label), y.field]));
 const BERLIN_POP = Object.fromEntries(YEARS.map(y => [normYearKey(y.label), y.berlin]));
 
-// default year
-let selectedYearKey = normYearKey("2019");
-let TARGET_POP = BERLIN_POP[selectedYearKey];
+// --- Slider UI (top/bottom ticks) ---
+const yearSlider = document.getElementById("yearSlider");
+const yearTicksTop = document.getElementById("yearTicksTop");
+const yearTicksBottom = document.getElementById("yearTicksBottom");
+const yearMeta = document.getElementById("yearMeta");
 
-let lastClick = [10.45, 51.1657];
+// years placed at bottom
+const BOTTOM_YEARS = new Set(["1871", "1939", "1961-1964", "1996"]);
 
-const yearSelect = document.getElementById("yearSelect");
+// default
+let selectedYearIndex = YEARS.length - 1; // 2019
+let selectedYearKey = normYearKey(YEARS[selectedYearIndex].label);
+let TARGET_POP = YEARS[selectedYearIndex].berlin;
 
-yearSelect.innerHTML = YEARS.map(y => {
-  const key = normYearKey(y.label);
-  return `<option value="${key}">${y.label}</option>`;
-}).join("");
+yearSlider.min = 0;
+yearSlider.max = String(YEARS.length - 1);
+yearSlider.step = 1;
+yearSlider.value = String(selectedYearIndex);
 
-yearSelect.value = selectedYearKey;
+function setActiveTick(idx) {
+  document.querySelectorAll(".year-tick").forEach(t => {
+    t.classList.toggle("is-active", Number(t.dataset.idx) === idx);
+  });
+}
 
+function fixOverlaps(container) {
+  if (!container) return;
+  const ticks = Array.from(container.querySelectorAll(".year-tick"));
+  if (ticks.length <= 1) return;
+
+  // reset
+  ticks.forEach(t => t.classList.remove("is-compact"));
+
+  const sorted = ticks
+    .map(t => ({ el: t, left: t.getBoundingClientRect().left }))
+    .sort((a, b) => a.left - b.left);
+
+  for (let i = 1; i < sorted.length; i++) {
+    const prev = sorted[i - 1].el.getBoundingClientRect();
+    const cur = sorted[i].el.getBoundingClientRect();
+    if (cur.left < prev.right + 6) {
+      sorted[i].el.classList.add("is-compact");
+    }
+  }
+}
+
+function renderTicks() {
+  yearTicksTop.innerHTML = "";
+  yearTicksBottom.innerHTML = "";
+
+  YEARS.forEach((y, idx) => {
+    const el = document.createElement("div");
+    el.className = "year-tick";
+    el.textContent = y.label;
+    el.dataset.idx = String(idx);
+    el.style.left = `${(idx / (YEARS.length - 1)) * 100}%`;
+
+    el.addEventListener("click", () => {
+      yearSlider.value = String(idx);
+      yearSlider.dispatchEvent(new Event("input"));
+    });
+
+    (BOTTOM_YEARS.has(y.label) ? yearTicksBottom : yearTicksTop).appendChild(el);
+  });
+
+  setActiveTick(selectedYearIndex);
+
+  requestAnimationFrame(() => {
+    fixOverlaps(yearTicksTop);
+    fixOverlaps(yearTicksBottom);
+  });
+}
+
+function updateYearMeta() {
+  const y = YEARS[selectedYearIndex];
+  if (!yearMeta) return;
+  yearMeta.innerHTML = `Berlin population <b>(${y.label})</b>: <b>${fmtInt(y.berlin)}</b>`;
+}
+
+// --- HUD ---
 const hudTitle = document.getElementById("hud-title");
 const hudSpinner = document.getElementById("hud-spinner");
 const hudText = document.getElementById("hud-text");
 
+// Layers
 const FILL_LAYER_ID = "muni-selected-fill";
 const LINE_LAYER_ID = "muni-selected-line";
 const SOURCE_LAYER = "gemeinden";
 
-yearSelect.value = selectedYearKey;
+// Default click
+let lastClick = [10.45, 51.1657];
+let latestJobId = 0;
 
 function updateTitle() {
-  hudTitle.textContent = `How much land holds the same number of people as Berlin (${YEAR_LABEL[selectedYearKey]})`;
+  hudTitle.textContent =
+    `How much land holds the same number of people as Berlin (${YEARS[selectedYearIndex].label})`;
 }
 
+// initial UI render
+renderTicks();
 updateTitle();
+updateYearMeta();
+window.addEventListener("load", () => renderTicks());
 
-yearSelect.addEventListener("change", () => {
-  selectedYearKey = yearSelect.value;              // уже нормализованный ключ
-  TARGET_POP = BERLIN_POP[selectedYearKey];
+// --- PMTiles protocol ---
+const protocol = new Protocol();
+maplibregl.addProtocol("pmtiles", protocol.tile);
+
+const PMTILES_URL = new URL(
+  `${import.meta.env.BASE_URL}data/gemeinden.pmtiles`,
+  window.location.href
+).toString();
+
+const p = new PMTiles(PMTILES_URL);
+protocol.add(p);
+
+// --- Worker ---
+const worker = new Worker(new URL("./selector.worker.js", import.meta.url), { type: "module" });
+
+worker.onmessageerror = (err) => {
+  console.error("WORKER MESSAGE ERROR:", err);
+  setHud(false, "Worker message error (cannot deserialize message).");
+};
+
+// --- Slider handler ---
+yearSlider.addEventListener("input", () => {
+  selectedYearIndex = Number(yearSlider.value);
+  selectedYearKey = normYearKey(YEARS[selectedYearIndex].label);
+  TARGET_POP = YEARS[selectedYearIndex].berlin;
+
   updateTitle();
+  setActiveTick(selectedYearIndex);
+  updateYearMeta();
 
-  console.log("Compute with field:", YEAR_TO_FIELD[selectedYearKey], "target:", TARGET_POP);
-
-  // пересчитать по последней точке
+  // recompute using last click
   latestJobId += 1;
   setHud(true, "Computing…");
   worker.postMessage({
@@ -75,35 +170,7 @@ yearSelect.addEventListener("change", () => {
   });
 });
 
-
-let latestJobId = 0;
-
-// PMTiles protocol
-const protocol = new Protocol();
-maplibregl.addProtocol("pmtiles", protocol.tile);
-
-const PMTILES_URL = new URL(
-  `${import.meta.env.BASE_URL}data/gemeinden.pmtiles`,
-  window.location.href
-).toString();
-
-const p = new PMTiles(PMTILES_URL);
-protocol.add(p);
-
-// Worker
-const worker = new Worker(new URL("./selector.worker.js", import.meta.url), { type: "module" });
-
-worker.onerror = (err) => {
-  console.error("WORKER ERROR:", err.message, err);
-  setHud(false, `Worker error: ${err.message}`);
-};
-
-worker.onmessageerror = (err) => {
-  console.error("WORKER MESSAGE ERROR:", err);
-  setHud(false, "Worker message error (cannot deserialize message).");
-};
-
-// Style
+// --- Map style ---
 const style = {
   version: 8,
   sources: {
@@ -121,26 +188,23 @@ const style = {
   },
   layers: [
     {
-  id: "background",
-  type: "background",
-  paint: {
-    "background-color": "#F7F8FB",
-    "background-opacity": 1
-  }
-},
-    // pale basemap
+      id: "background",
+      type: "background",
+      paint: {
+        "background-color": "#F7F8FB",
+        "background-opacity": 1
+      }
+    },
     {
       id: "bg",
       type: "raster",
       source: "osm",
       paint: {
         "raster-opacity": 0.25,
-        "raster-saturation": -0.35, // приглушаем цвет
+        "raster-saturation": -0.35,
         "raster-contrast": -0.05
       }
     },
-
-    // all municipalities (very subtle)
     {
       id: "muni-all-fill",
       type: "fill",
@@ -151,19 +215,6 @@ const style = {
         "fill-opacity": 0.04
       }
     },
-    //{
-    //  id: "muni-all-line",
-    //  type: "line",
-    //  source: "gemeinden",
-    //  "source-layer": SOURCE_LAYER,
-    //  paint: {
-    //    "line-color": "#d6ccdeff",
-    //    "line-width": 0,
-    //    "line-opacity": 0
-    //  }
-    //},
-
-    // selected (highlight)
     {
       id: FILL_LAYER_ID,
       type: "fill",
@@ -173,7 +224,6 @@ const style = {
         "fill-color": "#ff3b89ff",
         "fill-opacity": 0.88
       },
-      // compare as strings to avoid number/string mismatch
       filter: ["in", ["to-string", ["get", "AGS"]], ["literal", []]]
     },
     {
@@ -194,13 +244,13 @@ const style = {
 const map = new maplibregl.Map({
   container: "map",
   style,
-  center: [10.45, 51.1657],
+  center: lastClick,
   zoom: 5
 });
 
+// marker
 const markerEl = document.createElement("div");
 markerEl.className = "click-dot";
-
 const marker = new maplibregl.Marker({ element: markerEl, anchor: "center" })
   .setLngLat(lastClick)
   .addTo(map);
@@ -208,59 +258,38 @@ const marker = new maplibregl.Marker({ element: markerEl, anchor: "center" })
 map.on("load", async () => {
   // init worker
   worker.postMessage({
-  type: "init",
-  geomUrl: new URL(
-  `${import.meta.env.BASE_URL}data/Germany_Gemeinde_census.geojson`,
-  window.location.href
-  ).toString()
-});
-
-map.on("click", "muni-all-fill", (e) => {
-  const f = e.features?.[0];
-  console.log("Clicked muni props:", f?.properties);
-});
-
-
-  // buffer circle source
-  map.addSource("buffer-circle", {
-    type: "geojson",
-    data: { type: "FeatureCollection", features: [] }
+    type: "init",
+    geomUrl: new URL(
+      `${import.meta.env.BASE_URL}data/Germany_Gemeinde_census.geojson`,
+      window.location.href
+    ).toString()
   });
 
+  // boundary outline
+  const boundaryUrl = new URL(
+    `${import.meta.env.BASE_URL}data/Germany_boundaries.geojson`,
+    window.location.href
+  ).toString();
 
-// Germany outer boundary (outline only)
-const boundaryUrl = new URL(
-  `${import.meta.env.BASE_URL}data/Germany_boundaries.geojson`,
-  window.location.href
-).toString();
+  const boundaryGeo = await fetch(boundaryUrl).then(r => r.json());
+  const poly = boundaryGeo.type === "FeatureCollection" ? boundaryGeo.features[0] : boundaryGeo;
+  const outline = turf.polygonToLine(poly);
 
-const boundaryGeo = await fetch(boundaryUrl).then(r => r.json());
+  map.addSource("de-outline", {
+    type: "geojson",
+    data: outline
+  });
 
-// Берём первую фичу (у тебя один полигон)
-const poly = boundaryGeo.type === "FeatureCollection"
-  ? boundaryGeo.features[0]
-  : boundaryGeo;
-
-// Превращаем полигон в линию (контур)
-const outline = turf.polygonToLine(poly);
-
-// Делаем source именно для линии
-map.addSource("de-outline", {
-  type: "geojson",
-  data: outline
-});
-
-// Рисуем контур поверх всего
-map.addLayer({
-  id: "de-outline-line",
-  type: "line",
-  source: "de-outline",
-  paint: {
-    "line-color": "#643f72",
-    "line-width": 1.2,
-    "line-opacity": 0.75
-  }
-});
+  map.addLayer({
+    id: "de-outline-line",
+    type: "line",
+    source: "de-outline",
+    paint: {
+      "line-color": "#643f72",
+      "line-width": 1.2,
+      "line-opacity": 0.75
+    }
+  });
 
   setHud(false, "Ready. Click anywhere in Germany.");
 });
@@ -282,7 +311,6 @@ map.on("click", (e) => {
     targetPop: TARGET_POP,
     popField: YEAR_TO_FIELD[selectedYearKey]
   });
-
 });
 
 worker.onmessage = (e) => {
@@ -296,30 +324,24 @@ worker.onmessage = (e) => {
   if (msg.type === "result") {
     if (msg.jobId !== latestJobId) return;
 
-    // highlight polygons (handle AGS as string OR number-lost-leading-zeros)
     const idsStr = msg.ids.flatMap((id) => {
       const s = String(id).trim();
-      const no0 = String(parseInt(s, 10)); // "03153019" -> "3153019"
-      return Number.isFinite(parseInt(s, 10)) ? [s, no0] : [s];
+      const n = parseInt(s, 10);
+      const no0 = Number.isFinite(n) ? String(n) : s;
+      return Number.isFinite(n) ? [s, no0] : [s];
     });
 
     const filter = ["in", ["to-string", ["get", "AGS"]], ["literal", idsStr]];
     map.setFilter(FILL_LAYER_ID, filter);
     map.setFilter(LINE_LAYER_ID, filter);
-    setTimeout(() => {
-      const rendered = map.queryRenderedFeatures({ layers: [FILL_LAYER_ID] });
-      console.log("ids from worker:", msg.ids.length, "rendered:", rendered.length);
-    }, 0);  
 
-
-    // HUD
     const areaKm2 = msg.totalAreaSqm / 1e6;
     setHud(
       false,
-        `Population (${YEAR_LABEL[selectedYearKey]}): ${fmtInt(msg.totalPop)}\n` +
-        `Radius: ${msg.radiusKm.toFixed(2)} km\n` +
-        `Municipalities: ${msg.count}\n` +
-        `Total area: ${areaKm2.toFixed(1)} km²`
+      `Population (${YEAR_LABEL[selectedYearKey]}): ${fmtInt(msg.totalPop)}\n` +
+      `Radius: ${msg.radiusKm.toFixed(2)} km\n` +
+      `Municipalities: ${msg.count}\n` +
+      `Total area: ${areaKm2.toFixed(1)} km²`
     );
     return;
   }

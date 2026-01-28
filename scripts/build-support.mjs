@@ -43,7 +43,7 @@ const out = [];
 for (const feat of fc.features) {
   const p = feat.properties ?? {};
 
-  const id = Number(p.OBJECTID);
+  const id = Number(p.AGS);
   const ewz = Number(p.EWZ);
   const area = Number(p.area);
 
