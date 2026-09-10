@@ -61,7 +61,7 @@ CURRENTS = [
     ("Kuroshio", "warm", 0.95, [
         (121.0, 21.0), (123.0, 25.0), (126.0, 29.0), (131.0, 31.5),
         (137.0, 33.5), (142.0, 35.0), (147.0, 36.0)]),
-    ("Kuroshio Extension / North Pacific Current", "warm", 0.70, [
+    ("North Pacific Current", "warm", 0.70, [
         (147.0, 36.0), (160.0, 39.0), (175.0, 41.5), (190.0, 43.0),
         (205.0, 44.5), (218.0, 45.5), (231.0, 46.0)]),
     ("Oyashio", "cold", 0.60, [
@@ -135,32 +135,32 @@ CURRENTS = [
 # Where to anchor each current's name: index into CURRENTS -> position
 # along the path (0 = source, 1 = end).  Minor branches stay unlabelled.
 LABEL_AT = {
-    0: 0.55,   # Gulf Stream
-    1: 0.5,   # North Atlantic Drift
+    0: 0.60,   # Gulf Stream
+    1: 0.50,   # North Atlantic Drift
     2: 0.55,   # Norwegian Current
-    4: 0.5,   # East Greenland Current
-    6: 0.5,   # Labrador Current
-    7: 0.5,   # Canary Current
-    8: 0.5,   # North Equatorial Current
-    10: 0.5,   # North Equatorial Countercurrent
-    12: 0.5,   # South Equatorial Current
-    14: 0.5,   # Brazil Current
-    15: 0.5,   # Malvinas (Falkland) Current
-    16: 0.5,   # Benguela Current
-    18: 0.5,   # Kuroshio
-    19: 0.45,   # Kuroshio Extension / North Pacific Current
-    20: 0.5,   # Oyashio
-    21: 0.5,   # Alaska Current
-    22: 0.5,   # California Current
-    23: 0.5,   # North Equatorial Current
-    24: 0.5,   # Equatorial Countercurrent
-    25: 0.5,   # South Equatorial Current
-    26: 0.5,   # East Australian Current
-    27: 0.5,   # Peru (Humboldt) Current
-    29: 0.5,   # Agulhas Current
-    32: 0.5,   # South Equatorial Current
-    33: 0.5,   # Somali Current
-    34: 0.5,   # West Australian Current
-    37: 0.3,   # Antarctic Circumpolar Current
-    39: 0.5,   # Transpolar Drift
+    4: 0.45,   # East Greenland Current
+    6: 0.55,   # Labrador Current
+    7: 0.50,   # Canary Current
+    8: 0.50,   # North Equatorial Current
+    10: 0.50,  # North Equatorial Countercurrent
+    12: 0.55,  # South Equatorial Current
+    14: 0.50,  # Brazil Current
+    15: 0.45,  # Malvinas (Falkland) Current
+    16: 0.50,  # Benguela Current
+    18: 0.35,  # Kuroshio
+    19: 0.55,  # North Pacific Current
+    20: 0.60,  # Oyashio
+    21: 0.50,  # Alaska Current
+    22: 0.50,  # California Current
+    23: 0.34,  # North Equatorial Current
+    24: 0.62,  # Equatorial Countercurrent
+    25: 0.38,  # South Equatorial Current
+    26: 0.50,  # East Australian Current
+    27: 0.50,  # Peru (Humboldt) Current
+    29: 0.50,  # Agulhas Current
+    32: 0.45,  # South Equatorial Current
+    33: 0.50,  # Somali Current
+    34: 0.50,  # West Australian Current
+    37: 0.30,  # Antarctic Circumpolar Current
+    39: 0.50,  # Transpolar Drift
 }

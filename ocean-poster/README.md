@@ -1,53 +1,85 @@
-# The World Ocean — sea surface temperature and major currents
+# The world ocean — currents and temperature
 
-A print-ready poster of the world ocean: sea surface temperature as a
-continuous field, with the major surface currents drawn over it.
+Two print-ready posters (PNG + PDF) built from the same data.
 
-![poster](ocean_currents_poster.png)
+## 1. Ocean currents — `make_flow_poster.py`
 
-## Running it
+![currents](preview_currents.png)
+
+The currents carry the image: the whole ocean is drawn as flow lines, with sea
+surface temperature underneath as a pale wash.
+
+The map is **ocean-centred**: Adams "world in a square II" on a rotated globe,
+oriented so the map's cut runs almost entirely through land. The world ocean
+comes out as one uninterrupted body with the continents pushed to the edges —
+the idea behind Spilhaus's ocean map. The rotation in `oceanmap.SPILHAUS` was
+picked by searching for the orientation that puts the most land on the cut
+(~79% of it); the remaining stretch shows as a straight edge across water.
+Land is painted in the paper colour, so only coastlines are drawn and the ocean
+floats on the page.
 
 ```bash
-pip install numpy scipy matplotlib netCDF4 cartopy
-python make_poster.py                       # polar layout, 300 dpi PNG + PDF
-python make_poster.py --projection robinson # wide Pacific-centred layout
-python make_poster.py --month 1             # January mean instead of annual
-python make_poster.py --cut-lat -72         # trim the southern rim of the disc
+python make_flow_poster.py                       # 300 dpi PNG + PDF, ~2 min
+python make_flow_poster.py --wash 0              # currents only, no temperature
+python make_flow_poster.py --seeds 20000         # denser flow texture
+python make_flow_poster.py --month 1 --wash 0.5  # January temperature, stronger
+python make_flow_poster.py --seed 3              # a different set of flow lines
 ```
 
-The first run downloads two things and caches them:
+## 2. Temperature with currents over it — `make_poster.py`
 
-* `ersstv5.nc` (19 MB) next to the script — the SST data, not committed;
-* Natural Earth coastlines, into cartopy's own cache.
+![temperature](preview_temperature.png)
 
-Both PNG and PDF are written; `--dpi` controls the raster only.
+The earlier layout, where temperature is the subject and the named currents are
+drawn over it as arrows.
+
+```bash
+python make_poster.py                       # polar disc (whole globe)
+python make_poster.py --projection robinson # wide Pacific-centred world map
+python make_poster.py --month 1             # January instead of the annual mean
+```
+
+## Running
+
+```bash
+pip install numpy scipy matplotlib netCDF4 cartopy pyproj pillow shapely
+```
+
+The first run caches `ersstv5.nc` (19 MB, not committed) next to the scripts and
+the Natural Earth shapefiles in cartopy's own cache.
 
 ## What the data is
 
 **Temperature** — NOAA ERSST v5, the 2° monthly sea surface temperature
-analysis. The script averages the 1991–2020 months (360 fields) into an
-annual-mean climatology, or the 30 instances of one calendar month with
-`--month`. The 2° grid is flood-filled across land, blurred, then resampled
-6× so the field reads as a fluid rather than as cells; the land mask is
-re-applied afterwards, and coastlines are drawn from Natural Earth on top.
-Seas outside the analysis (the ice-covered Arctic margins, inland seas) are
-painted in a flat pale grey rather than interpolated.
+analysis, averaged into a 1991–2020 annual-mean climatology (360 fields), or the
+30 instances of one calendar month with `--month`. The 2° grid is flood-filled
+across land, blurred and resampled so the field reads as a fluid; the land mask
+is re-applied afterwards and coastlines come from Natural Earth 1:50m.
 
-**Currents** — the paths in `currents.py` are schematic centrelines of the 41
-named surface currents, digitised from standard oceanographic charts. They
-are real currents in real places, but the geometry is a drawn generalisation,
-not a velocity field: line width encodes relative strength, not speed in m/s,
-and no eddies or seasonal reversals are shown (the Somali Current in
-particular reverses with the monsoon; it is drawn in its summer state).
+**Currents** — `currents.py` holds schematic centrelines for 41 named surface
+currents, digitised from standard oceanographic charts. Real currents in real
+places, but the geometry is a drawn generalisation: line width encodes relative
+strength, not speed in m/s, and no eddies or seasonal reversals are shown (the
+Somali Current in particular reverses with the monsoon; it is drawn in its
+summer state).
 
-Each current is splined, tapered at both ends and given arrow heads. Names
-are anchored at a fraction along the path set in `LABEL_AT` and rotated from
-the *projected* tangent, so labels stay upright and aligned in any projection.
+**Flow lines** — `flowfield.py` turns those centrelines into a continuous field:
+each path's direction is splatted onto a lon/lat grid at two scales, a tight one
+that keeps the named currents sharp and a broad one that lets the direction
+bleed into the water between them. Dividing by the splatted weight gives a
+direction defined over the whole ocean; the weight itself becomes the strength
+that sets each line's darkness and width. Particles are then advected through
+it. **This is not a measured velocity field** — it is the drawn circulation
+where a current was drawn, and an interpolation everywhere else. The gyres it
+produces are a consequence of the currents that bound them, not an independent
+observation.
 
-## Projections
+## Files
 
-`--projection polar` (default) is an azimuthal-equidistant view centred on the
-North Pole showing the whole globe, clipped to a disc. It puts the Arctic at
-the centre and wraps the Antarctic Circumpolar Current around the rim, at the
-cost of heavy distortion in the far south. `--projection robinson` is the
-conventional wide world map, centred on the Pacific.
+| file | what it does |
+| --- | --- |
+| `currents.py` | the 41 current paths, plus where to anchor each name |
+| `flowfield.py` | centrelines → flow field → streamlines |
+| `oceanmap.py` | the ocean-centred projection, land bitmap, raster sampling |
+| `make_flow_poster.py` | poster 1: currents |
+| `make_poster.py` | poster 2: temperature, and the shared SST loading/palette |
