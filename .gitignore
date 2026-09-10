@@ -6,3 +6,7 @@ dist
 .vscode
 .idea
 *.log
+
+# ocean poster: cached source data
+ocean-poster/ersstv5.nc
+__pycache__/
