@@ -76,7 +76,12 @@ def fetch_sst(cache):
 
 
 def load_sst(path, month, y0=1991, y1=2020):
-    """Return lon, lat, sst averaged over `month` ('annual' or 1-12)."""
+    """Return lon, lat, sst averaged over `month`.
+
+    `month` is 'annual', a single month 1-12, or a sequence of months (a
+    season).  Months are pooled across all years in the window, so a season
+    spanning the turn of the year needs no special handling.
+    """
     ds = Dataset(path)
     lat = np.asarray(ds.variables["lat"][:])
     lon = np.asarray(ds.variables["lon"][:])
@@ -88,7 +93,8 @@ def load_sst(path, month, y0=1991, y1=2020):
 
     sel = (years >= y0) & (years <= y1)
     if month != "annual":
-        sel &= months == int(month)
+        wanted = (month,) if isinstance(month, (int, str)) else tuple(month)
+        sel &= np.isin(months, [int(m) for m in wanted])
     if not sel.any():
         raise SystemExit(f"no ERSST months match {y0}-{y1} / {month}")
 

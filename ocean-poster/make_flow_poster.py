@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
-"""Poster of the world ocean's surface circulation.
+"""Poster of the world ocean's surface circulation, one per season.
 
 The map is an ocean-centred projection: Adams "world in a square II" on a
-rotated globe, oriented so the cut falls almost entirely on land, which leaves
-the world ocean as a single uninterrupted body (the idea behind Spilhaus's
-ocean map).  Currents carry the image — the whole ocean is drawn as flow lines
-— and sea surface temperature sits underneath as a pale wash.
+rotated globe, oriented so the map's cut falls almost entirely on land, which
+leaves the world ocean as a single uninterrupted body (the idea behind
+Spilhaus's ocean map).  Where the cut does run through water the drawing is
+faded into the paper rather than sliced off square.
 
-    python make_flow_poster.py
-    python make_flow_poster.py --seeds 12000 --raster 3000 --dpi 300
+Currents carry the image — the whole ocean is drawn as flow lines — and sea
+surface temperature sits underneath as a wash.  Each season has its own paper,
+ink and temperature ramp; see ``palettes.py``.
+
+    python make_flow_poster.py --season winter
+    python make_flow_poster.py --all
 """
 
 import argparse
@@ -25,10 +29,11 @@ from matplotlib.patches import FancyArrow
 import matplotlib.patheffects as pe
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import palettes
+from palettes import SEASONS, VMIN, VMAX, cmap_for, apply_overrides
 from currents import CURRENTS, LABEL_AT
 from flowfield import build_field, spline, streamlines, Field
-from make_poster import (PAPER, INK, WARM_INK, COLD_INK, VMIN, VMAX,
-                         MONTH_NAMES, temperature_cmap, fetch_sst, load_sst)
+from make_poster import fetch_sst, load_sst
 import oceanmap
 
 
@@ -57,17 +62,33 @@ def sample_sst(lon, lat, sst_lon, sst_lat, sst):
     step_lon = sst_lon[1] - sst_lon[0]
     step_lat = sst_lat[1] - sst_lat[0]
     ix = np.round(((lon - sst_lon[0]) % 360) / step_lon).astype(int) % sst_lon.size
-    iy = np.clip(np.round((lat - sst_lat[0]) / step_lat), 0, sst_lat.size - 1).astype(int)
+    iy = np.clip(np.round((lat - sst_lat[0]) / step_lat), 0,
+                 sst_lat.size - 1).astype(int)
     return sst[iy, ix]
 
 
-def background(lon, lat, inside, is_land, sst_lon, sst_lat, sst, cmap, wash):
-    """RGBA image: pale temperature in the water, transparent elsewhere."""
+def edge_fade(x, y, half, width):
+    """1 well inside the map, easing to 0 at the cut.
+
+    Where the cut runs through land nothing is drawn anyway; where it runs
+    through water this dissolves the straight edge into the paper instead of
+    slicing the ocean off with a ruler.
+    """
+    if width <= 0:
+        return np.ones_like(x)
+    d = np.minimum(half - np.abs(x), half - np.abs(y)) / (half * width)
+    t = np.clip(d, 0.0, 1.0)
+    return t * t * (3.0 - 2.0 * t)
+
+
+def background(lon, lat, inside, is_land, sst_lon, sst_lat, sst, cmap, wash,
+               fade, paper):
+    """RGBA image: the temperature wash in the water, transparent elsewhere."""
     val = sample_sst(lon, lat, sst_lon, sst_lat, np.ma.filled(sst, np.nan))
     rgba = cmap(Normalize(VMIN, VMAX)(val))
-    paper = np.array(matplotlib.colors.to_rgb(PAPER))
-    rgba[..., :3] = wash * rgba[..., :3] + (1 - wash) * paper
-    rgba[..., 3] = np.where(inside & ~is_land & np.isfinite(val), 1.0, 0.0)
+    base = np.array(matplotlib.colors.to_rgb(paper))
+    rgba[..., :3] = wash * rgba[..., :3] + (1 - wash) * base
+    rgba[..., 3] = np.where(inside & ~is_land & np.isfinite(val), 1.0, 0.0) * fade
     return rgba
 
 
@@ -78,7 +99,7 @@ def flat_overlay(mask, colour):
     return rgba
 
 
-def draw_flow(ax, fwd, pts, stg, half, scale):
+def draw_flow(ax, fwd, pts, stg, half, fade_width, ink):
     """The flow-line texture: one collection, weighted by flow strength."""
     x, y = fwd.transform(pts[..., 0].ravel(), pts[..., 1].ravel())
     x = np.asarray(x).reshape(pts.shape[:2])
@@ -94,35 +115,47 @@ def draw_flow(ax, fwd, pts, stg, half, scale):
     segs, s = segs[good], s[good]
 
     w = np.clip(s, 0, 1) ** 0.6
+    mid = segs.mean(axis=1)
     colours = np.zeros((len(segs), 4))
-    colours[:, :3] = matplotlib.colors.to_rgb(INK)
-    colours[:, 3] = 0.085 + 0.46 * w
-    lc = LineCollection(segs, colors=colours, linewidths=(0.15 + 0.95 * w) * scale,
+    colours[:, :3] = matplotlib.colors.to_rgb(ink)
+    colours[:, 3] = (0.085 + 0.46 * w) * edge_fade(mid[:, 0], mid[:, 1],
+                                                   half, fade_width)
+    lc = LineCollection(segs, colors=colours, linewidths=0.15 + 0.95 * w,
                         capstyle="round", zorder=3)
     lc.set_rasterized(True)
     ax.add_collection(lc)
 
 
-def draw_current(ax, pieces, kind, strength, half, scale):
-    colour = WARM_INK if kind == "warm" else COLD_INK
-    lw = (1.9 + 5.4 * strength) * scale
+def draw_current(ax, pieces, kind, strength, half, fade_width, th):
+    colour = th["warm"] if kind == "warm" else th["cold"]
+    lw = 1.9 + 5.4 * strength
+    rgb = matplotlib.colors.to_rgb(colour)
     for p in pieces:
-        ax.plot(p[:, 0], p[:, 1], color=colour, lw=lw, solid_capstyle="round",
-                alpha=0.95, zorder=6)
+        segs = np.stack([p[:-1], p[1:]], axis=1)
+        mid = segs.mean(axis=1)
+        col = np.zeros((len(segs), 4))
+        col[:, :3] = rgb
+        col[:, 3] = 0.95 * edge_fade(mid[:, 0], mid[:, 1], half, fade_width)
+        ax.add_collection(LineCollection(segs, colors=col, linewidths=lw,
+                                         capstyle="round", joinstyle="round",
+                                         zorder=6))
+
     longest = max(pieces, key=len)
     n_heads = 1 if strength < 0.4 else (2 if strength < 0.7 else 3)
     for frac in np.linspace(0.28, 0.85, n_heads):
         i = int(np.clip(frac * (len(longest) - 6), 0, len(longest) - 6))
         d = longest[i + 5] - longest[i]
         norm = np.hypot(*d) or 1.0
-        L = (0.010 + 0.017 * strength) * half * scale
+        L = (0.010 + 0.017 * strength) * half
+        if edge_fade(longest[i, 0], longest[i, 1], half, fade_width) < 0.8:
+            continue
         ax.add_patch(FancyArrow(
             longest[i, 0], longest[i, 1], *(d / norm * L * 0.2), width=1.0,
             head_width=L * 0.66, head_length=L * 0.9, color=colour, alpha=0.95,
             linewidth=0, zorder=7))
 
 
-def draw_label(ax, pieces, text, frac, fontsize, offset=6.0):
+def draw_label(ax, pieces, text, frac, fontsize, th, offset=6.0):
     p = max(pieces, key=len)
     if len(p) < 12:
         return
@@ -140,87 +173,71 @@ def draw_label(ax, pieces, text, frac, fontsize, offset=6.0):
     ax.annotate(text, xy=tuple(p[i]), xytext=(nx * offset, ny * offset),
                 textcoords="offset points", ha="center", va="center",
                 rotation=angle, rotation_mode="anchor", fontsize=fontsize,
-                color=INK, fontfamily="DejaVu Sans", zorder=10,
-                path_effects=[pe.withStroke(linewidth=2.0, foreground=PAPER,
-                                            alpha=0.9)])
+                color=th["ink"], fontfamily="DejaVu Sans", zorder=10,
+                path_effects=[pe.withStroke(linewidth=2.0,
+                                            foreground=th["paper"], alpha=0.9)])
 
 
-def add_legend(fig, cmap, period, wash):
+def add_legend(fig, cmap, th, wash):
+    ink, paper = th["ink"], th["paper"]
     key = fig.add_axes([0.14, 0.072, 0.72, 0.030])
     key.set_axis_off()
     key.set_xlim(0, 1)
     key.set_ylim(0, 1)
-    for x0, colour, label in ((0.02, WARM_INK, "warm current"),
-                              (0.30, COLD_INK, "cold current")):
+    for x0, colour, label in ((0.02, th["warm"], "warm current"),
+                              (0.30, th["cold"], "cold current")):
         key.plot([x0, x0 + 0.055], [0.5, 0.5], color=colour, lw=4.0,
                  solid_capstyle="round")
         key.annotate("", xy=(x0 + 0.085, 0.5), xytext=(x0 + 0.055, 0.5),
                      arrowprops=dict(arrowstyle="-|>", color=colour, lw=0))
-        key.text(x0 + 0.105, 0.5, label, va="center", fontsize=8.5, color=INK)
+        key.text(x0 + 0.105, 0.5, label, va="center", fontsize=8.5, color=ink)
     for i, a in enumerate((0.18, 0.42, 0.72)):
         key.plot([0.60 + i * 0.035, 0.60 + i * 0.035 + 0.028], [0.5, 0.5],
-                 color=INK, alpha=a, lw=0.4 + i * 0.5, solid_capstyle="round")
+                 color=ink, alpha=a, lw=0.4 + i * 0.5, solid_capstyle="round")
     key.text(0.72, 0.5, "surface flow, weaker → stronger", va="center",
-             fontsize=8.5, color=INK)
+             fontsize=8.5, color=ink)
 
     cax = fig.add_axes([0.36, 0.030, 0.28, 0.013])
     grad = cmap(np.linspace(0, 1, 512))[None, :, :3]
-    paper = np.array(matplotlib.colors.to_rgb(PAPER))
-    cax.imshow(wash * grad + (1 - wash) * paper, aspect="auto",
+    base = np.array(matplotlib.colors.to_rgb(paper))
+    cax.imshow(wash * grad + (1 - wash) * base, aspect="auto",
                extent=[VMIN, VMAX, 0, 1])
     cax.set_yticks([])
     cax.set_xticks([-2, 10, 20, 30])
     cax.set_xticklabels(["−2°", "10°", "20°", "30 °C"])
-    cax.tick_params(length=0, pad=4, labelsize=7.5, colors=INK)
+    cax.tick_params(length=0, pad=4, labelsize=7.5, colors=ink)
     for sp in cax.spines.values():
-        sp.set_edgecolor(INK)
+        sp.set_edgecolor(ink)
         sp.set_linewidth(0.4)
-    cax.set_title(f"sea surface temperature, {period}", fontsize=7.5,
-                  color=INK, pad=5)
+    cax.set_title("sea surface temperature", fontsize=7.5, color=ink, pad=5)
 
 
-def main():
-    here = os.path.dirname(os.path.abspath(__file__))
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default=os.path.join(here, "ocean_flow_poster.png"))
-    ap.add_argument("--month", default="annual", help="'annual' or 1-12")
-    ap.add_argument("--cache", default=os.path.join(here, "ersstv5.nc"))
-    ap.add_argument("--seeds", type=int, default=11000)
-    ap.add_argument("--steps", type=int, default=230)
-    ap.add_argument("--raster", type=int, default=2600,
-                    help="pixels across the background raster")
-    ap.add_argument("--wash", type=float, default=0.33,
-                    help="0 = no temperature, 1 = full-strength colour")
-    ap.add_argument("--dpi", type=int, default=300)
-    ap.add_argument("--label-size", type=float, default=7.0)
-    ap.add_argument("--seed", type=int, default=7)
-    ap.add_argument("--title", default="OCEAN CURRENTS")
-    ap.add_argument("--subtitle",
-                    default="SURFACE CIRCULATION OF THE WORLD OCEAN")
-    args = ap.parse_args()
+def render(season, args):
+    th = SEASONS[season]
+    cmap = cmap_for(season)
+    ink, paper = th["ink"], th["paper"]
 
-    print("land bitmap …")
+    print(f"[{season}] land bitmap …")
     land = oceanmap.Land(oceanmap.land_bitmap())
 
-    print("flow field …")
-    field = Field(*build_field(CURRENTS, land))
+    currents, changed = apply_overrides(CURRENTS, season)
+    print(f"[{season}] flow field …" +
+          (f" (reversed: {', '.join(changed)})" if changed else ""))
+    field = Field(*build_field(currents, land))
 
-    _, fwd_raw, inv_raw = oceanmap.crs()
+    _, fwd_raw, inv_raw = oceanmap.crs(args.proj)
     fwd, inv = Rot(fwd_raw), Rot(inv_raw, inverse=True)
     half = oceanmap.map_extent(fwd_raw) / np.sqrt(2)
 
-    print("raster …")
+    print(f"[{season}] raster …")
     n = args.raster
     lon, lat, inside = oceanmap.inverse_grid(inv, fwd, half, n)
     is_land = land(lon, lat) & inside
 
-    sst_lon, sst_lat, sst, span, n_months = load_sst(fetch_sst(args.cache),
-                                                     args.month)
-    cmap = temperature_cmap()
-    period = (f"{span} annual mean" if args.month == "annual"
-              else f"{MONTH_NAMES[int(args.month) - 1].lower()} mean, {span}")
+    sst_lon, sst_lat, sst, span, n_months = load_sst(
+        fetch_sst(args.cache), th["months"] or "annual")
 
-    print("streamlines …")
+    print(f"[{season}] streamlines …")
     rng = np.random.default_rng(args.seed)
     sx = rng.uniform(-half, half, args.seeds * 3)
     sy = rng.uniform(-half, half, args.seeds * 3)
@@ -231,57 +248,102 @@ def main():
     ok &= ~land(slon, slat)
     seeds = np.column_stack([slon[ok], slat[ok]])[:args.seeds]
     pts, stg = streamlines(field, seeds, steps=args.steps)
-    print(f"  {len(pts)} lines from {len(seeds)} seeds")
+    print(f"[{season}]   {len(pts)} lines from {len(seeds)} seeds")
 
-    fig = plt.figure(figsize=(13.0, 16.0), facecolor=PAPER)
+    fig = plt.figure(figsize=(13.0, 16.0), facecolor=paper)
     ax = fig.add_axes([0.035, 0.115, 0.93, 0.745])
-    ax.set_xlim(-half, half)
-    ax.set_ylim(-half, half)
+    lim = half * (1.0 + args.margin)
+    ax.set_xlim(-lim, lim)
+    ax.set_ylim(-lim, lim)
     ax.set_aspect("equal")
     ax.axis("off")
 
     ext = [-half, half, -half, half]
+    g = np.linspace(-half, half, n)
+    gx, gy = np.meshgrid(g, g)
+    fade = edge_fade(gx, gy, half, args.fade)
     ax.imshow(background(lon, lat, inside, is_land, sst_lon, sst_lat, sst,
-                         cmap, args.wash),
+                         cmap, args.wash, fade, paper),
               extent=ext, origin="lower", interpolation="bilinear", zorder=2)
 
-    scale = 13.0 / 13.0
-    draw_flow(ax, fwd, pts, stg, half, scale)
+    draw_flow(ax, fwd, pts, stg, half, args.fade, ink)
 
-    paths = [spline(p, 700) for _, _, _, p in CURRENTS]
+    paths = [spline(p, 700) for _, _, _, p in currents]
     pieces = oceanmap.project_paths(fwd, paths, half * 0.25)
-    for (name, kind, strength, _), pc in zip(CURRENTS, pieces):
+    for (name, kind, strength, _), pc in zip(currents, pieces):
         if pc:
-            draw_current(ax, pc, kind, strength, half, scale)
+            draw_current(ax, pc, kind, strength, half, args.fade, th)
 
-    ax.imshow(flat_overlay(is_land, PAPER), extent=ext, origin="lower",
-              interpolation="nearest", zorder=8)
-    ax.contour(np.linspace(-half, half, n), np.linspace(-half, half, n),
-               is_land.astype(float), levels=[0.5], colors=INK,
-               linewidths=0.45, zorder=9)
+    ax.imshow(flat_overlay(is_land & inside, paper), extent=ext,
+              origin="lower", interpolation="nearest", zorder=8)
+    coast = np.where(fade > 0.35, is_land.astype(float), np.nan)
+    ax.contour(g, g, coast, levels=[0.5], colors=ink, linewidths=0.45, zorder=9)
 
     for i, frac in LABEL_AT.items():
         if pieces[i]:
-            draw_label(ax, pieces[i], CURRENTS[i][0].upper(), frac,
-                       args.label_size)
+            draw_label(ax, pieces[i], currents[i][0].upper(), frac,
+                       args.label_size, th)
 
-    fig.text(0.5, 0.945, args.title, ha="center", va="center", fontsize=46,
-             fontweight="bold", color=INK, fontfamily="DejaVu Sans")
-    fig.text(0.5, 0.907, args.subtitle, ha="center", va="center", fontsize=12.5,
-             color=INK, alpha=0.72, fontfamily="DejaVu Sans")
+    fig.text(0.5, 0.950, args.title, ha="center", va="center", fontsize=46,
+             fontweight="bold", color=ink, fontfamily="DejaVu Sans")
+    fig.text(0.5, 0.917, f"{th['label']}  ·  {th['span']}", ha="center",
+             va="center", fontsize=13, color=ink, alpha=0.85,
+             fontfamily="DejaVu Sans")
+    fig.text(0.5, 0.893, "SURFACE CIRCULATION OF THE WORLD OCEAN",
+             ha="center", va="center", fontsize=9.5, color=ink, alpha=0.55,
+             fontfamily="DejaVu Sans")
 
-    add_legend(fig, cmap, period, args.wash)
+    add_legend(fig, cmap, th, args.wash)
+    note = f"   {th['note']}." if th["note"] else ""
+    reversed_note = (f"   {', '.join(changed)} drawn reversed for the "
+                     "northeast monsoon." if changed else "")
     fig.text(0.5, 0.012,
              "Flow lines are traced through a field interpolated from the drawn "
-             "current paths — a picture of the circulation, not measured velocity.   "
-             f"Temperature: NOAA ERSST v5, {period}.   Coastlines: Natural Earth 1:50m.",
-             ha="center", fontsize=6.6, color=INK, alpha=0.6)
+             "current paths — a picture of the circulation, not measured velocity."
+             + reversed_note +
+             f"   Temperature: NOAA ERSST v5, {span}, {n_months} monthly fields."
+             + note + "   Coastlines: Natural Earth 1:50m.",
+             ha="center", fontsize=6.6, color=ink, alpha=0.6)
 
-    print("saving …")
-    fig.savefig(args.out, dpi=args.dpi, facecolor=PAPER)
-    if args.out.lower().endswith(".png"):
-        fig.savefig(args.out[:-4] + ".pdf", facecolor=PAPER, dpi=args.dpi)
-    print("wrote", args.out)
+    out = args.out or os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                   f"ocean_flow_{season}.png")
+    fig.savefig(out, dpi=args.dpi, facecolor=paper)
+    if out.lower().endswith(".png"):
+        fig.savefig(out[:-4] + ".pdf", facecolor=paper, dpi=args.dpi)
+    plt.close(fig)
+    print(f"[{season}] wrote {out}")
+    return out
+
+
+def main():
+    here = os.path.dirname(os.path.abspath(__file__))
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--season", choices=sorted(SEASONS), default="annual")
+    ap.add_argument("--all", action="store_true",
+                    help="render winter, spring, summer and autumn")
+    ap.add_argument("--out", default=None)
+    ap.add_argument("--cache", default=os.path.join(here, "ersstv5.nc"))
+    ap.add_argument("--seeds", type=int, default=13000)
+    ap.add_argument("--steps", type=int, default=230)
+    ap.add_argument("--raster", type=int, default=2600)
+    ap.add_argument("--fade", type=float, default=0.075)
+    ap.add_argument("--margin", type=float, default=0.045)
+    ap.add_argument("--wash", type=float, default=0.33)
+    ap.add_argument("--dpi", type=int, default=300)
+    ap.add_argument("--label-size", type=float, default=7.0)
+    ap.add_argument("--seed", type=int, default=7)
+    ap.add_argument("--proj", default=None,
+                    help="override the projection with a proj4 string")
+    ap.add_argument("--title", default="OCEAN CURRENTS")
+    args = ap.parse_args()
+
+    if args.all:
+        if args.out:
+            raise SystemExit("--out cannot be combined with --all")
+        for season in ("winter", "spring", "summer", "autumn"):
+            render(season, args)
+    else:
+        render(args.season, args)
 
 
 if __name__ == "__main__":

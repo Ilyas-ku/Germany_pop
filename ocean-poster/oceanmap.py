@@ -15,8 +15,8 @@ SPILHAUS = ("+proj=ob_tran +o_proj=adams_ws2 +o_lat_p=75 +o_lon_p=-69 "
 LAND_STEP = 0.05        # degrees per pixel in the land bitmap
 
 
-def crs(proj4=SPILHAUS):
-    c = CRS.from_proj4(proj4)
+def crs(proj4=None):
+    c = CRS.from_proj4(proj4 or SPILHAUS)
     return (c,
             Transformer.from_crs("EPSG:4326", c, always_xy=True),
             Transformer.from_crs(c, "EPSG:4326", always_xy=True))
