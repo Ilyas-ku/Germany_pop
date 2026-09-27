@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Commuter Rent Rings</title>
+  </head>
+
+  <body>
+    <main class="cm">
+      <header>
+        <h1>Salary in the city vs. rent around it</h1>
+        <p class="cm-sub">
+          Top-7 cities. Median gross monthly wage of people working in the city ÷ net cold rent for a
+          70&nbsp;m² flat in each distance ring. Higher = more affordable.
+        </p>
+      </header>
+
+      <div class="cm-controls" role="radiogroup" aria-label="Distance measured from">
+        <span class="cm-controls-label">Distance from</span>
+        <label><input type="radio" name="mode" value="edge" checked /> city boundary</label>
+        <label><input type="radio" name="mode" value="centre" /> main station</label>
+      </div>
+
+      <section class="cm-card">
+        <h2 id="chart-title">Ratio by ring</h2>
+        <div id="chart" class="cm-chart"></div>
+        <div id="legend" class="cm-legend"></div>
+      </section>
+
+      <section class="cm-card">
+        <h2>Numbers</h2>
+        <div class="cm-table-wrap"><table id="table"></table></div>
+        <p class="cm-note" id="table-note"></p>
+      </section>
+
+      <section class="cm-card">
+        <h2>How far do in-commuters live from the main station?</h2>
+        <div class="cm-table-wrap"><table id="dist"></table></div>
+        <p class="cm-note" id="dist-note"></p>
+      </section>
+
+      <footer class="cm-note" id="sources"></footer>
+    </main>
+
+    <div id="tip" class="cm-tip" hidden></div>
+    <script type="module" src="/src/commute.js"></script>
+  </body>
+</html>

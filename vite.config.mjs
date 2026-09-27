@@ -10,6 +10,7 @@ export default defineConfig({
       input: {
         main: page("./index.html"),
         ratio: page("./ratio.html"),
+        commute: page("./commute.html"),
       },
     },
   },
