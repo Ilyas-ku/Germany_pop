@@ -12,7 +12,9 @@ let mode = "wo";
 let FLAT_M2 = 70;
 
 // Sequential blue, light -> dark (higher ratio = more affordable)
-const COLORS = ["#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95", "#0d366b"];
+const COLORS = ["#b7d3f6", "#6da7ec", "#2a78d6", "#1c5cab", "#0d366b"];
+// Fixed class breaks, same for both modes
+const BREAKS = [7, 8, 9, 10];
 
 const DATA_URL = `${import.meta.env.BASE_URL}data/kreise_ratio.geojson`;
 
@@ -25,13 +27,6 @@ const modeEl = document.getElementById("mode");
 const fmtEur = (v) => `${Math.round(v).toLocaleString("de-DE")} €`;
 const fmt2 = (v) => v.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const fmt1 = (v) => v.toLocaleString("de-DE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-
-function quantileBreaks(values, n) {
-  const s = [...values].sort((a, b) => a - b);
-  const out = [];
-  for (let i = 1; i < n; i++) out.push(s[Math.floor((i / n) * s.length)]);
-  return out;
-}
 
 function describe(p) {
   const m = MODES[mode];
@@ -48,11 +43,11 @@ function describe(p) {
   return lines.join("\n");
 }
 
-function renderLegend(breaks) {
-  const edges = [null, ...breaks, null];
+function renderLegend() {
+  const edges = [null, ...BREAKS, null];
   legendEl.innerHTML = COLORS.map((c, i) => {
     const lo = edges[i], hi = edges[i + 1];
-    const label = lo == null ? `< ${fmt1(hi)}` : hi == null ? `≥ ${fmt1(lo)}` : `${fmt1(lo)}–${fmt1(hi)}`;
+    const label = lo == null ? `< ${hi}` : hi == null ? `> ${lo}` : `${lo}–${hi}`;
     return `<div class="ratio-legend-item"><span class="swatch" style="background:${c}"></span>${label}</div>`;
   }).join("");
 }
@@ -92,12 +87,9 @@ let data = null;
 
 function fillColor() {
   const key = MODES[mode].ratio;
-  // Shared class breaks across both modes so switching shows real shifts
-  const values = data.features.flatMap(f => Object.values(MODES).map(m => f.properties[m.ratio])).filter(Number.isFinite);
-  const breaks = quantileBreaks(values, COLORS.length);
   const step = ["step", ["get", key], COLORS[0]];
-  breaks.forEach((b, i) => step.push(b, COLORS[i + 1]));
-  renderLegend(breaks);
+  BREAKS.forEach((b, i) => step.push(b, COLORS[i + 1]));
+  renderLegend();
   renderRanking(data.features);
   return ["case", ["has", key], step, "#e5e7eb"];
 }
