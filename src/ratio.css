@@ -52,3 +52,32 @@
   font-weight: 600;
   color: #4b5563;
 }
+
+.ratio-mode {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: #111827;
+}
+
+.ratio-mode label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+#attribution-custom {
+  right: auto;
+  left: 10px;
+  max-width: calc(100vw - 20px);
+  box-sizing: border-box;
+}
+
+@media (max-width: 560px) {
+  #attribution-custom {
+    bottom: 36px;
+  }
+}

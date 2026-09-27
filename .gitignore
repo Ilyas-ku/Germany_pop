@@ -6,4 +6,5 @@ dist
 .vscode
 .idea
 *.log
-data-src/ratio/kreise.geojson
+data-src/ratio/kreise*.geojson
+data-src/ratio/cache/

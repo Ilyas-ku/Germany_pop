@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "build:ratio": "mapshaper-xl public/data/Germany_Gemeinde.geojson -each \"KRS=AGS.slice(0,5); GEN1=AGS.slice(5)=='000' ? GEN : null\" -dissolve KRS copy-fields=GEN1 -simplify 8% keep-shapes -o precision=0.0001 format=geojson data-src/ratio/kreise.geojson && node scripts/build-ratio.mjs"
+    "build:ratio": "mapshaper-xl public/data/Germany_Gemeinde.geojson -each \"KRS=AGS.slice(0,5)\" -dissolve KRS -simplify 8% keep-shapes -o precision=0.0001 format=geojson data-src/ratio/kreise.geojson && node scripts/build-ratio.mjs",
+    "ratio:data": "mapshaper-xl public/data/Germany_Gemeinde.geojson -each \"KRS=AGS.slice(0,5)\" -dissolve KRS -o format=geojson data-src/ratio/kreise_full.geojson && python3 scripts/ratio_data.py"
   },
   "dependencies": {
     "@turf/turf": "^7.2.0",

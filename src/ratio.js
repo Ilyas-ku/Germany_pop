@@ -3,8 +3,13 @@ import "./style.css";
 import "./ratio.css";
 import maplibregl from "maplibre-gl";
 
-// Flat size used to turn rent per m² into a monthly rent
-const FLAT_M2 = 70;
+// Wage variants: residence (default) and workplace
+const MODES = {
+  wo: { wage: "wage_wo", ratio: "ratio_wo", label: "where people live" },
+  ao: { wage: "wage_ao", ratio: "ratio_ao", label: "where people work" },
+};
+let mode = "wo";
+let FLAT_M2 = 70;
 
 // Sequential blue, light -> dark (higher ratio = more affordable)
 const COLORS = ["#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95", "#0d366b"];
@@ -15,6 +20,7 @@ const hudText = document.getElementById("hud-text");
 const legendEl = document.getElementById("legend");
 const rankEl = document.getElementById("rank");
 const attributionEl = document.getElementById("attribution-custom");
+const modeEl = document.getElementById("mode");
 
 const fmtEur = (v) => `${Math.round(v).toLocaleString("de-DE")} €`;
 const fmt2 = (v) => v.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -28,13 +34,18 @@ function quantileBreaks(values, n) {
 }
 
 function describe(p) {
-  const monthlyRent = p.rent * FLAT_M2;
-  return [
+  const m = MODES[mode];
+  const ratio = p[m.ratio];
+  const lines = [
     `${p.name}`,
-    `Median wage: ${fmtEur(p.wage)} gross / month`,
-    `Rent: ${fmt2(p.rent)} €/m² → ${fmtEur(monthlyRent)} for ${FLAT_M2} m²`,
-    `Ratio: ${fmt2(p.ratio)}  (rent = ${fmt1(100 / p.ratio)} % of wage)`,
-  ].join("\n");
+    `Median wage (${m.label}): ${fmtEur(p[m.wage])} gross / month`,
+    `Rent: ${fmt2(p.rent)} €/m² → ${fmtEur(p.rent * FLAT_M2)} for ${FLAT_M2} m²`,
+    `Ratio: ${fmt2(ratio)}  (rent = ${fmt1(100 / ratio)} % of wage)`,
+  ];
+  if (mode === "wo" && p.coverage < 0.7) {
+    lines.push(`⚠ Wage based on ${Math.round(p.coverage * 100)} % of residents (grid data gaps)`);
+  }
+  return lines.join("\n");
 }
 
 function renderLegend(breaks) {
@@ -47,8 +58,9 @@ function renderLegend(breaks) {
 }
 
 function renderRanking(features) {
-  const rows = features.map(f => f.properties).sort((a, b) => b.ratio - a.ratio);
-  const li = (p, i) => `<li value="${i}">${p.name} — <b>${fmt2(p.ratio)}</b></li>`;
+  const key = MODES[mode].ratio;
+  const rows = features.map(f => f.properties).filter(p => Number.isFinite(p[key])).sort((a, b) => b[key] - a[key]);
+  const li = (p, i) => `<li value="${i}">${p.name} — <b>${fmt2(p[key])}</b></li>`;
   const n = rows.length;
   rankEl.innerHTML =
     `<div class="rank-head">Most affordable</div><ol>${rows.slice(0, 10).map((p, i) => li(p, i + 1)).join("")}</ol>` +
@@ -72,20 +84,30 @@ const map = new maplibregl.Map({
       { id: "bg", type: "raster", source: "osm", paint: { "raster-opacity": 0.55 } }
     ]
   },
-  center: [10.45, 51.1657],
-  zoom: 5
+  bounds: [[5.8, 47.2], [15.1, 55.1]],
+  fitBoundsOptions: { padding: 20 }
 });
 
-map.on("load", async () => {
-  const data = await fetch(DATA_URL).then(r => r.json());
-  const feats = data.features.filter(f => Number.isFinite(f.properties.ratio));
+let data = null;
 
-  const breaks = quantileBreaks(feats.map(f => f.properties.ratio), COLORS.length);
-  const step = ["step", ["get", "ratio"], COLORS[0]];
+function fillColor() {
+  const key = MODES[mode].ratio;
+  // Shared class breaks across both modes so switching shows real shifts
+  const values = data.features.flatMap(f => Object.values(MODES).map(m => f.properties[m.ratio])).filter(Number.isFinite);
+  const breaks = quantileBreaks(values, COLORS.length);
+  const step = ["step", ["get", key], COLORS[0]];
   breaks.forEach((b, i) => step.push(b, COLORS[i + 1]));
-
   renderLegend(breaks);
-  renderRanking(feats);
+  renderRanking(data.features);
+  return ["case", ["has", key], step, "#e5e7eb"];
+}
+
+let hovered = null;
+let selected = null;
+
+map.on("load", async () => {
+  data = await fetch(DATA_URL).then(r => r.json());
+  FLAT_M2 = data.meta?.flat_m2 ?? FLAT_M2;
   if (data.meta?.attribution) attributionEl.textContent = data.meta.attribution;
 
   map.addSource("kreise", { type: "geojson", data, promoteId: "ags" });
@@ -94,10 +116,7 @@ map.on("load", async () => {
     id: "kreise-fill",
     type: "fill",
     source: "kreise",
-    paint: {
-      "fill-color": ["case", ["has", "ratio"], step, "#e5e7eb"],
-      "fill-opacity": 0.85
-    }
+    paint: { "fill-color": fillColor(), "fill-opacity": 0.85 }
   });
 
   map.addLayer({
@@ -110,7 +129,6 @@ map.on("load", async () => {
     }
   });
 
-  let hovered = null;
   const setHover = (id) => {
     if (hovered != null) map.setFeatureState({ source: "kreise", id: hovered }, { hover: false });
     hovered = id;
@@ -121,7 +139,8 @@ map.on("load", async () => {
     const f = e.features?.[0];
     if (!f) return;
     setHover(f.id);
-    hudText.textContent = Number.isFinite(f.properties.ratio) ? describe(f.properties) : `${f.properties.name}\nNo data`;
+    selected = f.properties;
+    hudText.textContent = describe(f.properties);
   };
 
   map.on("mousemove", "kreise-fill", (e) => {
@@ -132,5 +151,11 @@ map.on("load", async () => {
   map.on("mouseleave", "kreise-fill", () => {
     map.getCanvas().style.cursor = "";
     setHover(null);
+  });
+
+  modeEl.addEventListener("change", (e) => {
+    mode = e.target.value;
+    map.setPaintProperty("kreise-fill", "fill-color", fillColor());
+    if (selected) hudText.textContent = describe(selected);
   });
 });
