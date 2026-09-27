@@ -1,0 +1,54 @@
+#hud.ratio-hud {
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+}
+
+.ratio-sub {
+  font-size: 13px;
+  color: #4b5563;
+  margin-bottom: 10px;
+}
+
+.ratio-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #374151;
+}
+
+.ratio-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ratio-legend .swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+
+.ratio-top {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #111827;
+}
+
+.ratio-top summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.ratio-top ol {
+  margin: 4px 0 8px;
+  padding-left: 28px;
+}
+
+.rank-head {
+  margin-top: 6px;
+  font-weight: 600;
+  color: #4b5563;
+}
