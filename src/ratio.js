@@ -5,16 +5,22 @@ import maplibregl from "maplibre-gl";
 
 // Wage variants: residence (default) and workplace
 const MODES = {
-  wo: { wage: "wage_wo", ratio: "ratio_wo", label: "where people live" },
-  ao: { wage: "wage_ao", ratio: "ratio_ao", label: "where people work" },
+  wo: { wage: "wage_wo", label: "where people live" },
+  ao: { wage: "wage_ao", label: "where people work" },
+};
+// Rent variants: BBSR asking rents 2025 (new leases, default) and Zensus 2022 (existing leases)
+const RENTS = {
+  ask: { rent: "rent_ask", label: "asking rent 2025, new leases", breaks: [5, 6, 7, 8] },
+  zen: { rent: "rent", label: "Zensus 2022, existing leases", breaks: [7, 8, 9, 10] },
 };
 let mode = "wo";
+let rentMode = "ask";
+const ratioKey = () => `ratio_${mode}_${rentMode}`;
 let FLAT_M2 = 70;
 
 // Sequential blue, light -> dark (higher ratio = more affordable)
 const COLORS = ["#b7d3f6", "#6da7ec", "#2a78d6", "#1c5cab", "#0d366b"];
-// Fixed class breaks, same for both modes
-const BREAKS = [7, 8, 9, 10];
+// Fixed class breaks per rent variant (asking rents shift every ratio down)
 
 const DATA_URL = `${import.meta.env.BASE_URL}data/kreise_ratio.geojson`;
 
@@ -23,6 +29,7 @@ const legendEl = document.getElementById("legend");
 const rankEl = document.getElementById("rank");
 const attributionEl = document.getElementById("attribution-custom");
 const modeEl = document.getElementById("mode");
+const rentEl = document.getElementById("rent-mode");
 
 const fmtEur = (v) => `${Math.round(v).toLocaleString("de-DE")} €`;
 const fmt2 = (v) => v.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -30,11 +37,13 @@ const fmt1 = (v) => v.toLocaleString("de-DE", { minimumFractionDigits: 1, maximu
 
 function describe(p) {
   const m = MODES[mode];
-  const ratio = p[m.ratio];
+  const r = RENTS[rentMode];
+  const ratio = p[ratioKey()];
+  const rent = p[r.rent];
   const lines = [
     `${p.name}`,
     `Median wage (${m.label}): ${fmtEur(p[m.wage])} gross / month`,
-    `Rent: ${fmt2(p.rent)} €/m² → ${fmtEur(p.rent * FLAT_M2)} for ${FLAT_M2} m²`,
+    `Rent (${r.label}): ${fmt2(rent)} €/m² → ${fmtEur(rent * FLAT_M2)} for ${FLAT_M2} m²`,
     `Ratio: ${fmt2(ratio)}  (rent = ${fmt1(100 / ratio)} % of wage)`,
   ];
   if (mode === "wo" && p.coverage < 0.7) {
@@ -44,7 +53,7 @@ function describe(p) {
 }
 
 function renderLegend() {
-  const edges = [null, ...BREAKS, null];
+  const edges = [null, ...RENTS[rentMode].breaks, null];
   legendEl.innerHTML = COLORS.map((c, i) => {
     const lo = edges[i], hi = edges[i + 1];
     const label = lo == null ? `< ${hi}` : hi == null ? `> ${lo}` : `${lo}–${hi}`;
@@ -53,7 +62,7 @@ function renderLegend() {
 }
 
 function renderRanking(features) {
-  const key = MODES[mode].ratio;
+  const key = ratioKey();
   const rows = features.map(f => f.properties).filter(p => Number.isFinite(p[key])).sort((a, b) => b[key] - a[key]);
   const li = (p, i) => `<li value="${i}">${p.name} — <b>${fmt2(p[key])}</b></li>`;
   const n = rows.length;
@@ -86,9 +95,9 @@ const map = new maplibregl.Map({
 let data = null;
 
 function fillColor() {
-  const key = MODES[mode].ratio;
+  const key = ratioKey();
   const step = ["step", ["get", key], COLORS[0]];
-  BREAKS.forEach((b, i) => step.push(b, COLORS[i + 1]));
+  RENTS[rentMode].breaks.forEach((b, i) => step.push(b, COLORS[i + 1]));
   renderLegend();
   renderRanking(data.features);
   return ["case", ["has", key], step, "#e5e7eb"];
@@ -143,6 +152,12 @@ map.on("load", async () => {
   map.on("mouseleave", "kreise-fill", () => {
     map.getCanvas().style.cursor = "";
     setHover(null);
+  });
+
+  rentEl.addEventListener("change", (e) => {
+    rentMode = e.target.value;
+    map.setPaintProperty("kreise-fill", "fill-color", fillColor());
+    if (selected) hudText.textContent = describe(selected);
   });
 
   modeEl.addEventListener("change", (e) => {

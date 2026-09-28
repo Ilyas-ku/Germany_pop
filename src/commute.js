@@ -13,7 +13,13 @@ const fmt2 = (v) => v.toLocaleString("de-DE", { minimumFractionDigits: 2, maximu
 const fmt1 = (v) => v.toLocaleString("de-DE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const fmtInt = (v) => Math.round(v).toLocaleString("de-DE");
 
-let rings, dist, mode = "edge";
+let rings, dist, mode = "edge", rentMode = "ask";
+
+// Rent per ring: BBSR asking rents 2025 (new leases) or Zensus 2022 (existing leases)
+function cell(c, band) {
+  const v = c.modes[mode][band];
+  return rentMode === "ask" ? v.ask : v;
+}
 
 function bandsFor(m) {
   return rings.meta.bands.filter(b => rings.cities.some(c => c.modes[m][b]));
@@ -25,7 +31,7 @@ function renderChart() {
   const narrow = W < 600;
   const H = narrow ? 300 : 380, m = { t: 12, r: narrow ? 92 : 120, b: 40, l: 32 };
   const bandLabel = (b) => narrow ? BAND_LABEL[b].replace(" km", "").replace("In city", "City") : BAND_LABEL[b];
-  const values = rings.cities.flatMap(c => bands.map(b => c.modes[mode][b]?.ratio)).filter(Number.isFinite);
+  const values = rings.cities.flatMap(c => bands.map(b => cell(c, b)?.ratio)).filter(Number.isFinite);
   const lo = Math.floor(Math.min(...values)), hi = Math.ceil(Math.max(...values));
   const x = (i) => m.l + (i * (W - m.l - m.r)) / (bands.length - 1);
   const y = (v) => m.t + ((hi - v) * (H - m.t - m.b)) / (hi - lo);
@@ -41,11 +47,11 @@ function renderChart() {
   });
 
   // end labels, nudged apart so they don't overlap
-  const ends = rings.cities.map((c, ci) => ({ ci, y: y(c.modes[mode][bands.at(-1)].ratio) })).sort((a, b) => a.y - b.y);
+  const ends = rings.cities.map((c, ci) => ({ ci, y: y(cell(c, bands.at(-1)).ratio) })).sort((a, b) => a.y - b.y);
   for (let i = 1; i < ends.length; i++) ends[i].y = Math.max(ends[i].y, ends[i - 1].y + 14);
 
   rings.cities.forEach((c, ci) => {
-    const pts = bands.map((b, i) => [x(i), y(c.modes[mode][b].ratio)]);
+    const pts = bands.map((b, i) => [x(i), y(cell(c, b).ratio)]);
     svg += `<polyline class="series" data-ci="${ci}" stroke="${SERIES[ci]}" points="${pts.map(p => p.join(",")).join(" ")}"/>`;
     pts.forEach(([px, py], i) => {
       svg += `<circle class="dot" data-ci="${ci}" cx="${px}" cy="${py}" r="4" fill="${SERIES[ci]}"/>`;
@@ -67,7 +73,7 @@ function renderChart() {
 
 function showTip(e, ci, band) {
   const c = rings.cities[ci];
-  const v = c.modes[mode][band];
+  const v = cell(c, band);
   tip.textContent = `${c.name} · ${BAND_LABEL[band]}\nWage: ${fmtInt(c.wage)} €\nRent: ${fmt2(v.rent)} €/m² → ${fmtInt(v.rent * rings.meta.flat_m2)} €\nRatio: ${fmt2(v.ratio)} (rent = ${fmt1(100 / v.ratio)} % of wage)`;
   tip.hidden = false;
   moveTip(e);
@@ -94,7 +100,7 @@ function renderTable() {
   const bands = bandsFor(mode);
   const head = `<tr><th>City</th><th>Median wage</th>${bands.map(b => `<th>${BAND_LABEL[b]}</th>`).join("")}</tr>`;
   const rows = rings.cities.map(c => `<tr><td>${c.name}</td><td>${fmtInt(c.wage)} €</td>${bands.map(b => {
-    const v = c.modes[mode][b];
+    const v = cell(c, b);
     return `<td><b>${fmt2(v.ratio)}</b> <small>${fmt2(v.rent)} €/m²</small></td>`;
   }).join("")}</tr>`).join("");
   tableEl.innerHTML = `<thead>${head}</thead><tbody>${rows}</tbody>`;
@@ -114,11 +120,21 @@ function renderDistance() {
 }
 
 async function init() {
-  [rings, dist] = await Promise.all([
+  let afford;
+  [rings, dist, afford] = await Promise.all([
     fetch(`${BASE}data/commute.json`).then(r => r.json()),
     fetch(`${BASE}data/commute_distance.json`).then(r => r.json()),
+    fetch(`${BASE}data/affordability_rings.json`).then(r => r.json()),
   ]);
-  document.getElementById("sources").textContent = `Sources: ${rings.meta.attribution} ${dist.meta.attribution}`;
+  rings.cities.forEach((c, i) => {
+    for (const [m, bands] of Object.entries(c.modes)) {
+      for (const [b, v] of Object.entries(bands)) {
+        const rent = afford.cities[i].modes[m][b].rent_asking;
+        v.ask = { rent, ratio: c.wage / (rent * rings.meta.flat_m2) };
+      }
+    }
+  });
+  document.getElementById("sources").textContent = `Sources: ${rings.meta.attribution} Asking rents: BBSR 2025 per district, spread over the Zensus grid. ${dist.meta.attribution}`;
   renderLegend();
   renderChart();
   renderTable();
@@ -134,6 +150,11 @@ async function init() {
 
   document.querySelectorAll('input[name="mode"]').forEach(el => el.addEventListener("change", (e) => {
     mode = e.target.value;
+    renderChart();
+    renderTable();
+  }));
+  document.querySelectorAll('input[name="rent"]').forEach(el => el.addEventListener("change", (e) => {
+    rentMode = e.target.value;
     renderChart();
     renderTable();
   }));

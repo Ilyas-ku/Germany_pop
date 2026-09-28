@@ -4,6 +4,7 @@
 //   data-src/ratio/rent.csv       – ags;name;value (net cold rent, €/m²)
 //   data-src/ratio/wage_wo.csv    – ags;name;value;coverage (median wage at residence, €)
 //   data-src/ratio/wage_ao.csv    – ags;name;value (median wage at workplace, €)
+//   data-src/ratio/asking_rent_bbsr.csv – ags;name;year;value (BBSR asking rent 2025, €/m²)
 // Output: public/data/kreise_ratio.geojson
 import fs from "node:fs";
 import path from "node:path";
@@ -25,6 +26,7 @@ const geo = JSON.parse(fs.readFileSync(path.join(dir, "kreise.geojson"), "utf8")
 const rent = readCsv("rent.csv");
 const wageWo = readCsv("wage_wo.csv");
 const wageAo = readCsv("wage_ao.csv");
+const asking = readCsv("asking_rent_bbsr.csv");
 
 const round = (v, d) => Math.round(v * 10 ** d) / 10 ** d;
 const missing = [];
@@ -37,18 +39,20 @@ for (const f of geo.features) {
 
   if (r) {
     props.rent = Number(r.value);
-    const monthly = props.rent * meta.flat_m2;
+    if (asking.has(ags)) props.rent_ask = Number(asking.get(ags).value);
     if (wo) {
       props.wage_wo = Number(wo.value);
       props.coverage = Number(wo.coverage);
-      props.ratio_wo = round(props.wage_wo / monthly, 3);
     }
-    if (ao) {
-      props.wage_ao = Number(ao.value);
-      props.ratio_ao = round(props.wage_ao / monthly, 3);
+    if (ao) props.wage_ao = Number(ao.value);
+    // ratio_<wage>_<rent>: wo/ao = residence/workplace, zen/ask = Zensus existing / BBSR asking
+    for (const w of ["wo", "ao"]) {
+      for (const [k, rent] of [["zen", props.rent], ["ask", props.rent_ask]]) {
+        if (props[`wage_${w}`] && rent) props[`ratio_${w}_${k}`] = round(props[`wage_${w}`] / (rent * meta.flat_m2), 3);
+      }
     }
   }
-  if (props.ratio_wo == null || props.ratio_ao == null) missing.push(ags);
+  if (["wo_zen", "ao_zen", "wo_ask", "ao_ask"].some(k => props[`ratio_${k}`] == null)) missing.push(ags);
   f.properties = props;
 }
 

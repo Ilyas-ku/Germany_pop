@@ -15,7 +15,12 @@
           Higher = more affordable.
         </div>
 
-        <div id="mode" class="ratio-mode" role="radiogroup">
+        <div id="rent-mode" class="ratio-mode" role="radiogroup" aria-label="Rent">
+          <label><input type="radio" name="rent" value="ask" checked /> Rent for a new lease (2025)</label>
+          <label><input type="radio" name="rent" value="zen" /> Rent of existing leases (2022)</label>
+        </div>
+
+        <div id="mode" class="ratio-mode" role="radiogroup" aria-label="Wage">
           <label><input type="radio" name="mode" value="wo" checked /> Wage where people live</label>
           <label><input type="radio" name="mode" value="ao" /> Wage where people work</label>
         </div>

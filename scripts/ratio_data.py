@@ -117,7 +117,7 @@ def main():
     wage_residence(names)
     meta = {
         "flat_m2": 70,
-        "attribution": "Rent: Zensus 2022 (Destatis). Wages: Bundesagentur für Arbeit, Entgeltstatistik 31.12.2024.",
+        "attribution": "Rent: BBSR asking rents 2025; Zensus 2022 (Destatis). Wages: Bundesagentur für Arbeit, Entgeltstatistik 31.12.2024.",
     }
     (OUT / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("ok", file=sys.stderr)
