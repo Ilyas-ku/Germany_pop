@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Commuter Flat Size</title>
+  </head>
+
+  <body>
+    <main class="cm">
+      <header>
+        <h1>How big a flat can a commuter rent?</h1>
+        <p class="cm-sub" id="sub"></p>
+      </header>
+
+      <div class="cm-controls" role="radiogroup" aria-label="Distance measured from">
+        <span class="cm-controls-label">Distance from</span>
+        <label><input type="radio" name="mode" value="edge" checked /> city boundary</label>
+        <label><input type="radio" name="mode" value="centre" /> main station</label>
+      </div>
+
+      <div id="cards" class="fl-cards"></div>
+
+      <footer class="cm-note" id="foot"></footer>
+    </main>
+
+    <script type="module" src="/src/flats.js"></script>
+  </body>
+</html>

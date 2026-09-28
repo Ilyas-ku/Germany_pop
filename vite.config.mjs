@@ -11,6 +11,7 @@ export default defineConfig({
         main: page("./index.html"),
         ratio: page("./ratio.html"),
         commute: page("./commute.html"),
+        flats: page("./flats.html"),
       },
     },
   },
