@@ -6,6 +6,7 @@ const BASE = import.meta.env.BASE_URL;
 
 const BLUE = ["#b7d3f6", "#6da7ec", "#2a78d6", "#1c5cab", "#0d366b"];
 const ORANGE = ["#fbd9c8", "#f5a888", "#eb6834", "#c24c1c", "#8a3210"];
+const GREEN = ["#cdebd0", "#8fcf95", "#3fa34d", "#1f7a2e", "#0d4d1a"];
 
 const fmtEur = (v) => `${Math.round(v).toLocaleString("de-DE")} €`;
 const fmt2 = (v) => v.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -25,7 +26,7 @@ const METRICS = {
   },
   net: {
     key: (w) => `net_${w}`,
-    colors: BLUE,
+    colors: GREEN,
     breaks: [2400, 2600, 2800, 3000],
     range: (lo, hi) => between(fmtEur, lo, hi),
     note: () => "",
