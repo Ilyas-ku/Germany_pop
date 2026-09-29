@@ -68,7 +68,7 @@ h2 { font-size: 13px; margin: 0 0 6px; color: var(--text-secondary); }
 .wm-controls label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
 
 .wm-legend { display: grid; gap: 4px; margin-bottom: 14px; font-size: 12px; }
-.wm-legend div { display: grid; grid-template-columns: 16px 64px 1fr; gap: 8px; align-items: center; }
+.wm-legend div { display: grid; grid-template-columns: 16px 120px 1fr; gap: 8px; align-items: center; }
 .wm-legend i { width: 16px; height: 12px; border-radius: 3px; display: block; }
 .wm-legend span { color: var(--text-muted); }
 
@@ -89,9 +89,13 @@ h2 { font-size: 13px; margin: 0 0 6px; color: var(--text-secondary); }
 table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; table-layout: fixed; }
 td { padding: 3px 0; border-bottom: 1px solid var(--grid); vertical-align: top; }
 td.rk { width: 34px; color: var(--text-muted); }
-td.nm { overflow-wrap: anywhere; padding-right: 8px; }
-td.v { width: 44px; text-align: right; font-weight: 700; }
-td.s { width: 44px; text-align: right; color: var(--text-muted); }
+td.nm { overflow-wrap: break-word; padding-right: 8px; }
+td.v { width: 64px; text-align: right; font-weight: 700; }
+td.s { width: 76px; text-align: right; color: var(--text-muted); }
+body[data-metric="ratio"] td.v, body:not([data-metric]) td.v { width: 44px; }
+body[data-metric="ratio"] td.s, body:not([data-metric]) td.s { width: 44px; }
+body[data-metric="net"] td.s, body[data-metric="rent"] td.s { width: 0; }
+body[data-metric="rent"] .wm-controls { display: none; }
 tr { cursor: pointer; }
 tr:hover td { background: var(--surface-0); }
 

@@ -13,6 +13,8 @@ export default defineConfig({
         commute: page("./commute.html"),
         flats: page("./flats.html"),
         warm: page("./warm.html"),
+        netwage: page("./netwage.html"),
+        warmrent: page("./warmrent.html"),
       },
     },
   },

@@ -4,9 +4,45 @@ import maplibregl from "maplibre-gl";
 
 const BASE = import.meta.env.BASE_URL;
 
-// Sequential blue, light -> dark (higher ratio = more affordable)
-const COLORS = ["#b7d3f6", "#6da7ec", "#2a78d6", "#1c5cab", "#0d366b"];
-const BREAKS = [2.5, 3, 3.5, 4];
+const BLUE = ["#b7d3f6", "#6da7ec", "#2a78d6", "#1c5cab", "#0d366b"];
+const ORANGE = ["#fbd9c8", "#f5a888", "#eb6834", "#c24c1c", "#8a3210"];
+
+const fmtEur = (v) => `${Math.round(v).toLocaleString("de-DE")} €`;
+const fmt2 = (v) => v.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmt1 = (v) => v.toLocaleString("de-DE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const share = (ratio) => `${Math.round(100 / ratio)} %`;
+const between = (fmt, lo, hi) => lo == null ? `< ${fmt(hi)}` : hi == null ? `> ${fmt(lo)}` : `${fmt(lo)}–${fmt(hi)}`;
+
+// One page per metric: <body data-metric="ratio|net|rent">
+const METRICS = {
+  ratio: {
+    key: (w) => `ratio_${w}`,
+    colors: BLUE,
+    breaks: [2.5, 3, 3.5, 4],
+    range: (lo, hi) => between(fmt1, lo, hi),
+    note: (lo, hi) => lo == null ? `rent over ${share(hi)} of net` : hi == null ? `rent under ${share(lo)} of net` : `rent ${share(hi)}–${share(lo)} of net`,
+    cells: (v) => [fmt2(v), share(v)],
+  },
+  net: {
+    key: (w) => `net_${w}`,
+    colors: BLUE,
+    breaks: [2400, 2600, 2800, 3000],
+    range: (lo, hi) => between(fmtEur, lo, hi),
+    note: () => "",
+    cells: (v) => [fmtEur(v), ""],
+  },
+  rent: {
+    key: () => "warm_flat",
+    colors: ORANGE,
+    breaks: [600, 750, 900, 1050],
+    range: (lo, hi) => between(fmtEur, lo, hi),
+    note: () => "",
+    cells: (v) => [fmtEur(v), ""],
+  },
+};
+const metric = METRICS[document.body.dataset.metric || "ratio"];
+const COLORS = metric.colors;
+const BREAKS = metric.breaks;
 const WAGES = {
   wo: { label: "where people live" },
   ao: { label: "where people work" },
@@ -18,22 +54,16 @@ const infoEl = document.getElementById("info");
 const topEl = document.getElementById("top");
 const bottomEl = document.getElementById("bottom");
 
-const fmtEur = (v) => `${Math.round(v).toLocaleString("de-DE")} €`;
-const fmt2 = (v) => v.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const fmt1 = (v) => v.toLocaleString("de-DE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-const share = (ratio) => `${Math.round(100 / ratio)} %`;
 const dark = () => matchMedia("(prefers-color-scheme: dark)").matches;
 
 let data, byId, selected = null;
 
 function renderLegend() {
   const edges = [null, ...BREAKS, null];
-  // listed from most to least affordable
+  // listed from the top class down
   legendEl.innerHTML = COLORS.map((c, i) => {
     const lo = edges[i], hi = edges[i + 1];
-    const range = lo == null ? `< ${fmt1(hi)}` : hi == null ? `> ${fmt1(lo)}` : `${fmt1(lo)}–${fmt1(hi)}`;
-    const pct = lo == null ? `rent over ${share(hi)} of net` : hi == null ? `rent under ${share(lo)} of net` : `rent ${share(hi)}–${share(lo)} of net`;
-    return `<div><i style="background:${c}"></i><b>${range}</b><span>${pct}</span></div>`;
+    return `<div><i style="background:${c}"></i><b>${metric.range(lo, hi)}</b><span>${metric.note(lo, hi)}</span></div>`;
   }).reverse().join("");
 }
 
@@ -50,16 +80,19 @@ function describe(p) {
 }
 
 function renderRanks() {
-  const key = `ratio_${wage}`;
+  const key = metric.key(wage);
   const rows = data.features.map(f => f.properties).sort((a, b) => b[key] - a[key]);
   const n = rows.length;
-  const row = (p, rank) => `<tr data-id="${p.ags}"><td class="rk">${rank}</td><td class="nm">${p.name}</td><td class="v">${fmt2(p[key])}</td><td class="s">${share(p[key])}</td></tr>`;
+  const row = (p, rank) => {
+    const [v, extra] = metric.cells(p[key], p);
+    return `<tr data-id="${p.ags}"><td class="rk">${rank}</td><td class="nm">${p.name}</td><td class="v">${v}</td><td class="s">${extra}</td></tr>`;
+  };
   topEl.innerHTML = `<tbody>${rows.slice(0, 10).map((p, i) => row(p, i + 1)).join("")}</tbody>`;
   bottomEl.innerHTML = `<tbody>${rows.slice(-10).reverse().map((p, i) => row(p, n - i)).join("")}</tbody>`;
 }
 
 function fillColor() {
-  const step = ["step", ["get", `ratio_${wage}`], COLORS[0]];
+  const step = ["step", ["get", metric.key(wage)], COLORS[0]];
   BREAKS.forEach((b, i) => step.push(b, COLORS[i + 1]));
   return step;
 }
