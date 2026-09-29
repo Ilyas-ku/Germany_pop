@@ -12,6 +12,7 @@ export default defineConfig({
         ratio: page("./ratio.html"),
         commute: page("./commute.html"),
         flats: page("./flats.html"),
+        warm: page("./warm.html"),
       },
     },
   },

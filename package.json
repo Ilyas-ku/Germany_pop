@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "build:ratio": "mapshaper-xl public/data/Germany_Gemeinde.geojson -each \"KRS=AGS.slice(0,5)\" -dissolve KRS -simplify 8% keep-shapes -o precision=0.0001 format=geojson data-src/ratio/kreise.geojson && node scripts/build-ratio.mjs",
     "ratio:data": "mapshaper-xl public/data/Germany_Gemeinde.geojson -each \"KRS=AGS.slice(0,5)\" -dissolve KRS -o format=geojson data-src/ratio/kreise_full.geojson && python3 scripts/ratio_data.py",
-    "commute:data": "python3 scripts/commute_data.py && python3 scripts/commute_distance.py && PYTHONPATH=scripts python3 scripts/affordability_data.py && node scripts/flats_data.mjs"
+    "commute:data": "python3 scripts/commute_data.py && python3 scripts/commute_distance.py && PYTHONPATH=scripts python3 scripts/affordability_data.py && node scripts/flats_data.mjs",
+    "build:warm": "PYTHONPATH=scripts python3 scripts/warm_data.py && node scripts/build-warm.mjs"
   },
   "dependencies": {
     "@turf/turf": "^7.2.0",

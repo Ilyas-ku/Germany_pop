@@ -11,7 +11,7 @@
    "20-30",
    "30-40"
   ],
-  "assumptions": "Single, tax class I, no children, no church tax, statutory health insurance with average Zusatzbeitrag (2.5 %), 2025 tax and contribution rules incl. commuting allowance.",
+  "assumptions": "Single, tax class I, no children, no church tax, statutory health insurance with average Zusatzbeitrag (2.5 %), 2025 tax and contribution rules. Includes the commuting allowance.",
   "sources": "Zensus 2022 1 km and 100 m grids (Destatis); BBSR asking rents 2025 per district; Mikrozensus 2022 (Destatis). Wages: Bundesagentur für Arbeit, workplace, 31.12.2024."
  },
  "cities": [
