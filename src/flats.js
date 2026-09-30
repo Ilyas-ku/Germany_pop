@@ -105,12 +105,12 @@ async function init() {
   data = await fetch(`${BASE}data/flats.json`).then(r => r.json());
   const m = data.meta;
   document.getElementById("sub").textContent =
-    `Solid square: flat size you get for 30 % of net income at today's asking rent incl. cold utilities. ` +
+    `Solid square: flat size you get for 30 % of net income at the warm rent of a new lease (incl. utilities and heating). ` +
     `Dashed square: a ${m.flat_m2} m² flat; the line below says what share of net income it would take.`;
   const items = [
     `Wage: median (or 25th percentile, interpolated from BA wage classes) gross monthly wage of full-time employees working in the city, 31.12.2024.`,
     `Net: ${m.assumptions} Commuting allowance uses the straight-line distance to the main station, so it slightly understates the tax saving.`,
-    `Rent: BBSR asking rents 2025 per district, spread over the Zensus 2022 1 km grid; small-flat premium (≤ 65 m²) from the Zensus 100 m grid; cold utilities from Mikrozensus 2022 for recent movers (1.1–1.5 €/m² by municipality size). Heating is not included.`,
+    `Rent: warm rent of a new lease. Level: BBSR asking rents 2025 per district. Within a district the rent follows what households who moved in during the two years before the 2022 census pay in each municipality (Zensus table 5000H-0009), not the average of all leases. Plus a small-flat premium (≤ 65 m²) from the Zensus 100 m grid, and utilities and heating paid to the landlord from Mikrozensus 2022 by region. Heating paid directly to a gas supplier is not included.`,
     `Commuting: a Deutschlandticket costs ${m.ticket} € / month (2025) wherever you live, so it does not change the comparison between rings; travel time is not modelled yet.`,
     `Sources: ${m.sources}`,
   ];

@@ -134,7 +134,7 @@ async function init() {
       }
     }
   });
-  document.getElementById("sources").textContent = `Sources: ${rings.meta.attribution} Asking rents: BBSR 2025 per district, spread over the Zensus grid. ${dist.meta.attribution}`;
+  document.getElementById("sources").textContent = `Sources: ${rings.meta.attribution} Asking rents: BBSR 2025 per district, spread within districts by the rents of recent movers (Zensus 2022). ${dist.meta.attribution}`;
   renderLegend();
   renderChart();
   renderTable();
