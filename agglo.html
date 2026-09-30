@@ -4,18 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Commuter Flat Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" />
   </head>
 
   <body>
     <main class="ag">
-      <header class="ag-head">
-        <h1>How far do you have to ride for a decent flat?</h1>
-        <p class="ag-sub">
-          A single person earns a typical wage in the city and spends 30&nbsp;% of net pay on
-          the warm rent of a flat on a new lease. Every 10&nbsp;km from the main station,
-          the flat gets bigger.
-        </p>
-      </header>
+      <h1>How far do you have to ride for a decent flat?</h1>
+      <p class="ag-sub">
+        A single person earns a typical wage in the city and spends 30&nbsp;% of net pay on
+        the warm rent of a flat on a new lease. Every 10&nbsp;km from the main station,
+        the flat gets bigger.
+      </p>
+      <div class="ag-legend-top">
+        <span><i class="lo"></i>under 60 m²</span>
+        <span><i class="hi"></i>60 m² or more</span>
+      </div>
 
       <nav id="tabs" class="ag-tabs" aria-label="City"></nav>
 
