@@ -12,8 +12,9 @@ const CITIES = [
 const STOPS = ["0", "10", "20", "30", "40"];
 const WAGE_LABEL = { median: "Median", p25: "Lower-quarter" };
 
-// Map classes: affordable flat size for 30 % of net pay, one aqua scale (more m² = brighter)
-const COLORS = SCALE.aqua;
+// Map classes: affordable flat size for 30 % of net pay, diverging at the 60 m² reference flat:
+// pink below (brighter = worse), aqua from 60 m² (brighter = better); upper steps of each scale only
+const COLORS = [SCALE.pink[4], SCALE.pink[3], SCALE.pink[2], SCALE.aqua[2], SCALE.aqua[4]];
 const BREAKS = [45, 52, 60, 70];
 const NO_DATA = C.nodata;
 
