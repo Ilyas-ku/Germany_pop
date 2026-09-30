@@ -51,6 +51,7 @@ fs.writeFileSync("public/data/flats.json", JSON.stringify({
     ticket: TICKET,
     tax_year: TAX_YEAR,
     bands: src.meta.bands,
+    stops: src.meta.stops,
     assumptions: `${NET_ASSUMPTIONS} Includes the commuting allowance.`,
     sources: `${src.meta.sources} Wages: Bundesagentur für Arbeit, workplace, 31.12.2024.`,
   },

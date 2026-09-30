@@ -15,6 +15,7 @@ export default defineConfig({
         warm: page("./warm.html"),
         netwage: page("./netwage.html"),
         warmrent: page("./warmrent.html"),
+        agglo: page("./agglo.html"),
       },
     },
   },

@@ -20,6 +20,12 @@ For every Zensus 2022 1 km cell (weighted by its rented flats):
                 (Mikrozensus 2022 Tabelle 4 by region, warm_rent.csv)
 - dist_km:      flat-weighted straight-line distance to the main station
 
+Modes: "edge" = 10 km rings outside the city boundary, "centre" = 10 km rings
+around the main station, "stops" = ±5 km around 0, 10, 20, 30, 40 km from the
+main station (the houses in the infographic).
+Also writes data-src/ratio/gemeinde_rent.csv (recent-mover rent and district
+factor per municipality) for scripts/agglo_data.py.
+
 Wages per city (BA Entgeltstatistik 31.12.2024, workplace, full-time core
 group): official median, and the 25th percentile interpolated linearly within
 the published wage classes (the same interpolation reproduces the official
@@ -50,6 +56,7 @@ SIZE_ZIP = CACHE / "zensus_miete_groesse.zip"
 RECENT_URL = ("https://ergebnisse.zensus2022.de/proxy/api/rest/tables/5000H-0009/data/"
               "5000H%20GEOGM4%20HSH007%20STAG%20WOHND1")
 RECENT = ("WOHND000B001", "WOHND001B001")  # under 1 year, 1 to under 2 years
+STOP_MAX = 45  # km; stops at 0, 10, …, 40 km cover ±5 km each
 
 
 def read(name):
@@ -120,7 +127,7 @@ def main():
         city = transform(to_laea, shape(gem[ags]["geometry"]))
         main_part = max(getattr(city, "geoms", [city]), key=lambda g: g.area)
         cities.append((name, main_part, Point(to_laea(*hbf))))
-    needed = sorted({i for _, part, _ in cities for i in tree.query(part.buffer(BANDS[-1] * 1000))})
+    needed = sorted({i for _, part, _ in cities for i in tree.query(part.buffer(STOP_MAX * 1000))})
 
     # every cell -> district and municipality (the district factor needs all its cells)
     kpolys = [transform(to_laea, shape(f["geometry"])) for f in kreise]
@@ -163,23 +170,38 @@ def main():
     print(f"flats near the cities with their municipality's own recent-mover rent: {own / near_flats:.1%}")
     print(f"BBSR 2025 / recent movers 2022 per district: min {f[0]:.2f} median {median(f):.2f} max {f[-1]:.2f}")
 
+    # per municipality, for the agglomeration maps (scripts/agglo_data.py)
+    with open(OUT / "gemeinde_rent.csv", "w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh, delimiter=";")
+        w.writerow(["ags", "rent_recent", "own_value", "district_factor"])
+        for f_ in gem_feats:
+            ags = f_["properties"]["AGS"]
+            rec, tot = recent.get(ags, (None, None))
+            value = rec or (tot * krs_ratio.get(ags[:5], national_ratio) if tot else None)
+            if value and ags[:5] in factor:
+                w.writerow([ags, round(value, 3), int(bool(rec)), round(factor[ags[:5]], 4)])
+
     def band_of(part, centre, p):
         inside = part.contains(p)
         d_edge = 0 if inside else part.distance(p) / 1000
         d_centre = centre.distance(p) / 1000
         edge = "city" if inside else next((f"{b - 10}-{b}" for b in BANDS if d_edge <= b), None)
         centre_band = next((f"{b - 10}-{b}" for b in BANDS if d_centre <= b), None)
-        return edge, centre_band, inside, d_centre
+        # stops every 10 km from the main station: 0 = within 5 km, 10 = 5–15 km, …
+        stop = round(d_centre / 10) * 10
+        stop = str(stop) if d_centre <= STOP_MAX else None
+        return edge, centre_band, stop, inside, d_centre
 
     # 1 km cell id -> bands, reused for the 100 m size grid
     km_bands = {}
-    acc = {name: {"edge": defaultdict(lambda: [0.0] * 8), "centre": defaultdict(lambda: [0.0] * 8)} for name, *_ in cities}
+    modes = ("edge", "centre", "stops")
+    acc = {name: {m: defaultdict(lambda: [0.0] * 8) for m in modes} for name, *_ in cities}
     for i in needed:
         x, y, rent, flats = cells[i]
         key = (int(x // 1000), int(y // 1000))
         for name, part, centre in cities:
-            edge, centre_band, inside, d = band_of(part, centre, pts[i])
-            targets = [("edge", edge), ("centre", centre_band)] + ([("centre", "city")] if inside else [])
+            edge, centre_band, stop, inside, d = band_of(part, centre, pts[i])
+            targets = [("edge", edge), ("centre", centre_band), ("stops", stop)] + ([("centre", "city")] if inside else [])
             for mode, band in targets:
                 if not band:
                     continue
@@ -196,7 +218,7 @@ def main():
                 a[7] += rent * old_factor[k] * flats
 
     # small-flat premium per ring from the 100 m grid
-    size = {name: {"edge": defaultdict(lambda: [0.0, 0, 0.0, 0]), "centre": defaultdict(lambda: [0.0, 0, 0.0, 0])} for name, *_ in cities}
+    size = {name: {m: defaultdict(lambda: [0.0, 0, 0.0, 0]) for m in modes} for name, *_ in cities}
     zf = zipfile.ZipFile(SIZE_ZIP)
     member = next(n for n in zf.namelist() if n.endswith(".csv"))
     for r in csv.DictReader(io.TextIOWrapper(zf.open(member), encoding="utf-8-sig"), delimiter=";"):
@@ -221,7 +243,7 @@ def main():
     out = []
     for (name, *_), (_, _, krs, _) in zip(cities, CITIES):
         city = {"name": name, "wage": wages[krs], "modes": {}}
-        for mode in ("edge", "centre"):
+        for mode in modes:
             bands = {}
             for band, (n, r, ra, uc, uw, d, rr, ro) in acc[name][mode].items():
                 s = size[name][mode][band]
@@ -242,6 +264,7 @@ def main():
     Path("public/data/affordability_rings.json").write_text(json.dumps({
         "meta": {
             "bands": ["city"] + [f"{b - 10}-{b}" for b in BANDS],
+            "stops": [str(s) for s in range(0, STOP_MAX + 1, 10)],
             "sources": "BBSR asking rents 2025 per district; Zensus 2022 rents of recent movers per municipality (table 5000H-0009), 1 km and 100 m grids (Destatis); Mikrozensus 2022 utilities and heating (Destatis).",
         },
         "cities": out,

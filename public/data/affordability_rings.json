@@ -7,6 +7,13 @@
    "20-30",
    "30-40"
   ],
+  "stops": [
+   "0",
+   "10",
+   "20",
+   "30",
+   "40"
+  ],
   "sources": "BBSR asking rents 2025 per district; Zensus 2022 rents of recent movers per municipality (table 5000H-0009), 1 km and 100 m grids (Destatis); Mikrozensus 2022 utilities and heating (Destatis)."
  },
  "cities": [
@@ -129,6 +136,63 @@
       "nk_cold": 1.6,
       "nk_warm": 1.2,
       "dist_km": 5.6
+     }
+    },
+    "stops": {
+     "40": {
+      "flats": 39016,
+      "rent_zensus": 6.16,
+      "rent_recent": 7.26,
+      "rent_asking": 10.19,
+      "rent_old_method": 10.09,
+      "small_premium": 1.004,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 39.6
+     },
+     "30": {
+      "flats": 122640,
+      "rent_zensus": 7.17,
+      "rent_recent": 8.54,
+      "rent_asking": 11.98,
+      "rent_old_method": 11.94,
+      "small_premium": 0.993,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 28.5
+     },
+     "20": {
+      "flats": 258485,
+      "rent_zensus": 7.36,
+      "rent_recent": 9.17,
+      "rent_asking": 13.33,
+      "rent_old_method": 12.8,
+      "small_premium": 0.99,
+      "nk_cold": 1.4,
+      "nk_warm": 1.2,
+      "dist_km": 18.8
+     },
+     "10": {
+      "flats": 1018487,
+      "rent_zensus": 7.5,
+      "rent_recent": 9.29,
+      "rent_asking": 14.09,
+      "rent_old_method": 13.77,
+      "small_premium": 1.005,
+      "nk_cold": 1.6,
+      "nk_warm": 1.2,
+      "dist_km": 9.1
+     },
+     "0": {
+      "flats": 430010,
+      "rent_zensus": 8.25,
+      "rent_recent": 9.29,
+      "rent_asking": 14.09,
+      "rent_old_method": 15.16,
+      "small_premium": 1.021,
+      "nk_cold": 1.6,
+      "nk_warm": 1.2,
+      "dist_km": 3.5
      }
     }
    }
@@ -253,6 +317,63 @@
       "nk_warm": 1.3,
       "dist_km": 5.4
      }
+    },
+    "stops": {
+     "40": {
+      "flats": 81915,
+      "rent_zensus": 7.54,
+      "rent_recent": 8.35,
+      "rent_asking": 10.76,
+      "rent_old_method": 10.86,
+      "small_premium": 1.071,
+      "nk_cold": 1.16,
+      "nk_warm": 1.06,
+      "dist_km": 40.3
+     },
+     "30": {
+      "flats": 98119,
+      "rent_zensus": 7.82,
+      "rent_recent": 8.74,
+      "rent_asking": 11.49,
+      "rent_old_method": 11.48,
+      "small_premium": 1.056,
+      "nk_cold": 1.24,
+      "nk_warm": 1.14,
+      "dist_km": 29.2
+     },
+     "20": {
+      "flats": 133188,
+      "rent_zensus": 8.72,
+      "rent_recent": 9.92,
+      "rent_asking": 13.15,
+      "rent_old_method": 13.07,
+      "small_premium": 1.031,
+      "nk_cold": 1.32,
+      "nk_warm": 1.18,
+      "dist_km": 18.9
+     },
+     "10": {
+      "flats": 479951,
+      "rent_zensus": 8.55,
+      "rent_recent": 10.8,
+      "rent_asking": 14.57,
+      "rent_old_method": 13.63,
+      "small_premium": 1.003,
+      "nk_cold": 1.58,
+      "nk_warm": 1.29,
+      "dist_km": 9.5
+     },
+     "0": {
+      "flats": 256901,
+      "rent_zensus": 10.3,
+      "rent_recent": 10.88,
+      "rent_asking": 14.68,
+      "rent_old_method": 16.51,
+      "small_premium": 0.992,
+      "nk_cold": 1.6,
+      "nk_warm": 1.3,
+      "dist_km": 3.5
+     }
     }
    }
   },
@@ -375,6 +496,63 @@
       "nk_cold": 1.4,
       "nk_warm": 1.4,
       "dist_km": 4.8
+     }
+    },
+    "stops": {
+     "40": {
+      "flats": 59816,
+      "rent_zensus": 8.69,
+      "rent_recent": 9.99,
+      "rent_asking": 13.48,
+      "rent_old_method": 13.4,
+      "small_premium": 1.078,
+      "nk_cold": 1.39,
+      "nk_warm": 1.39,
+      "dist_km": 41.1
+     },
+     "30": {
+      "flats": 87129,
+      "rent_zensus": 9.91,
+      "rent_recent": 11.29,
+      "rent_asking": 14.97,
+      "rent_old_method": 14.96,
+      "small_premium": 1.075,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 30.6
+     },
+     "20": {
+      "flats": 101527,
+      "rent_zensus": 10.86,
+      "rent_recent": 12.32,
+      "rent_asking": 16.6,
+      "rent_old_method": 16.75,
+      "small_premium": 1.056,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 19.7
+     },
+     "10": {
+      "flats": 330325,
+      "rent_zensus": 11.93,
+      "rent_recent": 15.13,
+      "rent_asking": 20.34,
+      "rent_old_method": 19.31,
+      "small_premium": 1.035,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 8.6
+     },
+     "0": {
+      "flats": 338364,
+      "rent_zensus": 13.48,
+      "rent_recent": 15.68,
+      "rent_asking": 21.01,
+      "rent_old_method": 21.98,
+      "small_premium": 1.04,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 3.1
      }
     }
    }
@@ -499,6 +677,63 @@
       "nk_warm": 1.2,
       "dist_km": 4.6
      }
+    },
+    "stops": {
+     "40": {
+      "flats": 453563,
+      "rent_zensus": 7.04,
+      "rent_recent": 7.77,
+      "rent_asking": 10.24,
+      "rent_old_method": 10.32,
+      "small_premium": 1.034,
+      "nk_cold": 1.39,
+      "nk_warm": 1.12,
+      "dist_km": 39.4
+     },
+     "30": {
+      "flats": 489952,
+      "rent_zensus": 7.91,
+      "rent_recent": 8.97,
+      "rent_asking": 11.57,
+      "rent_old_method": 11.55,
+      "small_premium": 1.046,
+      "nk_cold": 1.4,
+      "nk_warm": 1.13,
+      "dist_km": 30.3
+     },
+     "20": {
+      "flats": 241835,
+      "rent_zensus": 7.6,
+      "rent_recent": 8.62,
+      "rent_asking": 11.28,
+      "rent_old_method": 11.19,
+      "small_premium": 1.043,
+      "nk_cold": 1.4,
+      "nk_warm": 1.17,
+      "dist_km": 20.8
+     },
+     "10": {
+      "flats": 274522,
+      "rent_zensus": 8.14,
+      "rent_recent": 9.94,
+      "rent_asking": 12.76,
+      "rent_old_method": 12.05,
+      "small_premium": 1.032,
+      "nk_cold": 1.4,
+      "nk_warm": 1.2,
+      "dist_km": 10.1
+     },
+     "0": {
+      "flats": 254140,
+      "rent_zensus": 9.9,
+      "rent_recent": 11.06,
+      "rent_asking": 13.79,
+      "rent_old_method": 14.54,
+      "small_premium": 1.042,
+      "nk_cold": 1.4,
+      "nk_warm": 1.2,
+      "dist_km": 3.1
+     }
     }
    }
   },
@@ -621,6 +856,63 @@
       "nk_cold": 1.4,
       "nk_warm": 1.3,
       "dist_km": 4.9
+     }
+    },
+    "stops": {
+     "40": {
+      "flats": 131395,
+      "rent_zensus": 7.36,
+      "rent_recent": 8.38,
+      "rent_asking": 10.94,
+      "rent_old_method": 10.92,
+      "small_premium": 1.093,
+      "nk_cold": 1.2,
+      "nk_warm": 1.16,
+      "dist_km": 39.2
+     },
+     "30": {
+      "flats": 315886,
+      "rent_zensus": 8.87,
+      "rent_recent": 10.0,
+      "rent_asking": 12.85,
+      "rent_old_method": 12.99,
+      "small_premium": 1.077,
+      "nk_cold": 1.32,
+      "nk_warm": 1.25,
+      "dist_km": 30.2
+     },
+     "20": {
+      "flats": 172525,
+      "rent_zensus": 8.33,
+      "rent_recent": 9.67,
+      "rent_asking": 12.64,
+      "rent_old_method": 12.48,
+      "small_premium": 1.061,
+      "nk_cold": 1.4,
+      "nk_warm": 1.3,
+      "dist_km": 20.1
+     },
+     "10": {
+      "flats": 297933,
+      "rent_zensus": 9.11,
+      "rent_recent": 11.39,
+      "rent_asking": 14.71,
+      "rent_old_method": 13.91,
+      "small_premium": 1.04,
+      "nk_cold": 1.4,
+      "nk_warm": 1.3,
+      "dist_km": 9.5
+     },
+     "0": {
+      "flats": 193889,
+      "rent_zensus": 11.32,
+      "rent_recent": 13.08,
+      "rent_asking": 16.64,
+      "rent_old_method": 17.81,
+      "small_premium": 1.042,
+      "nk_cold": 1.4,
+      "nk_warm": 1.3,
+      "dist_km": 2.8
      }
     }
    }
@@ -745,6 +1037,63 @@
       "nk_warm": 1.2,
       "dist_km": 5.1
      }
+    },
+    "stops": {
+     "40": {
+      "flats": 174580,
+      "rent_zensus": 7.57,
+      "rent_recent": 8.9,
+      "rent_asking": 11.18,
+      "rent_old_method": 11.31,
+      "small_premium": 1.09,
+      "nk_cold": 1.19,
+      "nk_warm": 1.2,
+      "dist_km": 39.6
+     },
+     "30": {
+      "flats": 163901,
+      "rent_zensus": 8.23,
+      "rent_recent": 9.85,
+      "rent_asking": 12.36,
+      "rent_old_method": 12.25,
+      "small_premium": 1.086,
+      "nk_cold": 1.16,
+      "nk_warm": 1.2,
+      "dist_km": 30.3
+     },
+     "20": {
+      "flats": 150976,
+      "rent_zensus": 8.69,
+      "rent_recent": 10.03,
+      "rent_asking": 12.97,
+      "rent_old_method": 13.11,
+      "small_premium": 1.07,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 19.4
+     },
+     "10": {
+      "flats": 234376,
+      "rent_zensus": 9.39,
+      "rent_recent": 11.37,
+      "rent_asking": 14.67,
+      "rent_old_method": 14.29,
+      "small_premium": 1.065,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 9.8
+     },
+     "0": {
+      "flats": 119307,
+      "rent_zensus": 10.75,
+      "rent_recent": 12.44,
+      "rent_asking": 16.02,
+      "rent_old_method": 16.57,
+      "small_premium": 1.042,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 2.8
+     }
     }
    }
   },
@@ -867,6 +1216,63 @@
       "nk_cold": 1.4,
       "nk_warm": 1.1,
       "dist_km": 4.6
+     }
+    },
+    "stops": {
+     "40": {
+      "flats": 626214,
+      "rent_zensus": 6.71,
+      "rent_recent": 7.66,
+      "rent_asking": 9.63,
+      "rent_old_method": 9.55,
+      "small_premium": 1.032,
+      "nk_cold": 1.33,
+      "nk_warm": 1.13,
+      "dist_km": 39.6
+     },
+     "30": {
+      "flats": 973451,
+      "rent_zensus": 7.25,
+      "rent_recent": 8.18,
+      "rent_asking": 10.33,
+      "rent_old_method": 10.39,
+      "small_premium": 1.028,
+      "nk_cold": 1.4,
+      "nk_warm": 1.14,
+      "dist_km": 30.3
+     },
+     "20": {
+      "flats": 494346,
+      "rent_zensus": 6.61,
+      "rent_recent": 7.31,
+      "rent_asking": 9.46,
+      "rent_old_method": 9.48,
+      "small_premium": 1.012,
+      "nk_cold": 1.4,
+      "nk_warm": 1.11,
+      "dist_km": 21.2
+     },
+     "10": {
+      "flats": 215961,
+      "rent_zensus": 7.85,
+      "rent_recent": 9.09,
+      "rent_asking": 11.9,
+      "rent_old_method": 11.55,
+      "small_premium": 1.011,
+      "nk_cold": 1.4,
+      "nk_warm": 1.1,
+      "dist_km": 9.8
+     },
+     "0": {
+      "flats": 190401,
+      "rent_zensus": 9.48,
+      "rent_recent": 10.54,
+      "rent_asking": 13.77,
+      "rent_old_method": 14.12,
+      "small_premium": 1.012,
+      "nk_cold": 1.4,
+      "nk_warm": 1.1,
+      "dist_km": 2.6
      }
     }
    }

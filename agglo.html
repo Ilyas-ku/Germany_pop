@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Commuter Flat Map</title>
+  </head>
+
+  <body>
+    <main class="ag">
+      <header class="ag-head">
+        <h1>How far do you have to ride for a decent flat?</h1>
+        <p class="ag-sub">
+          A single person earns a typical wage in the city and spends 30&nbsp;% of net pay on
+          the warm rent of a flat on a new lease. Every 10&nbsp;km from the main station,
+          the flat gets bigger.
+        </p>
+      </header>
+
+      <nav id="tabs" class="ag-tabs" aria-label="City"></nav>
+
+      <div class="ag-controls" role="radiogroup" aria-label="Income">
+        <span>Income</span>
+        <label><input type="radio" name="persona" value="median" checked /> median earner</label>
+        <label><input type="radio" name="persona" value="p25" /> lower quarter</label>
+      </div>
+
+      <section class="ag-card ag-story">
+        <div id="story"></div>
+      </section>
+
+      <section class="ag-card ag-mapcard">
+        <div class="ag-mapwrap">
+          <div id="map" class="ag-map"></div>
+          <aside class="ag-side">
+            <h2 id="map-title">Flat size by municipality</h2>
+            <div id="legend" class="ag-legend"></div>
+            <div id="info" class="ag-info">Hover or tap a municipality.</div>
+            <div class="ag-lists">
+              <section>
+                <h3>Most space for the money</h3>
+                <table id="best"></table>
+              </section>
+              <section>
+                <h3>Least space</h3>
+                <table id="worst"></table>
+              </section>
+            </div>
+            <p class="ag-note">Towns with at least 10,000 inhabitants within 40 km of the main station.</p>
+          </aside>
+        </div>
+      </section>
+
+      <footer class="ag-note" id="method"></footer>
+    </main>
+
+    <script type="module" src="/src/agglo.js"></script>
+  </body>
+</html>
