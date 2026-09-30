@@ -14,6 +14,7 @@ const dir = path.resolve("public/data/agglo");
 const flats = JSON.parse(fs.readFileSync("public/data/flats.json", "utf8"));
 const round = (v, d = 0) => Math.round(v * 10 ** d) / 10 ** d;
 
+const summary = {};
 for (const file of fs.readdirSync(dir).filter(f => f.endsWith(".geojson"))) {
   const geo = JSON.parse(fs.readFileSync(path.join(dir, file), "utf8"));
   const city = flats.cities.find(c => c.name === geo.meta.city);
@@ -35,6 +36,16 @@ for (const file of fs.readdirSync(dir).filter(f => f.endsWith(".geojson"))) {
     stops: Object.fromEntries(flats.meta.stops.map(s => [s, city.modes.stops[s]])),
   };
   fs.writeFileSync(path.join(dir, file), JSON.stringify(geo));
+  // compact per-city numbers for the all-cities comparison (cities.html)
+  const m = geo.meta;
+  summary[file.replace(".geojson", "")] = {
+    city: m.city, wage: m.wage, net: m.net, share: m.share,
+    stops: Object.fromEntries(Object.entries(m.stops).map(([km, st]) => [km, {
+      rent: st.rent,
+      m2: Object.fromEntries(Object.entries(st.personas).map(([k, v]) => [k, v.m2])),
+    }])),
+  };
   const vals = geo.features.map(f => f.properties.m2_median).filter(Boolean).sort((a, b) => a - b);
   console.log(file, geo.features.length, "m² median-earner range", vals[0], "–", vals.at(-1));
 }
+fs.writeFileSync(path.join(dir, "summary.json"), JSON.stringify(summary));

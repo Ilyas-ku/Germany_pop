@@ -16,6 +16,7 @@ export default defineConfig({
         netwage: page("./netwage.html"),
         warmrent: page("./warmrent.html"),
         agglo: page("./agglo.html"),
+        cities: page("./cities.html"),
       },
     },
   },
