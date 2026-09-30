@@ -30,7 +30,7 @@ const cache = new Map();
 
 /* ---------- infographic ---------- */
 
-// House with its base centred at (cx, base); width w ∝ sqrt(m²)
+// House with its base centred at (cx, base); the caller sets width w ∝ m²
 function house(cx, base, w, cls) {
   const h = w * 0.66, roof = w * 0.46, x = cx - w / 2, top = base - h;
   const door = `<rect x="${cx - w * 0.09}" y="${base - h * 0.52}" width="${w * 0.18}" height="${h * 0.52}" rx="${w * 0.03}" class="door"/>`;
@@ -44,18 +44,32 @@ function house(cx, base, w, cls) {
 }
 
 function rider(x, y) {
-  // commuter on a bike, wheels resting on the road line y
+  // commuter on a bike heading right, wheels on line y; drawn twice so a white
+  // halo keeps it readable on the dark road
   const r = 13;
-  return `<g class="rider" transform="translate(${x} ${y})">
-    <path d="M-66 -24 h26 M-72 -14 h30 M-62 -4 h22" class="speed"/>
+  const body = `
     <circle cx="-20" cy="${-r}" r="${r}" class="wheel"/><circle cx="20" cy="${-r}" r="${r}" class="wheel"/>
     <path d="M-20 ${-r} L-4 ${-r} L10 ${-r - 18} L-8 ${-r - 18} Z M10 ${-r - 18} L20 ${-r} M-8 ${-r - 18} L-12 ${-r - 24} M10 ${-r - 18} L12 ${-r - 26} h6" class="frame"/>
+    <path d="M-10 ${-r - 26} L2 ${-r - 14} L-4 ${-r}" class="limb"/>
     <path d="M-10 ${-r - 26} L4 ${-r - 52}" class="torso"/>
     <path d="M4 ${-r - 48} L16 ${-r - 28}" class="limb"/>
-    <path d="M-10 ${-r - 26} L2 ${-r - 14} L-4 ${-r}" class="limb"/>
+    <rect x="-16" y="${-r - 52}" width="13" height="17" rx="3" class="bag"/>
     <circle cx="8" cy="${-r - 62}" r="9" class="head"/>
-    <path d="M-2 ${-r - 66} q10 -12 20 -2" class="helmet"/>
-    <rect x="-14" y="${-r - 50}" width="12" height="16" rx="3" class="bag"/>
+    <path d="M-2 ${-r - 66} q10 -12 20 -2" class="helmet"/>`;
+  return `<g transform="translate(${x} ${y})">
+    <path d="M-70 -30 h24 M-78 -18 h30 M-66 -6 h20" class="speed"/>
+    <g class="halo">${body}</g><g class="rider">${body}</g>
+  </g>`;
+}
+
+// German "leaving town" sign: yellow plate, city name, red diagonal bar
+function ortsschild(cx, base, name, scale = 1) {
+  const w = (Math.max(56, name.length * 10.5) + 18) * scale, h = 40 * scale, y = base - 64 * scale;
+  return `<g class="ort">
+    <rect x="${cx - 2.5 * scale}" y="${y + h}" width="${5 * scale}" height="${base - y - h}" class="post"/>
+    <rect x="${cx - w / 2}" y="${y}" width="${w}" height="${h}" rx="${5 * scale}" class="plate"/>
+    <text x="${cx}" y="${y + h / 2 + 5 * scale}" text-anchor="middle" class="t-ort" font-size="${14 * scale}">${esc(name)}</text>
+    <line x1="${cx - w / 2 + 6 * scale}" y1="${y + h - 6 * scale}" x2="${cx + w / 2 - 6 * scale}" y2="${y + 6 * scale}" class="bar"/>
   </g>`;
 }
 
@@ -75,17 +89,23 @@ const STORY_CSS = `
   .road{fill:#34373f}.lane{stroke:#fff;stroke-width:3;stroke-dasharray:18 14}
   .sun{fill:#ffcf6e}
   .t0{fill:#28324a}.t1{fill:#3b4766}.t2{fill:#51607f}.skywin{fill:#ffd98a;opacity:.55}
-  .fits .body{fill:#2f9e8f}.fits .roof{fill:#16655c}
-  .short .body{fill:#ff8a6a}.short .roof{fill:#d9533a}
+  .home .body{fill:#ff8a6a}.home .roof{fill:#d9533a}
   .door{fill:#14161c;opacity:.75}.win{fill:#fff7e6}.chim{fill:#5b4a44}
-  .ghost .body,.ghost .roof{fill:none;stroke:#14161c;stroke-width:1.6;stroke-dasharray:5 5;opacity:.45}
-  .wheel{fill:none;stroke:#14161c;stroke-width:3}.frame{fill:none;stroke:#ff6b4a;stroke-width:3.5;stroke-linejoin:round;stroke-linecap:round}
-  .torso{stroke:#14161c;stroke-width:9;stroke-linecap:round}.limb{fill:none;stroke:#14161c;stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round}
-  .head{fill:#f2c7a5}.helmet{fill:none;stroke:#ff6b4a;stroke-width:6;stroke-linecap:round}.bag{fill:#ffcf6e}
-  .speed{stroke:#14161c;stroke-width:3;stroke-linecap:round;opacity:.35}
+  .ghost .body,.ghost .roof{fill:none;stroke:#14161c;stroke-width:1.8;stroke-dasharray:6 5;opacity:.55}
+  .halo *{fill:#fffdf8;stroke:#fffdf8;stroke-width:12px;stroke-linejoin:round;stroke-linecap:round}
+  .rider .wheel{fill:none;stroke:#14161c;stroke-width:4}
+  .rider .frame{fill:none;stroke:#e8431f;stroke-width:4;stroke-linejoin:round;stroke-linecap:round}
+  .rider .torso{stroke:#ffc21a;stroke-width:11;stroke-linecap:round}
+  .rider .limb{fill:none;stroke:#14161c;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+  .rider .head{fill:#f2c7a5;stroke:#14161c;stroke-width:1.5}
+  .rider .helmet{fill:none;stroke:#e8431f;stroke-width:6;stroke-linecap:round}
+  .rider .bag{fill:#1d6fd6;stroke:#14161c;stroke-width:1.5}
+  .speed{stroke:#fffdf8;stroke-width:4;stroke-linecap:round;opacity:.85}
+  .plate{fill:#ffd500;stroke:#14161c;stroke-width:2.5}.post{fill:#6b6e75}
+  .bar{stroke:#e2231a;stroke-width:3;stroke-linecap:round;opacity:.9}
+  .t-ort{font-family:Inter,system-ui,sans-serif;font-weight:800;fill:#14161c}
   .t-title{font:800 34px Inter,system-ui,sans-serif;fill:#14161c;letter-spacing:-.02em}
   .t-sub{font:500 17px Inter,system-ui,sans-serif;fill:#3c3f47}
-  .t-sub b{font-weight:800}
   .t-m2{font:800 30px Inter,system-ui,sans-serif;fill:#14161c;letter-spacing:-.02em}
   .t-km{font:700 15px Inter,system-ui,sans-serif;fill:#14161c}
   .t-det{font:500 13px Inter,system-ui,sans-serif;fill:#3c3f47}
@@ -98,34 +118,34 @@ function storyNumbers() {
   const m = data.meta, net = m.net[persona];
   return {
     gross: m.wage[persona], net, budget: net * m.share,
+    town: m.city.split(" am ")[0],
     stops: STOPS.map(s => ({ km: +s, rent: m.stops[s].rent, ...m.stops[s].personas[persona] })),
   };
 }
 
 function storyHorizontal(title) {
   const n = storyNumbers();
-  const W = 1200, H = 580, base = 392, roadY = 408;
-  const xs = [150, 410, 640, 870, 1100];
-  const w60 = 118, width = (m2) => w60 * Math.sqrt(m2 / REF_M2);
+  const W = 1200, H = 600, base = 408, roadY = 424;
+  const xs = [128, 490, 690, 890, 1090];
+  // house width grows linearly with flat size, so differences stand out
+  const w60 = 104, width = (m2) => w60 * m2 / REF_M2;
   let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${esc(title)}: flat size for 30 % of net pay every 10 km from the centre">
   <style>${STORY_CSS}</style>
   <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="bg0"/><stop offset="1" class="bg1"/></linearGradient></defs>
   <rect width="${W}" height="${H}" fill="url(#sky)"/>
-  <circle cx="1105" cy="96" r="46" class="sun"/>
+  <circle cx="1105" cy="90" r="42" class="sun"/>
   <path d="M0 ${base - 40} C 200 ${base - 110}, 380 ${base - 20}, 560 ${base - 70} S 900 ${base - 120}, 1200 ${base - 50} V ${H} H 0 Z" class="hill"/>
   <path d="M0 ${base - 10} C 260 ${base - 60}, 520 ${base}, 760 ${base - 36} S 1060 ${base - 60}, 1200 ${base - 20} V ${H} H 0 Z" class="hill2"/>
   <rect y="${base}" width="${W}" height="${H - base}" class="ground"/>
-  <rect y="${roadY}" width="${W}" height="46" class="road"/>
-  <line x1="0" x2="${W}" y1="${roadY + 23}" y2="${roadY + 23}" class="lane"/>
+  <rect x="${xs[0] - 40}" y="${roadY}" width="${W - xs[0] + 40}" height="46" rx="10" class="road"/>
+  <line x1="${xs[0]}" x2="${W}" y1="${roadY + 23}" y2="${roadY + 23}" class="lane"/>
   <text x="44" y="64" class="t-title">${esc(title)}</text>
   <text x="44" y="98" class="t-sub">${WAGE_LABEL[persona]} gross pay <tspan font-weight="800">${fmtEur(n.gross)}</tspan> → net <tspan font-weight="800">${fmtEur(n.net)}</tspan> → <tspan font-weight="800">${fmtEur(n.budget)}</tspan> a month for warm rent (30 %)</text>
-  <g transform="translate(44 124)">${house(12, 22, 20, "fits")}<text x="30" y="18" class="t-leg">60 m² or more fits</text>
-    ${house(192, 22, 20, "short")}<text x="210" y="18" class="t-leg">less than 60 m²</text>
-    ${house(362, 22, 20, "ghost")}<text x="380" y="18" class="t-leg">a 60 m² flat</text></g>`;
+  <g transform="translate(44 124)">${house(12, 22, 22, "home")}<text x="32" y="18" class="t-leg">the wider the house, the bigger the flat you can rent</text>
+    ${house(500, 22, 22, "ghost")}<text x="520" y="18" class="t-leg">a 60 m² flat for comparison</text></g>`;
 
   n.stops.forEach((st, i) => {
     const x = xs[i];
-    const cls = st.m2 >= REF_M2 ? "fits" : "short";
     if (i === 0) {
       s += skyline(x, base, 1);
       s += `<rect x="${x - 58}" y="${base - 196}" width="116" height="38" rx="19" class="pill"/>`;
@@ -133,7 +153,7 @@ function storyHorizontal(title) {
     } else {
       const w = width(st.m2);
       s += house(x, base, w60, "ghost");
-      s += house(x, base, w, cls);
+      s += house(x, base, w, "home");
       const top = base - Math.max(w, w60) * 1.12 - 14;
       s += `<text x="${x}" y="${top}" text-anchor="middle" class="t-m2">${st.m2} m²</text>`;
     }
@@ -141,7 +161,9 @@ function storyHorizontal(title) {
     s += `<text x="${x}" y="${roadY + 98}" text-anchor="middle" class="t-det">${fmt1(st.rent)} €/m² warm</text>`;
     s += `<text x="${x}" y="${roadY + 118}" text-anchor="middle" class="t-det">60 m² = ${pct(st.share)} of net</text>`;
   });
-  s += rider(262, roadY + 30);
+  // leaving town: sign right after the skyline, rider riding away from it
+  s += ortsschild(262, base, n.town);
+  s += rider(352, roadY + 34);
   s += `<text x="44" y="${H - 14}" class="t-foot">Warm rent of a new lease: BBSR asking rents 2025, Zensus 2022, Mikrozensus 2022. Net pay: single, tax class I, 2025 rules. Each house: ±5 km from the main station.</text>`;
   return s + `</svg>`;
 }
@@ -149,36 +171,35 @@ function storyHorizontal(title) {
 function storyVertical(title) {
   const n = storyNumbers();
   const W = 390, rowH = 150, top = 190, H = top + rowH * 5 + 60;
-  const roadX = 36, hx = 140, w60 = 76, width = (m2) => w60 * Math.sqrt(m2 / REF_M2);
+  const roadX = 36, hx = 140, w60 = 66, width = (m2) => w60 * m2 / REF_M2;
   let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${esc(title)}: flat size for 30 % of net pay every 10 km from the centre">
   <style>${STORY_CSS}</style>
   <defs><linearGradient id="skyv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="bg0"/><stop offset=".35" class="bg1"/></linearGradient></defs>
   <rect width="${W}" height="${H}" fill="url(#skyv)"/>
   <circle cx="362" cy="26" r="20" class="sun"/>
-  <rect x="${roadX - 18}" y="${top - 20}" width="36" height="${rowH * 5 + 10}" rx="6" class="road"/>
-  <line x1="${roadX}" x2="${roadX}" y1="${top - 14}" y2="${top + rowH * 5 - 14}" class="lane"/>
+  <rect x="${roadX - 18}" y="${top + 60}" width="36" height="${rowH * 5 - 70}" rx="8" class="road"/>
+  <line x1="${roadX}" x2="${roadX}" y1="${top + 70}" y2="${top + rowH * 5 - 14}" class="lane"/>
   <text x="20" y="48" class="t-title" font-size="28">${esc(title)}</text>
   <text x="20" y="78" class="t-sub" font-size="14">${WAGE_LABEL[persona]} gross ${fmtEur(n.gross)} → net ${fmtEur(n.net)}</text>
   <text x="20" y="100" class="t-sub" font-size="14"><tspan font-weight="800">${fmtEur(n.budget)}</tspan> a month for warm rent (30 %)</text>
-  <g transform="translate(20 124)">${house(8, 16, 14, "fits")}<text x="22" y="14" class="t-leg" font-size="12">≥ 60 m²</text>
-    ${house(98, 16, 14, "short")}<text x="112" y="14" class="t-leg" font-size="12">&lt; 60 m²</text>
-    ${house(198, 16, 14, "ghost")}<text x="212" y="14" class="t-leg" font-size="12">60 m² flat</text></g>`;
+  <g transform="translate(20 124)">${house(8, 16, 16, "home")}<text x="24" y="14" class="t-leg" font-size="12">wider = bigger flat</text>
+    ${house(196, 16, 16, "ghost")}<text x="212" y="14" class="t-leg" font-size="12">a 60 m² flat</text></g>`;
   n.stops.forEach((st, i) => {
     const y = top + i * rowH + rowH - 44;
-    const cls = st.m2 >= REF_M2 ? "fits" : "short";
     if (i === 0) {
-      s += skyline(hx, y, 0.62);
+      s += skyline(hx - 40, y, 0.62);
     } else {
       s += house(hx, y, w60, "ghost");
-      s += house(hx, y, width(st.m2), cls);
+      s += house(hx, y, width(st.m2), "home");
     }
     s += `<text x="232" y="${y - 58}" class="t-m2" font-size="28">${st.m2} m²</text>`;
     s += `<text x="232" y="${y - 36}" class="t-km">${i === 0 ? "Centre" : `${st.km} km`}</text>`;
     s += `<text x="232" y="${y - 16}" class="t-det">${fmt1(st.rent)} €/m² warm</text>`;
     s += `<text x="232" y="${y + 2}" class="t-det">60 m² = ${pct(st.share)} of net</text>`;
   });
-  // rider heading down the road, between the centre and the 10 km house
-  s += `<g transform="translate(${roadX - 4} ${top + rowH - 4}) rotate(90) scale(0.62)">${rider(0, 0)}</g>`;
+  // leaving town: sign where the road leaves the skyline, rider heading down the road
+  s += ortsschild(roadX + 64, top + rowH + 22, n.town, 0.72);
+  s += `<g transform="translate(${roadX - 4} ${top + rowH + 44}) rotate(90) scale(0.62)">${rider(0, 0)}</g>`;
   s += `<text x="20" y="${H - 22}" class="t-foot">BBSR asking rents 2025, Zensus 2022, Mikrozensus 2022.</text>`;
   s += `<text x="20" y="${H - 8}" class="t-foot">Net pay: single, tax class I, 2025 rules.</text>`;
   return s + `</svg>`;
