@@ -32,27 +32,39 @@ const cache = new Map();
 
 // ---- illustration parts (flat style with a little depth) ----
 
-// House standing on (cx, base); facade width w grows linearly with flat size
+// Flat 2D house standing on (cx, base) with body width w
 function house(cx, base, w, cls = "home") {
-  const d = w * 0.2, dy = d * 0.5, h = w * 0.62, rh = w * 0.44, ov = w * 0.07;
-  const x = cx - (w + d) / 2, top = base - h, mid = x + w / 2;
+  const h = w * 0.64, rh = w * 0.46, ov = w * 0.1, x = cx - w / 2, top = base - h;
   if (cls === "ghost") {
-    return `<path d="M${x} ${base} V${top} H${x + w} V${base} M${x - ov} ${top} L${mid} ${top - rh} L${x + w + ov} ${top}" class="ghost"/>`;
+    return `<path d="M${x} ${base} V${top} H${x + w} V${base} M${x - ov} ${top} L${cx} ${top - rh} L${x + w + ov} ${top}" class="ghost"/>`;
   }
-  const win = (wx) => `<g class="win"><rect x="${wx}" y="${top + h * 0.2}" width="${w * 0.2}" height="${w * 0.2}" rx="${w * 0.02}"/>` +
-    `<path d="M${wx + w * 0.1} ${top + h * 0.2} v${w * 0.2} M${wx} ${top + h * 0.2 + w * 0.1} h${w * 0.2}"/></g>`;
+  const ww = w * 0.2, wy = top + h * 0.2;
+  const win = (wx) => `<g class="win">
+      <rect x="${wx - ww * 0.28}" y="${wy}" width="${ww * 0.26}" height="${ww}" rx="${ww * 0.06}" class="shutter"/>
+      <rect x="${wx + ww * 1.02}" y="${wy}" width="${ww * 0.26}" height="${ww}" rx="${ww * 0.06}" class="shutter"/>
+      <rect x="${wx}" y="${wy}" width="${ww}" height="${ww}" rx="${ww * 0.1}" class="glass-w"/>
+      <path d="M${wx + ww / 2} ${wy} v${ww} M${wx} ${wy + ww / 2} h${ww}" class="mullion"/>
+      <rect x="${wx - ww * 0.08}" y="${wy + ww}" width="${ww * 1.16}" height="${ww * 0.2}" rx="${ww * 0.06}" class="flowerbox"/>
+      <circle cx="${wx + ww * 0.2}" cy="${wy + ww - ww * 0.02}" r="${ww * 0.09}" class="flower"/>
+      <circle cx="${wx + ww * 0.5}" cy="${wy + ww - ww * 0.04}" r="${ww * 0.09}" class="flower f2"/>
+      <circle cx="${wx + ww * 0.8}" cy="${wy + ww - ww * 0.02}" r="${ww * 0.09}" class="flower"/></g>`;
+  const cw = w * 0.1, chx = x + w * 0.68;
   return `<g class="home">
-    <ellipse cx="${cx + d * 0.3}" cy="${base + 2}" rx="${(w + d) * 0.62}" ry="${Math.max(3, w * 0.05)}" class="shadow"/>
-    <path d="M${x + w} ${base} L${x + w + d} ${base - dy} V${top - dy} L${x + w} ${top} Z" class="side"/>
-    <rect x="${x}" y="${top}" width="${w}" height="${h}" class="facade"/>
-    <path d="M${mid} ${top - rh} L${mid + d} ${top - rh - dy} L${x + w + ov + d} ${top - dy} L${x + w + ov} ${top} Z" class="roof-side"/>
-    <path d="M${x - ov} ${top} L${mid} ${top - rh} L${x + w + ov} ${top} Z" class="roof"/>
-    <circle cx="${mid}" cy="${top - rh * 0.38}" r="${w * 0.055}" class="attic"/>
-    ${win(x + w * 0.1)}${win(x + w * 0.7)}
-    <path d="M${mid - w * 0.1} ${base} V${base - h * 0.42} a${w * 0.1} ${w * 0.1} 0 0 1 ${w * 0.2} 0 V${base} Z" class="door"/>
-    <circle cx="${mid + w * 0.055}" cy="${base - h * 0.22}" r="${Math.max(1.2, w * 0.012)}" class="knob"/>
-    <circle cx="${x - w * 0.02}" cy="${base - w * 0.07}" r="${w * 0.1}" class="bush"/>
-    <circle cx="${x + w * 0.1}" cy="${base - w * 0.05}" r="${w * 0.075}" class="bush2"/>
+    <ellipse cx="${cx}" cy="${base + 2}" rx="${w * 0.66}" ry="${Math.max(3, w * 0.045)}" class="shadow"/>
+    <rect x="${chx}" y="${top - rh * 0.78}" width="${cw}" height="${rh * 0.6}" rx="${cw * 0.15}" class="chimney"/>
+    <circle cx="${chx + cw * 0.9}" cy="${top - rh * 0.95}" r="${cw * 0.42}" class="smoke"/>
+    <circle cx="${chx + cw * 1.8}" cy="${top - rh * 1.15}" r="${cw * 0.55}" class="smoke"/>
+    <rect x="${x}" y="${top}" width="${w}" height="${h}" rx="${w * 0.02}" class="facade"/>
+    <rect x="${x}" y="${base - h * 0.1}" width="${w}" height="${h * 0.1}" class="plinth"/>
+    <path d="M${x - ov} ${top + w * 0.02} L${cx} ${top - rh} L${x + w + ov} ${top + w * 0.02}" class="roof" stroke-width="${w * 0.08}"/>
+    <path d="M${x + w * 0.02} ${top} L${cx} ${top - rh + w * 0.06} L${x + w * 0.98} ${top} Z" class="gable"/>
+    <circle cx="${cx}" cy="${top - rh * 0.36}" r="${w * 0.06}" class="attic"/>
+    ${win(x + w * 0.14)}${win(x + w * 0.66)}
+    <path d="M${cx - w * 0.1} ${base} V${base - h * 0.4} a${w * 0.1} ${w * 0.1} 0 0 1 ${w * 0.2} 0 V${base} Z" class="door"/>
+    <circle cx="${cx + w * 0.06}" cy="${base - h * 0.22}" r="${Math.max(1.2, w * 0.013)}" class="knob"/>
+    <rect x="${cx - w * 0.15}" y="${base - w * 0.025}" width="${w * 0.3}" height="${w * 0.03}" rx="${w * 0.01}" class="step"/>
+    <circle cx="${x - w * 0.04}" cy="${base - w * 0.07}" r="${w * 0.1}" class="bush"/>
+    <circle cx="${x + w * 0.08}" cy="${base - w * 0.045}" r="${w * 0.07}" class="bush2"/>
   </g>`;
 }
 
@@ -90,50 +102,57 @@ function carTop(cx, cy) {
 
 // German "leaving town" sign: yellow plate, city name, thin red diagonal bar
 function ortsschild(cx, base, name, scale = 1) {
-  const w = (Math.max(56, name.length * 10.5) + 18) * scale, h = 40 * scale, y = base - 64 * scale;
+  const w = (Math.max(56, name.length * 11) + 22) * scale, h = 40 * scale, y = base - 64 * scale;
   return `<g class="ort">
     <rect x="${cx - 2.5 * scale}" y="${y + h}" width="${5 * scale}" height="${base - y - h}" class="post"/>
     <rect x="${cx - w / 2}" y="${y}" width="${w}" height="${h}" rx="${5 * scale}" class="plate"/>
-    <text x="${cx}" y="${y + h / 2 + 5 * scale}" text-anchor="middle" class="t-ort" font-size="${14 * scale}">${esc(name)}</text>
+    <text x="${cx}" y="${y + h / 2 + 5 * scale}" text-anchor="middle" class="t-ort" style="font-size:${14 * scale}px">${esc(name)}</text>
     <line x1="${cx - w / 2 + 6 * scale}" y1="${y + h - 6 * scale}" x2="${cx + w / 2 - 6 * scale}" y2="${y + 6 * scale}" class="bar"/>
   </g>`;
 }
 
-// City: a back row of towers on the horizon and a front row that the road
-// runs out from between. Returns [back, front] so the road can go in between.
-function city(cx, base, front, s = 1) {
-  const tower = (x, w, h, b, cls) => {
-    const cols = Math.max(1, Math.floor((w - 8 * s) / (9 * s)));
-    const rows = Math.max(1, Math.floor((h - 14 * s) / (13 * s)));
-    let win = "";
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        if ((r * 7 + c * 3 + Math.round(x)) % 5 === 0) continue;
-        win += `<rect x="${x + 5 * s + c * 9 * s}" y="${b - h + 9 * s + r * 13 * s}" width="${5 * s}" height="${6 * s}" class="cwin"/>`;
-      }
-    }
-    return `<rect x="${x}" y="${b - h}" width="${w}" height="${h}" rx="${2 * s}" class="${cls}"/>${win}`;
+// Central business district: glass towers of different heights and tops
+function cbd(cx, base, s = 1) {
+  const tower = (dx, w, h, top, cls) => {
+    const x = cx + dx * s, W = w * s, Hh = h * s, y = base - Hh;
+    let roof = "";
+    if (top === "spire") roof = `<path d="M${x + W / 2} ${y} V${y - 34 * s}" class="spire"/>`;
+    if (top === "slant") roof = `<path d="M${x} ${y} L${x + W} ${y - 18 * s} V${y} Z" class="${cls}"/>`;
+    if (top === "step") roof = `<rect x="${x + W * 0.2}" y="${y - 14 * s}" width="${W * 0.6}" height="${14 * s}" class="${cls}"/>`;
+    let bands = "";
+    for (let yy = y + 10 * s; yy < base - 8 * s; yy += 11 * s) bands += `<rect x="${x + 4 * s}" y="${yy}" width="${W - 8 * s}" height="${4 * s}" class="band"/>`;
+    return `${roof}<rect x="${x}" y="${y}" width="${W}" height="${Hh}" class="${cls}"/>${bands}<rect x="${x}" y="${y}" width="${W * 0.28}" height="${Hh}" class="shine"/>`;
   };
-  const back = [[-104, 34, 118], [-66, 42, 168], [-20, 30, 128], [14, 46, 196], [64, 36, 150], [104, 30, 108]]
-    .map(([dx, w, h], i) => tower(cx + dx * s, w * s, h * s, base, `tw${i % 3}`)).join("") +
-    `<path d="M${cx + 37 * s} ${base - 196 * s} V${base - 232 * s}" class="antenna"/><circle cx="${cx + 37 * s}" cy="${base - 212 * s}" r="${5 * s}" class="antenna-ball"/>`;
-  const fr = [[-128, 58, 64], [-66, 50, 50], [-12, 44, 70], [36, 62, 44]]
-    .map(([dx, w, h]) => tower(cx + dx * s, w * s, h * s, front, "front")).join("");
-  return [`<g>${back}</g>`, `<g>${fr}</g>`];
+  return `<g>` + [
+    [-118, 30, 96, "", "tw2"], [-86, 36, 150, "step", "tw1"], [-50, 30, 118, "", "tw2"],
+    [-20, 40, 214, "spire", "tw0"], [22, 34, 176, "slant", "tw1"], [58, 30, 128, "", "tw2"], [90, 34, 100, "step", "tw1"],
+  ].map(a => tower(...a)).join("") + `</g>`;
+}
+
+// Road leaving the CBD: narrow at the towers' foot, widening towards the viewer,
+// then running right at road level. Returns the road ribbon and its centre line.
+function exitRoad(x0, y0, x1, yTop, roadH, W) {
+  const top = `M${x0 - 6} ${y0} C ${x0 + 40} ${y0}, ${x1 - 120} ${yTop}, ${x1} ${yTop} H ${W}`;
+  const bottom = `V ${yTop + roadH} H ${x1} C ${x1 - 150} ${yTop + roadH}, ${x0 + 30} ${y0 + 4}, ${x0 + 6} ${y0 + 4} Z`;
+  const mid = `M${x0} ${y0 + 2} C ${x0 + 40} ${y0 + 2}, ${x1 - 130} ${yTop + roadH / 2}, ${x1} ${yTop + roadH / 2} H ${W}`;
+  return `<path d="${top} ${bottom}" class="road"/><path d="${mid}" class="lane"/>`;
 }
 
 const STORY_CSS = `
   .bg0{stop-color:#bfe0ff}.bg1{stop-color:#fff3e4}
   .hill{fill:#d5ead0}.hill2{fill:#bfe0b5}.ground{fill:#f1e8d6}
-  .road{fill:#30333b}.lane{stroke:#fff;stroke-width:3;stroke-dasharray:18 14}.kerb{stroke:#fffdf8;stroke-width:2;opacity:.6}
+  .road{fill:#30333b}.lane{fill:none;stroke:#fff;stroke-width:3;stroke-dasharray:18 14}.kerb{stroke:#fffdf8;stroke-width:2;opacity:.6}
   .sun{fill:#ffd166}
-  .tw0{fill:#243150}.tw1{fill:#31416a}.tw2{fill:#435785}.front{fill:#1b2540}.cwin{fill:#ffe39a;opacity:.75}
-  .antenna{stroke:#243150;stroke-width:3}.antenna-ball{fill:#243150}
+  .tw0{fill:#27365c}.tw1{fill:#35507f}.tw2{fill:#4a6b9e}.band{fill:#9fc3ea;opacity:.35}.shine{fill:#fff;opacity:.08}
+  .spire{stroke:#27365c;stroke-width:3;stroke-linecap:round}
   .shadow{fill:#14161c;opacity:.12}
-  .facade{fill:#fbe3c6}.side{fill:#e9bf95}.roof{fill:#dc5a3c}.roof-side{fill:#b8432a}
-  .attic{fill:#bfe0ff;stroke:#fff;stroke-width:1.5}
-  .win rect{fill:#bfe0ff;stroke:#fff;stroke-width:2}.win path{stroke:#fff;stroke-width:1.6}
-  .door{fill:#7a4a2a}.knob{fill:#ffd166}.bush{fill:#6fae5f}.bush2{fill:#8cc47a}
+  .facade{fill:#fde6c8}.plinth{fill:#f0cfa8}.gable{fill:#fbd9b0}
+  .roof{fill:none;stroke:#e0573d;stroke-linejoin:round;stroke-linecap:round}
+  .chimney{fill:#b5654f}.smoke{fill:#fff;opacity:.75}
+  .attic{fill:#cfe8ff;stroke:#fff;stroke-width:1.5}
+  .glass-w{fill:#cfe8ff;stroke:#fff;stroke-width:2}.mullion{stroke:#fff;stroke-width:1.6}
+  .shutter{fill:#5f9e6e}.flowerbox{fill:#a8643f}.flower{fill:#ff6b8a}.f2{fill:#ffd166}
+  .door{fill:#8a5a3c}.knob{fill:#ffd166}.step{fill:#d9b48c}.bush{fill:#6fae5f}.bush2{fill:#8cc47a}
   .ghost{fill:none;stroke:#14161c;stroke-width:1.8;stroke-dasharray:6 5;opacity:.5}
   .car{fill:#2563eb}.car-halo{fill:none;stroke:#fffdf8;stroke-width:7;stroke-linejoin:round}
   .glass{fill:#d6ecff}.roofcar{fill:#1d4fbd}.seam{stroke:#1d4fbd;stroke-width:1.5}
@@ -163,13 +182,16 @@ function storyNumbers() {
   };
 }
 
+// House width grows with the square of the flat size: an exaggeration so that
+// differences are easy to see; the exact m² is printed above each house.
+const houseWidth = (w60, m2) => w60 * (m2 / REF_M2) ** 2;
+
 function storyHorizontal(title) {
   const n = storyNumbers();
-  const W = 1200, H = 660, base = 452, roadY = 458, roadH = 50;
-  const cityX = 150, xs = [cityX, 540, 725, 910, 1095];
-  // facade width grows linearly with flat size, so differences stand out
-  const w60 = 104, width = (m2) => w60 * m2 / REF_M2;
-  const [back, front] = city(cityX, base, roadY + roadH + 10, 0.86);
+  const W = 1200, H = 660, base = 452, roadY = 470, roadH = 52;
+  const cityX = 150, xs = [cityX, 615, 785, 955, 1115];
+  // the biggest house (roof overhang included) must fit its 170-unit slot
+  const w60 = Math.min(90, 130 / (Math.max(...n.stops.map(st => st.m2)) / REF_M2) ** 2);
   let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${esc(title)}: flat size for 30 % of net pay every 10 km from the centre">
   <style>${STORY_CSS}</style>
   <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="bg0"/><stop offset="1" class="bg1"/></linearGradient></defs>
@@ -178,77 +200,74 @@ function storyHorizontal(title) {
   <path d="M0 ${base - 40} C 200 ${base - 110}, 380 ${base - 20}, 560 ${base - 70} S 900 ${base - 120}, 1200 ${base - 50} V ${H} H 0 Z" class="hill"/>
   <path d="M0 ${base - 10} C 260 ${base - 60}, 520 ${base}, 760 ${base - 36} S 1060 ${base - 60}, 1200 ${base - 20} V ${H} H 0 Z" class="hill2"/>
   <rect y="${base}" width="${W}" height="${H - base}" class="ground"/>
-  ${back}
-  <rect x="${cityX}" y="${roadY}" width="${W - cityX}" height="${roadH}" class="road"/>
-  <line x1="${cityX}" x2="${W}" y1="${roadY + 2}" y2="${roadY + 2}" class="kerb"/><line x1="${cityX}" x2="${W}" y1="${roadY + roadH - 2}" y2="${roadY + roadH - 2}" class="kerb"/>
-  <line x1="${cityX}" x2="${W}" y1="${roadY + roadH / 2}" y2="${roadY + roadH / 2}" class="lane"/>
-  ${front}
+  ${cbd(cityX, base, 0.92)}
+  ${exitRoad(cityX, base, 400, roadY, roadH, W)}
   <text x="44" y="64" class="t-title">${esc(title)}</text>
   <text x="44" y="98" class="t-sub">${WAGE_LABEL[persona]} gross pay <tspan font-weight="800">${fmtEur(n.gross)}</tspan> → net <tspan font-weight="800">${fmtEur(n.net)}</tspan> → <tspan font-weight="800">${fmtEur(n.budget)}</tspan> a month for warm rent (30 %)</text>
-  <g transform="translate(44 126)">${house(14, 22, 20)}<text x="36" y="18" class="t-leg">the wider the house, the bigger the flat you can rent</text>
-    ${house(500, 22, 20, "ghost")}<text x="522" y="18" class="t-leg">a 60 m² flat for comparison</text></g>`;
+  <g transform="translate(44 126)">${house(14, 22, 22)}<text x="36" y="18" class="t-leg">bigger house = bigger flat (sizes exaggerated, exact m² above)</text>
+    ${house(560, 22, 22, "ghost")}<text x="582" y="18" class="t-leg">a 60 m² flat for comparison</text></g>`;
 
   n.stops.forEach((st, i) => {
     const x = xs[i];
     if (i === 0) {
-      s += `<rect x="${x - 60}" y="${base - 262}" width="120" height="38" rx="19" class="pill"/>`;
-      s += `<text x="${x}" y="${base - 236}" text-anchor="middle" class="t-pill">${st.m2} m²</text>`;
+      s += `<rect x="${x - 60}" y="${base - 268}" width="120" height="38" rx="19" class="pill"/>`;
+      s += `<text x="${x}" y="${base - 242}" text-anchor="middle" class="t-pill">${st.m2} m²</text>`;
     } else {
-      const w = width(st.m2);
+      const w = houseWidth(w60, st.m2);
       s += house(x, base, w60, "ghost");
       s += house(x, base, w);
       const top = base - Math.max(w, w60) * 1.12 - 16;
       s += `<text x="${x}" y="${top}" text-anchor="middle" class="t-m2">${st.m2} m²</text>`;
     }
-    const ty = roadY + roadH + (i === 0 ? 46 : 32);
+    const ty = roadY + roadH + 32;
     s += `<text x="${x}" y="${ty}" text-anchor="middle" class="t-km">${i === 0 ? "Centre" : `${st.km} km`}</text>`;
     s += `<text x="${x}" y="${ty + 22}" text-anchor="middle" class="t-det">${fmt1(st.rent)} €/m² warm</text>`;
     s += `<text x="${x}" y="${ty + 42}" text-anchor="middle" class="t-det">60 m² = ${pct(st.share)} of net</text>`;
   });
-  // leaving town: sign right where the road leaves the city, car driving away
-  s += ortsschild(310, base, n.town);
-  s += car(356, roadY + roadH - 6);
+  // leaving town: sign where the road reaches the plain, car driving away
+  // clear of the towers even for long town names
+  s += ortsschild(Math.max(330, cityX + 132 + (Math.max(56, n.town.length * 11) + 22) / 2), base, n.town);
+  s += car(410, roadY + roadH - 6);
   s += `<text x="44" y="${H - 14}" class="t-foot">Warm rent of a new lease: BBSR asking rents 2025, Zensus 2022, Mikrozensus 2022. Net pay: single, tax class I, 2025 rules. Each house: ±5 km from the main station.</text>`;
   return s + `</svg>`;
 }
 
 function storyVertical(title) {
   const n = storyNumbers();
-  const W = 390, top = 150, cityBase = top + 150, rowH = 150, first = cityBase + 150;
-  const H = first + rowH * 4 + 10;
-  const roadX = 52, hx = 150, w60 = 66, width = (m2) => w60 * m2 / REF_M2;
-  const [back, front] = city(roadX + 64, cityBase, cityBase + 28, 0.55);
+  const W = 390, cityBase = 330, rowH = 150, first = cityBase + 120;
+  const H = first + rowH * 4 + 40;
+  const roadX = 70, hx = 158, w60 = 60;
   let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${esc(title)}: flat size for 30 % of net pay every 10 km from the centre">
   <style>${STORY_CSS}</style>
   <defs><linearGradient id="skyv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="bg0"/><stop offset=".3" class="bg1"/></linearGradient></defs>
   <rect width="${W}" height="${H}" fill="url(#skyv)"/>
   <circle cx="362" cy="26" r="20" class="sun"/>
-  ${back}
-  <rect x="${roadX - 20}" y="${cityBase - 6}" width="40" height="${H - cityBase - 30}" rx="8" class="road"/>
-  <line x1="${roadX}" x2="${roadX}" y1="${cityBase + 30}" y2="${H - 44}" class="lane"/>
-  ${front}
+  <rect y="${cityBase}" width="${W}" height="${H - cityBase}" class="ground"/>
+  ${cbd(roadX + 20, cityBase, 0.6)}
+  <path d="M${roadX + 16} ${cityBase} C ${roadX + 16} ${cityBase + 40}, ${roadX - 20} ${cityBase + 60}, ${roadX - 20} ${cityBase + 110} V ${H - 50} H ${roadX + 20} V ${cityBase + 110} C ${roadX + 20} ${cityBase + 60}, ${roadX + 24} ${cityBase + 40}, ${roadX + 24} ${cityBase} Z" class="road"/>
+  <path d="M${roadX + 20} ${cityBase + 4} C ${roadX + 20} ${cityBase + 40}, ${roadX} ${cityBase + 60}, ${roadX} ${cityBase + 110} V ${H - 54}" class="lane"/>
   <text x="20" y="48" class="t-title" font-size="28">${esc(title)}</text>
   <text x="20" y="78" class="t-sub" font-size="14">${WAGE_LABEL[persona]} gross ${fmtEur(n.gross)} → net ${fmtEur(n.net)}</text>
   <text x="20" y="100" class="t-sub" font-size="14"><tspan font-weight="800">${fmtEur(n.budget)}</tspan> a month for warm rent (30 %)</text>
-  <g transform="translate(20 126)">${house(10, 16, 16)}<text x="30" y="14" class="t-leg" font-size="12">wider = bigger flat</text>
+  <g transform="translate(20 126)">${house(10, 16, 16)}<text x="30" y="14" class="t-leg" font-size="12">bigger = more m²</text>
     ${house(196, 16, 16, "ghost")}<text x="214" y="14" class="t-leg" font-size="12">a 60 m² flat</text></g>`;
   const centre = n.stops[0];
   s += `<text x="232" y="${cityBase - 58}" class="t-m2" font-size="28">${centre.m2} m²</text>`;
   s += `<text x="232" y="${cityBase - 36}" class="t-km">Centre</text>`;
   s += `<text x="232" y="${cityBase - 16}" class="t-det">${fmt1(centre.rent)} €/m² warm</text>`;
   s += `<text x="232" y="${cityBase + 2}" class="t-det">60 m² = ${pct(centre.share)} of net</text>`;
-  s += ortsschild(roadX + 78, cityBase + 108, n.town, 0.72);
-  s += carTop(roadX, cityBase + 96);
+  s += ortsschild(roadX + 84, cityBase + 78, n.town, 0.85);
+  s += carTop(roadX, cityBase + 132);
   n.stops.slice(1).forEach((st, i) => {
-    const y = first + i * rowH + rowH - 40;
+    const y = first + i * rowH + rowH - 30;
     s += house(hx, y, w60, "ghost");
-    s += house(hx, y, width(st.m2));
-    s += `<text x="232" y="${y - 58}" class="t-m2" font-size="28">${st.m2} m²</text>`;
-    s += `<text x="232" y="${y - 36}" class="t-km">${st.km} km</text>`;
-    s += `<text x="232" y="${y - 16}" class="t-det">${fmt1(st.rent)} €/m² warm</text>`;
-    s += `<text x="232" y="${y + 2}" class="t-det">60 m² = ${pct(st.share)} of net</text>`;
+    s += house(hx, y, houseWidth(w60, st.m2));
+    s += `<text x="238" y="${y - 58}" class="t-m2" font-size="28">${st.m2} m²</text>`;
+    s += `<text x="238" y="${y - 36}" class="t-km">${st.km} km</text>`;
+    s += `<text x="238" y="${y - 16}" class="t-det">${fmt1(st.rent)} €/m² warm</text>`;
+    s += `<text x="238" y="${y + 2}" class="t-det">60 m² = ${pct(st.share)} of net</text>`;
   });
-  s += `<text x="20" y="${H - 22}" class="t-foot">BBSR asking rents 2025, Zensus 2022, Mikrozensus 2022.</text>`;
+  s += `<text x="20" y="${H - 22}" class="t-foot">Sizes exaggerated. BBSR 2025, Zensus 2022, Mikrozensus 2022.</text>`;
   s += `<text x="20" y="${H - 8}" class="t-foot">Net pay: single, tax class I, 2025 rules.</text>`;
   return s + `</svg>`;
 }
