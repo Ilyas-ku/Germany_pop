@@ -129,30 +129,32 @@ function cbd(cx, base, s = 1) {
   ].map(a => tower(...a)).join("") + `</g>`;
 }
 
-// Road leaving the CBD: narrow at the towers' foot, widening towards the viewer,
-// then running right at road level. Returns the road ribbon and its centre line.
-function exitRoad(x0, y0, x1, yTop, roadH, W) {
-  const top = `M${x0 - 6} ${y0} C ${x0 + 40} ${y0}, ${x1 - 120} ${yTop}, ${x1} ${yTop} H ${W}`;
-  const bottom = `V ${yTop + roadH} H ${x1} C ${x1 - 150} ${yTop + roadH}, ${x0 + 30} ${y0 + 4}, ${x0 + 6} ${y0 + 4} Z`;
-  const mid = `M${x0} ${y0 + 2} C ${x0 + 40} ${y0 + 2}, ${x1 - 130} ${yTop + roadH / 2}, ${x1} ${yTop + roadH / 2} H ${W}`;
-  return `<path d="${top} ${bottom}" class="road"/><path d="${mid}" class="lane"/>`;
+// Road leaving the CBD: starts as wide as the towers' base, sweeps down towards
+// the viewer and bends right into the country road. Returns ribbon, edges, lane.
+function exitRoad(xl, xr, y0, x1, yTop, roadH, W) {
+  const yB = yTop + roadH, xm = (xl + xr) / 2;
+  const top = `M${xr} ${y0} C ${xr + 20} ${yTop - 10}, ${x1 - 90} ${yTop}, ${x1} ${yTop} H ${W}`;
+  const bottom = `M${W} ${yB} H ${x1} C ${x1 - 170} ${yB}, ${xl} ${yB + 10}, ${xl} ${y0}`;
+  const mid = `M${xm} ${y0} C ${xm} ${yTop + 20}, ${x1 - 140} ${yTop + roadH / 2}, ${x1} ${yTop + roadH / 2} H ${W}`;
+  return `<path d="${top} V ${yB} H ${x1} C ${x1 - 170} ${yB}, ${xl} ${yB + 10}, ${xl} ${y0} Z" class="road"/>` +
+    `<path d="${top}" class="road-edge"/><path d="${bottom}" class="road-edge"/><path d="${mid}" class="lane"/>`;
 }
 
 const STORY_CSS = `
   .bg0{stop-color:#bfe0ff}.bg1{stop-color:#fff3e4}
   .hill{fill:#d5ead0}.hill2{fill:#bfe0b5}.ground{fill:#f1e8d6}
-  .road{fill:#30333b}.lane{fill:none;stroke:#fff;stroke-width:3;stroke-dasharray:18 14}.kerb{stroke:#fffdf8;stroke-width:2;opacity:.6}
+  .road{fill:#bfc3ca}.road-edge{fill:none;stroke:#9ea3ab;stroke-width:2}.lane{fill:none;stroke:#fff;stroke-width:3;stroke-dasharray:18 14}.kerb{stroke:#fffdf8;stroke-width:2;opacity:.6}
   .sun{fill:#ffd166}
   .tw0{fill:#27365c}.tw1{fill:#35507f}.tw2{fill:#4a6b9e}.band{fill:#9fc3ea;opacity:.35}.shine{fill:#fff;opacity:.08}
   .spire{stroke:#27365c;stroke-width:3;stroke-linecap:round}
   .shadow{fill:#14161c;opacity:.12}
-  .facade{fill:#fde6c8}.plinth{fill:#f0cfa8}.gable{fill:#fbd9b0}
-  .roof{fill:none;stroke:#e0573d;stroke-linejoin:round;stroke-linecap:round}
-  .chimney{fill:#b5654f}.smoke{fill:#fff;opacity:.75}
+  .facade{fill:#e0924f}.plinth{fill:#a9602f}.gable{fill:#d4823f}
+  .roof{fill:none;stroke:#9e2c1c;stroke-linejoin:round;stroke-linecap:round}
+  .chimney{fill:#6e3324}.smoke{fill:#fff;opacity:.75}
   .attic{fill:#cfe8ff;stroke:#fff;stroke-width:1.5}
   .glass-w{fill:#cfe8ff;stroke:#fff;stroke-width:2}.mullion{stroke:#fff;stroke-width:1.6}
-  .shutter{fill:#5f9e6e}.flowerbox{fill:#a8643f}.flower{fill:#ff6b8a}.f2{fill:#ffd166}
-  .door{fill:#8a5a3c}.knob{fill:#ffd166}.step{fill:#d9b48c}.bush{fill:#6fae5f}.bush2{fill:#8cc47a}
+  .shutter{fill:#2f6b45}.flowerbox{fill:#6e3324}.flower{fill:#ff6b8a}.f2{fill:#ffd166}
+  .door{fill:#4e2e1c}.knob{fill:#ffd166}.step{fill:#8a4f28}.bush{fill:#3f7d38}.bush2{fill:#5a9a4c}
   .ghost{fill:none;stroke:#14161c;stroke-width:1.8;stroke-dasharray:6 5;opacity:.5}
   .car{fill:#2563eb}.car-halo{fill:none;stroke:#fffdf8;stroke-width:7;stroke-linejoin:round}
   .glass{fill:#d6ecff}.roofcar{fill:#1d4fbd}.seam{stroke:#1d4fbd;stroke-width:1.5}
@@ -201,7 +203,7 @@ function storyHorizontal(title) {
   <path d="M0 ${base - 10} C 260 ${base - 60}, 520 ${base}, 760 ${base - 36} S 1060 ${base - 60}, 1200 ${base - 20} V ${H} H 0 Z" class="hill2"/>
   <rect y="${base}" width="${W}" height="${H - base}" class="ground"/>
   ${cbd(cityX, base, 0.92)}
-  ${exitRoad(cityX, base, 400, roadY, roadH, W)}
+  ${exitRoad(cityX - 116, cityX + 120, base, 420, roadY, roadH, W)}
   <text x="44" y="64" class="t-title">${esc(title)}</text>
   <text x="44" y="98" class="t-sub">${WAGE_LABEL[persona]} gross pay <tspan font-weight="800">${fmtEur(n.gross)}</tspan> → net <tspan font-weight="800">${fmtEur(n.net)}</tspan> → <tspan font-weight="800">${fmtEur(n.budget)}</tspan> a month for warm rent (30 %)</text>
   <g transform="translate(44 126)">${house(14, 22, 22)}<text x="36" y="18" class="t-leg">bigger house = bigger flat (sizes exaggerated, exact m² above)</text>
@@ -244,8 +246,10 @@ function storyVertical(title) {
   <circle cx="362" cy="26" r="20" class="sun"/>
   <rect y="${cityBase}" width="${W}" height="${H - cityBase}" class="ground"/>
   ${cbd(roadX + 20, cityBase, 0.6)}
-  <path d="M${roadX + 16} ${cityBase} C ${roadX + 16} ${cityBase + 40}, ${roadX - 20} ${cityBase + 60}, ${roadX - 20} ${cityBase + 110} V ${H - 50} H ${roadX + 20} V ${cityBase + 110} C ${roadX + 20} ${cityBase + 60}, ${roadX + 24} ${cityBase + 40}, ${roadX + 24} ${cityBase} Z" class="road"/>
-  <path d="M${roadX + 20} ${cityBase + 4} C ${roadX + 20} ${cityBase + 40}, ${roadX} ${cityBase + 60}, ${roadX} ${cityBase + 110} V ${H - 54}" class="lane"/>
+  <path d="M22 ${cityBase} H 164 C 164 ${cityBase + 50}, ${roadX + 20} ${cityBase + 60}, ${roadX + 20} ${cityBase + 120} V ${H - 50} H ${roadX - 20} V ${cityBase + 120} C ${roadX - 20} ${cityBase + 60}, 22 ${cityBase + 50}, 22 ${cityBase} Z" class="road"/>
+  <path d="M164 ${cityBase} C 164 ${cityBase + 50}, ${roadX + 20} ${cityBase + 60}, ${roadX + 20} ${cityBase + 120} V ${H - 50}" class="road-edge"/>
+  <path d="M22 ${cityBase} C 22 ${cityBase + 50}, ${roadX - 20} ${cityBase + 60}, ${roadX - 20} ${cityBase + 120} V ${H - 50}" class="road-edge"/>
+  <path d="M93 ${cityBase} C 93 ${cityBase + 50}, ${roadX} ${cityBase + 60}, ${roadX} ${cityBase + 120} V ${H - 54}" class="lane"/>
   <text x="20" y="48" class="t-title" font-size="28">${esc(title)}</text>
   <text x="20" y="78" class="t-sub" font-size="14">${WAGE_LABEL[persona]} gross ${fmtEur(n.gross)} → net ${fmtEur(n.net)}</text>
   <text x="20" y="100" class="t-sub" font-size="14"><tspan font-weight="800">${fmtEur(n.budget)}</tspan> a month for warm rent (30 %)</text>
@@ -256,7 +260,7 @@ function storyVertical(title) {
   s += `<text x="232" y="${cityBase - 36}" class="t-km">Centre</text>`;
   s += `<text x="232" y="${cityBase - 16}" class="t-det">${fmt1(centre.rent)} €/m² warm</text>`;
   s += `<text x="232" y="${cityBase + 2}" class="t-det">60 m² = ${pct(centre.share)} of net</text>`;
-  s += ortsschild(roadX + 84, cityBase + 78, n.town, 0.85);
+  s += ortsschild(roadX + 130, cityBase + 84, n.town, 0.85);
   s += carTop(roadX, cityBase + 132);
   n.stops.slice(1).forEach((st, i) => {
     const y = first + i * rowH + rowH - 30;
