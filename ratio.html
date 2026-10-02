@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gehalt vs. Miete</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <div id="hud" class="hud ratio-hud">
+        <div id="hud-title" class="hud-title">Salary vs. rent by district</div>
+        <div class="ratio-sub">
+          Median gross monthly wage ÷ net cold rent for a 70&nbsp;m² flat.
+          Higher = more affordable.
+        </div>
+
+        <div id="rent-mode" class="ratio-mode" role="radiogroup" aria-label="Rent">
+          <label><input type="radio" name="rent" value="ask" checked /> Rent for a new lease (2025)</label>
+          <label><input type="radio" name="rent" value="zen" /> Rent of existing leases (2022)</label>
+        </div>
+
+        <div id="mode" class="ratio-mode" role="radiogroup" aria-label="Wage">
+          <label><input type="radio" name="mode" value="wo" checked /> Wage where people live</label>
+          <label><input type="radio" name="mode" value="ao" /> Wage where people work</label>
+        </div>
+
+        <div id="legend" class="ratio-legend"></div>
+
+        <pre id="hud-text" class="hud-text">Hover or tap a district.</pre>
+
+        <details class="ratio-top">
+          <summary>Top / bottom 10</summary>
+          <div id="rank"></div>
+        </details>
+      </div>
+
+      <div id="map" class="map"></div>
+      <div id="attribution-custom"></div>
+    </div>
+
+    <script type="module" src="/src/ratio.js"></script>
+  </body>
+</html>

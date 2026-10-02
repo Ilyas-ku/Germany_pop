@@ -1,0 +1,97 @@
+@import "./neon.css";
+
+:root {
+  --surface-0: var(--bg);
+  --surface-1: var(--bg);
+  --text-primary: var(--fg);
+  --text-secondary: var(--muted);
+  --text-muted: var(--muted);
+  --grid: var(--line);
+  --no-data: var(--nodata);
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; height: 100%; }
+
+body {
+  background: var(--surface-0);
+  color: var(--text-primary);
+  font: 14px/1.45 var(--body);
+}
+
+/* Side panel and map sit next to each other, so nothing is drawn over the map */
+.wm {
+  display: grid;
+  grid-template-columns: minmax(340px, 400px) 1fr;
+  height: 100vh;
+}
+
+.wm-side {
+  overflow-y: auto;
+  padding: 20px 20px 24px;
+  background: var(--surface-1);
+  border-right: 1px solid var(--grid);
+}
+
+.wm-map { position: relative; min-height: 0; background: var(--surface-0); }
+
+h1 { font: 700 24px/1.15 var(--display); margin: 0 0 6px; }
+h2 { font: 500 13px/1.3 var(--body); margin: 0 0 6px; color: var(--text-secondary); }
+
+.wm-sub { margin: 0 0 14px; color: var(--text-secondary); font-size: 13px; }
+
+.wm-controls { display: grid; gap: 4px; margin-bottom: 14px; }
+.wm-controls label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+.wm-controls input { accent-color: var(--blue); }
+
+.wm-legend { display: grid; gap: 4px; margin-bottom: 14px; font-size: 12px; }
+.wm-legend div { display: grid; grid-template-columns: 16px 120px 1fr; gap: 8px; align-items: center; }
+.wm-legend i { width: 16px; height: 12px; border-radius: 3px; display: block; }
+.wm-legend b { font: 500 12px var(--mono); }
+.wm-legend span { color: var(--text-muted); }
+
+.wm-info {
+  min-height: 108px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--grid);
+  border-radius: 10px;
+  white-space: pre-line;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.wm-info b { font-size: 14px; }
+
+.wm-ranks { display: grid; gap: 16px; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; table-layout: fixed; }
+td { padding: 3px 0; border-bottom: 1px solid var(--grid); vertical-align: top; }
+td.rk { width: 34px; color: var(--text-muted); font-family: var(--mono); font-size: 12px; }
+td.nm { overflow-wrap: break-word; padding-right: 8px; }
+td.v { width: 64px; text-align: right; font-family: var(--mono); font-weight: 500; }
+td.s { width: 76px; text-align: right; color: var(--text-muted); font-family: var(--mono); font-size: 12px; }
+body[data-metric="ratio"] td.v, body:not([data-metric]) td.v { width: 44px; }
+body[data-metric="ratio"] td.s, body:not([data-metric]) td.s { width: 44px; }
+body[data-metric="net"] td.s, body[data-metric="rent"] td.s { width: 0; }
+body[data-metric="rent"] .wm-controls { display: none; }
+tr { cursor: pointer; }
+tr:hover td { background: var(--line); }
+
+.wm-method { margin-top: 18px; font-size: 12px; color: var(--text-secondary); }
+.wm-method summary { cursor: pointer; font-weight: 600; color: var(--text-primary); }
+.wm-method ul { padding-left: 18px; }
+.wm-method li + li { margin-top: 6px; }
+
+/* Phone: map on top, panel below */
+@media (max-width: 760px) {
+  .wm { grid-template-columns: 1fr; grid-template-rows: 62vh auto; height: auto; }
+  .wm-map { order: -1; height: 62vh; }
+  .wm-side { overflow: visible; border-right: 0; border-top: 1px solid var(--grid); padding: 16px; }
+}
+
+/* Wide screens: both rankings side by side, fully visible */
+@media (min-width: 1280px) {
+  .wm { grid-template-columns: 600px 1fr; }
+  .wm-ranks { grid-template-columns: 1fr 1fr; gap: 20px; }
+}

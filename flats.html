@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Commuter Flat Size</title>
+  </head>
+
+  <body>
+    <main class="cm">
+      <header>
+        <h1>What flat can a single commuter afford?</h1>
+        <p class="cm-sub" id="sub"></p>
+      </header>
+
+      <div class="cm-controls" role="radiogroup" aria-label="Income">
+        <span class="cm-controls-label">Income</span>
+        <label><input type="radio" name="persona" value="median" checked /> median earner</label>
+        <label><input type="radio" name="persona" value="p25" /> lower quarter (25th percentile)</label>
+      </div>
+      <div class="cm-controls" role="radiogroup" aria-label="Distance measured from">
+        <span class="cm-controls-label">Distance from</span>
+        <label><input type="radio" name="mode" value="edge" checked /> city boundary</label>
+        <label><input type="radio" name="mode" value="centre" /> main station</label>
+      </div>
+
+      <div id="cards" class="fl-cards"></div>
+
+      <section class="cm-card fl-method">
+        <h2>Method</h2>
+        <ul id="method"></ul>
+      </section>
+    </main>
+
+    <script type="module" src="/src/flats.js"></script>
+  </body>
+</html>
