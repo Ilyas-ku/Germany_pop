@@ -1,36 +1,13 @@
+@import "./neon.css";
+
 :root {
-  color-scheme: light;
-  --surface-0: #f4f4f2;
-  --surface-1: #fcfcfb;
-  --text-primary: #0b0b0b;
-  --text-secondary: #52514e;
-  --text-muted: #7a7973;
-  --grid: #e4e3df;
-  --no-data: #e5e7eb;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --surface-0: #111110;
-    --surface-1: #1a1a19;
-    --text-primary: #ffffff;
-    --text-secondary: #c3c2b7;
-    --text-muted: #8f8e86;
-    --grid: #2c2c2a;
-    --no-data: #383835;
-  }
-}
-
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --surface-0: #111110;
-  --surface-1: #1a1a19;
-  --text-primary: #ffffff;
-  --text-secondary: #c3c2b7;
-  --text-muted: #8f8e86;
-  --grid: #2c2c2a;
-  --no-data: #383835;
+  --surface-0: var(--bg);
+  --surface-1: var(--bg);
+  --text-primary: var(--fg);
+  --text-secondary: var(--muted);
+  --text-muted: var(--muted);
+  --grid: var(--line);
+  --no-data: var(--nodata);
 }
 
 * { box-sizing: border-box; }
@@ -40,7 +17,7 @@ html, body { margin: 0; height: 100%; }
 body {
   background: var(--surface-0);
   color: var(--text-primary);
-  font: 14px/1.45 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font: 14px/1.45 var(--body);
 }
 
 /* Side panel and map sit next to each other, so nothing is drawn over the map */
@@ -59,17 +36,19 @@ body {
 
 .wm-map { position: relative; min-height: 0; background: var(--surface-0); }
 
-h1 { font-size: 22px; margin: 0 0 6px; }
-h2 { font-size: 13px; margin: 0 0 6px; color: var(--text-secondary); }
+h1 { font: 700 24px/1.15 var(--display); margin: 0 0 6px; }
+h2 { font: 500 13px/1.3 var(--body); margin: 0 0 6px; color: var(--text-secondary); }
 
 .wm-sub { margin: 0 0 14px; color: var(--text-secondary); font-size: 13px; }
 
 .wm-controls { display: grid; gap: 4px; margin-bottom: 14px; }
 .wm-controls label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+.wm-controls input { accent-color: var(--blue); }
 
 .wm-legend { display: grid; gap: 4px; margin-bottom: 14px; font-size: 12px; }
 .wm-legend div { display: grid; grid-template-columns: 16px 120px 1fr; gap: 8px; align-items: center; }
 .wm-legend i { width: 16px; height: 12px; border-radius: 3px; display: block; }
+.wm-legend b { font: 500 12px var(--mono); }
 .wm-legend span { color: var(--text-muted); }
 
 .wm-info {
@@ -88,16 +67,16 @@ h2 { font-size: 13px; margin: 0 0 6px; color: var(--text-secondary); }
 
 table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; table-layout: fixed; }
 td { padding: 3px 0; border-bottom: 1px solid var(--grid); vertical-align: top; }
-td.rk { width: 34px; color: var(--text-muted); }
+td.rk { width: 34px; color: var(--text-muted); font-family: var(--mono); font-size: 12px; }
 td.nm { overflow-wrap: break-word; padding-right: 8px; }
-td.v { width: 64px; text-align: right; font-weight: 700; }
-td.s { width: 76px; text-align: right; color: var(--text-muted); }
+td.v { width: 64px; text-align: right; font-family: var(--mono); font-weight: 500; }
+td.s { width: 76px; text-align: right; color: var(--text-muted); font-family: var(--mono); font-size: 12px; }
 body[data-metric="ratio"] td.v, body:not([data-metric]) td.v { width: 44px; }
 body[data-metric="ratio"] td.s, body:not([data-metric]) td.s { width: 44px; }
 body[data-metric="net"] td.s, body[data-metric="rent"] td.s { width: 0; }
 body[data-metric="rent"] .wm-controls { display: none; }
 tr { cursor: pointer; }
-tr:hover td { background: var(--surface-0); }
+tr:hover td { background: var(--line); }
 
 .wm-method { margin-top: 18px; font-size: 12px; color: var(--text-secondary); }
 .wm-method summary { cursor: pointer; font-weight: 600; color: var(--text-primary); }

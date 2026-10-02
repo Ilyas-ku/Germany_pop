@@ -1,12 +1,10 @@
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./warm.css";
 import maplibregl from "maplibre-gl";
+import { C, SCALE } from "./neon.js";
 
 const BASE = import.meta.env.BASE_URL;
 
-const BLUE = ["#b7d3f6", "#6da7ec", "#2a78d6", "#1c5cab", "#0d366b"];
-const ORANGE = ["#fbd9c8", "#f5a888", "#eb6834", "#c24c1c", "#8a3210"];
-const GREEN = ["#cdebd0", "#8fcf95", "#3fa34d", "#1f7a2e", "#0d4d1a"];
 
 const fmtEur = (v) => `${Math.round(v).toLocaleString("de-DE")} €`;
 const fmt2 = (v) => v.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -18,7 +16,7 @@ const between = (fmt, lo, hi) => lo == null ? `< ${fmt(hi)}` : hi == null ? `> $
 const METRICS = {
   ratio: {
     key: (w) => `ratio_${w}`,
-    colors: BLUE,
+    colors: SCALE.blue,
     breaks: [2.5, 3, 3.5, 4],
     range: (lo, hi) => between(fmt1, lo, hi),
     note: (lo, hi) => lo == null ? `rent over ${share(hi)} of net` : hi == null ? `rent under ${share(lo)} of net` : `rent ${share(hi)}–${share(lo)} of net`,
@@ -26,7 +24,7 @@ const METRICS = {
   },
   net: {
     key: (w) => `net_${w}`,
-    colors: GREEN,
+    colors: SCALE.aqua,
     breaks: [2400, 2600, 2800, 3000],
     range: (lo, hi) => between(fmtEur, lo, hi),
     note: () => "",
@@ -34,7 +32,7 @@ const METRICS = {
   },
   rent: {
     key: () => "warm_flat",
-    colors: ORANGE,
+    colors: SCALE.pink,
     breaks: [600, 750, 900, 1050],
     range: (lo, hi) => between(fmtEur, lo, hi),
     note: () => "",
@@ -54,8 +52,6 @@ const legendEl = document.getElementById("legend");
 const infoEl = document.getElementById("info");
 const topEl = document.getElementById("top");
 const bottomEl = document.getElementById("bottom");
-
-const dark = () => matchMedia("(prefers-color-scheme: dark)").matches;
 
 let data, byId, selected = null;
 
@@ -103,7 +99,7 @@ const map = new maplibregl.Map({
   style: {
     version: 8,
     sources: {},
-    layers: [{ id: "background", type: "background", paint: { "background-color": dark() ? "#111110" : "#f4f4f2" } }],
+    layers: [{ id: "background", type: "background", paint: { "background-color": C.bg } }],
   },
   bounds: [[5.8, 47.2], [15.1, 55.1]],
   fitBoundsOptions: { padding: 16 },
@@ -137,16 +133,16 @@ map.on("load", async () => {
   map.addLayer({ id: "kreise-fill", type: "fill", source: "kreise", paint: { "fill-color": fillColor() } });
   map.addLayer({
     id: "kreise-line", type: "line", source: "kreise",
-    paint: { "line-color": dark() ? "#1a1a19" : "#ffffff", "line-width": 0.5 },
+    paint: { "line-color": C.bg, "line-width": 0.6 },
   });
   map.addLayer({
     id: "laender-line", type: "line", source: "laender",
-    paint: { "line-color": dark() ? "#c3c2b7" : "#52514e", "line-width": 1.2, "line-opacity": 0.7 },
+    paint: { "line-color": C.muted, "line-width": 1, "line-opacity": 0.6 },
   });
   map.addLayer({
     id: "kreise-hover", type: "line", source: "kreise",
     paint: {
-      "line-color": dark() ? "#ffffff" : "#0b0b0b",
+      "line-color": C.lemon,
       "line-width": ["case", ["boolean", ["feature-state", "hover"], false], 2.5, 0],
     },
   });

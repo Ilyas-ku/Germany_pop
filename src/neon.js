@@ -2,12 +2,20 @@
 export const C = {
   bg: "#0B0E1A", fg: "#E6E8F0", muted: "#8A90A8", line: "#1E2440", nodata: "#2A2F45", ground: "#262C48",
   blue: "#596FFF", aqua: "#26FFDB", pink: "#FF3396", lemon: "#FFDD33", orchid: "#F68CFF",
+  // binary bad / good (below / above a threshold)
+  bad: "#FF4B89", good: "#08DC96",
 };
+// ± around zero, through white: −4 … −1 | 0 | +1 … +4
+export const DIVERGING = ["#FF4B89", "#FF80A2", "#FFA9BD", "#FFCDD7", "#F2F6FF", "#8CEDBE", "#08DC96", "#07C082", "#01A56F"];
+// five classes use steps 1, 3, 5, 7, 9
+export const DIVERGING5 = [0, 2, 4, 6, 8].map(i => DIVERGING[i]);
 // 1 = weak → 5 = saturated
 export const SCALE = {
   blue: ["#222A67", "#2F3A8B", "#3D4BB0", "#4B5DD7", "#596FFF"],
   aqua: ["#01463B", "#05705F", "#049E86", "#0CCEB0", "#26FFDB"],
   pink: ["#610A35", "#86134B", "#AC1E63", "#D5287C", "#FF3396"],
+  lemon: ["#483D00", "#726201", "#9F890B", "#CEB220", "#FFDD33"],
+  orchid: ["#592D5D", "#7D4382", "#A45AAA", "#CC73D4", "#F68CFF"],
 };
 export const FONT = {
   display: '"Chakra Petch",system-ui,sans-serif',
@@ -15,8 +23,8 @@ export const FONT = {
   mono: '"JetBrains Mono",ui-monospace,monospace',
 };
 export const REF_M2 = 60;
-// binary threshold: aqua = at least the 60 m² reference flat, pink = below
-export const m2Color = (m2) => (m2 >= REF_M2 ? C.aqua : C.pink);
+// binary threshold: good = at least the 60 m² reference flat, bad = below
+export const m2Color = (m2) => (m2 >= REF_M2 ? C.good : C.bad);
 
 export const GLOW = `<filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
 

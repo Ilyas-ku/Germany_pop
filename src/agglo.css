@@ -1,18 +1,5 @@
-/* "Neon" theme for the top-7 city pages: dark only by design */
-:root {
-  color-scheme: dark;
-  --bg: #0b0e1a;
-  --fg: #e6e8f0;
-  --muted: #8a90a8;
-  --line: #1e2440;
-  --nodata: #2a2f45;
-  --blue: #596fff;
-  --aqua: #26ffdb;
-  --pink: #ff3396;
-  --display: "Chakra Petch", system-ui, sans-serif;
-  --body: "IBM Plex Sans", system-ui, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, monospace;
-}
+/* Top-7 city pages, "Neon" theme */
+@import "./neon.css";
 
 * { box-sizing: border-box; }
 
@@ -31,8 +18,8 @@ h1 { font: 700 clamp(26px, 4vw, 40px)/1.1 var(--display); margin: 0; text-wrap: 
 .ag-legend-top { display: flex; flex-wrap: wrap; gap: 22px; font-size: 14px; }
 .ag-legend-top span { display: flex; align-items: center; gap: 8px; }
 .ag-legend-top i { width: 12px; height: 12px; border-radius: 50%; }
-.ag-legend-top .lo { background: var(--pink); box-shadow: 0 0 8px var(--pink); }
-.ag-legend-top .hi { background: var(--aqua); box-shadow: 0 0 8px var(--aqua); }
+.ag-legend-top .lo { background: var(--bad); box-shadow: 0 0 8px var(--bad); }
+.ag-legend-top .hi { background: var(--good); box-shadow: 0 0 8px var(--good); }
 
 .ag-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
 .ag-tabs button {
@@ -61,7 +48,8 @@ h1 { font: 700 clamp(26px, 4vw, 40px)/1.1 var(--display); margin: 0; text-wrap: 
 
 .ag-legend { display: grid; gap: 4px; font-size: 13px; margin-bottom: 12px; }
 .ag-legend div { display: flex; gap: 8px; align-items: center; }
-.ag-legend i { width: 18px; height: 12px; border-radius: 3px; display: block; }
+.ag-legend i { width: 18px; height: 12px; border-radius: 3px; display: block; flex: none; }
+.ag-legend .m2 { margin-left: auto; color: var(--muted); font: 12px var(--mono); }
 
 .ag-info {
   min-height: 112px;
@@ -83,9 +71,6 @@ tr { cursor: pointer; }
 
 .ag-note { color: var(--muted); font: 12px/1.5 var(--mono); margin: 10px 0 0; }
 
-.maplibregl-ctrl-group { background: var(--line) !important; }
-.maplibregl-ctrl-group button + button { border-top-color: var(--bg) !important; }
-.maplibregl-ctrl-icon { filter: invert(1); }
 
 .ag-label {
   font: 500 11px/1 var(--body);

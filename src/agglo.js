@@ -2,7 +2,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import "./agglo.css";
 import maplibregl from "maplibre-gl";
 import * as turf from "@turf/turf";
-import { C, SCALE, FONT, GLOW, house, skyline } from "./neon.js";
+import { C, DIVERGING5, FONT, GLOW, house, skyline } from "./neon.js";
 
 const BASE = import.meta.env.BASE_URL;
 const CITIES = [
@@ -12,10 +12,11 @@ const CITIES = [
 const STOPS = ["0", "10", "20", "30", "40"];
 const WAGE_LABEL = { median: "Median", p25: "Lower-quarter" };
 
-// Map classes: affordable flat size for 30 % of net pay, diverging at the 60 m² reference flat:
-// pink below (brighter = worse), aqua from 60 m² (brighter = better); upper steps of each scale only
-const COLORS = [SCALE.pink[4], SCALE.pink[3], SCALE.pink[2], SCALE.aqua[2], SCALE.aqua[4]];
-const BREAKS = [45, 52, 60, 70];
+// Map classes: deviation of the affordable flat from the 60 m² reference flat,
+// diverging scale (steps 1, 3, 5, 7, 9): ≤ −20 %, −20…−7 %, ±7 %, +7…+20 %, ≥ +20 %
+const COLORS = DIVERGING5;
+const BREAKS = [48, 56, 64, 72];
+const DEV = ["−20 % or less", "−20 to −7 %", "within ±7 %", "+7 to +20 %", "+20 % or more"];
 const NO_DATA = C.nodata;
 
 const fmtEur = (v) => `${Math.round(v).toLocaleString("en-US")} €`;
@@ -118,8 +119,8 @@ function renderLegend() {
   const edges = [null, ...BREAKS, null];
   document.getElementById("legend").innerHTML = COLORS.map((c, i) => {
     const lo = edges[i], hi = edges[i + 1];
-    const label = lo == null ? `under ${hi} m²` : hi == null ? `${lo} m² and more` : `${lo}–${hi} m²`;
-    return `<div><i style="background:${c}"></i>${label}</div>`;
+    const m2 = lo == null ? `< ${hi} m²` : hi == null ? `≥ ${lo} m²` : `${lo}–${hi} m²`;
+    return `<div><i style="background:${c}"></i>${DEV[i]} <span class="m2">${m2}</span></div>`;
   }).reverse().join("") + `<div><i style="background:${NO_DATA}"></i>no rent data (lakes, forests)</div>`;
 }
 

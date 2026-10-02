@@ -2,6 +2,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import "./style.css";
 import "./ratio.css";
 import maplibregl from "maplibre-gl";
+import { C, SCALE } from "./neon.js";
 
 // Wage variants: residence (default) and workplace
 const MODES = {
@@ -18,8 +19,8 @@ let rentMode = "ask";
 const ratioKey = () => `ratio_${mode}_${rentMode}`;
 let FLAT_M2 = 70;
 
-// Sequential blue, light -> dark (higher ratio = more affordable)
-const COLORS = ["#b7d3f6", "#6da7ec", "#2a78d6", "#1c5cab", "#0d366b"];
+// Sequential blue, dim -> bright (higher ratio = more affordable)
+const COLORS = SCALE.blue;
 // Fixed class breaks per rent variant (asking rents shift every ratio down)
 
 const DATA_URL = `${import.meta.env.BASE_URL}data/kreise_ratio.geojson`;
@@ -75,18 +76,8 @@ const map = new maplibregl.Map({
   container: "map",
   style: {
     version: 8,
-    sources: {
-      osm: {
-        type: "raster",
-        tiles: ["https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"],
-        tileSize: 256,
-        attribution: "© OpenStreetMap contributors © CARTO"
-      }
-    },
-    layers: [
-      { id: "background", type: "background", paint: { "background-color": "#F7F8FB" } },
-      { id: "bg", type: "raster", source: "osm", paint: { "raster-opacity": 0.55 } }
-    ]
+    sources: {},
+    layers: [{ id: "background", type: "background", paint: { "background-color": C.bg } }]
   },
   bounds: [[5.8, 47.2], [15.1, 55.1]],
   fitBoundsOptions: { padding: 20 }
@@ -100,7 +91,7 @@ function fillColor() {
   RENTS[rentMode].breaks.forEach((b, i) => step.push(b, COLORS[i + 1]));
   renderLegend();
   renderRanking(data.features);
-  return ["case", ["has", key], step, "#e5e7eb"];
+  return ["case", ["has", key], step, C.nodata];
 }
 
 let hovered = null;
@@ -117,7 +108,7 @@ map.on("load", async () => {
     id: "kreise-fill",
     type: "fill",
     source: "kreise",
-    paint: { "fill-color": fillColor(), "fill-opacity": 0.85 }
+    paint: { "fill-color": fillColor() }
   });
 
   map.addLayer({
@@ -125,7 +116,7 @@ map.on("load", async () => {
     type: "line",
     source: "kreise",
     paint: {
-      "line-color": ["case", ["boolean", ["feature-state", "hover"], false], "#111827", "#ffffff"],
+      "line-color": ["case", ["boolean", ["feature-state", "hover"], false], C.lemon, C.bg],
       "line-width": ["case", ["boolean", ["feature-state", "hover"], false], 2, 0.6]
     }
   });
