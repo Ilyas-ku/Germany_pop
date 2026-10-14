@@ -18,6 +18,7 @@ export default defineConfig({
         agglo: page("./agglo.html"),
         cities: page("./cities.html"),
         ride: page("./ride.html"),
+        story: page("./story.html"),
       },
     },
   },
