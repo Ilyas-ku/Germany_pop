@@ -17,6 +17,7 @@ export default defineConfig({
         warmrent: page("./warmrent.html"),
         agglo: page("./agglo.html"),
         cities: page("./cities.html"),
+        ride: page("./ride.html"),
       },
     },
   },
