@@ -1,0 +1,31 @@
+:root { --flat: #2a78d6; --flat-fill: rgba(42, 120, 214, 0.16); --road: #d8d7d2; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --flat: #3987e5; --flat-fill: rgba(57, 135, 229, 0.22); --road: #3a3a37; }
+}
+:root[data-theme="dark"] { --flat: #3987e5; --flat-fill: rgba(57, 135, 229, 0.22); --road: #3a3a37; }
+
+.fl-cards { display: grid; gap: 16px; }
+
+.fl-card { background: var(--surface-1); border-radius: 14px; padding: 18px 18px 14px; }
+
+.fl-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+.fl-head h2 { font-size: 20px; margin: 0; }
+
+.fl-money { display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: baseline; color: var(--text-secondary); font-size: 13px; }
+.fl-money b { color: var(--text-primary); font-size: 15px; font-variant-numeric: tabular-nums; }
+.fl-money .arrow { color: var(--text-muted); }
+
+.fl-road { position: relative; margin-top: 14px; }
+.fl-road svg { display: block; width: 100%; height: auto; overflow: visible; }
+.fl-road text { fill: var(--text-secondary); font-size: 12px; font-variant-numeric: tabular-nums; }
+.fl-road .m2 { fill: var(--text-primary); font-size: 16px; font-weight: 700; }
+.fl-road .band { fill: var(--text-muted); font-size: 12px; }
+.fl-road .flat { fill: var(--flat-fill); stroke: var(--flat); stroke-width: 2; }
+.fl-road .ref { fill: none; stroke: var(--text-muted); stroke-width: 1; stroke-dasharray: 3 3; }
+.fl-road .road { stroke: var(--road); stroke-width: 6; stroke-linecap: round; }
+.fl-road .stop { fill: var(--surface-1); stroke: var(--text-muted); stroke-width: 2; }
+
+.fl-road .over { fill: var(--text-primary); font-weight: 700; }
+.fl-method ul { margin: 0; padding-left: 18px; color: var(--text-secondary); font-size: 13px; }
+.fl-method li + li { margin-top: 6px; }

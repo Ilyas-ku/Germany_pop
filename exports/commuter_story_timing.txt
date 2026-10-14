@@ -1,0 +1,14 @@
+Voice-over timing for commuter_story.mp4 (start – end of each scene)
+
+01  0:00.0 – 0:06.5  How quickly do rent prices decrease as you move away from the city center?
+02  0:06.5 – 0:12.0  Nearly 3 million employees work in Germany's seven largest cities but live outside them.
+03  0:12.0 – 0:17.5  Munich alone draws 530,000 people from beyond its borders, more than Berlin does.
+04  0:17.5 – 0:28.0  Since I also work in Frankfurt and live in another city, I wanted to know what the commuters like me actually get for the ride.
+05  0:28.0 – 0:39.5  First, how far they travel. Among commuters who live within 100 km of their city, half live closer than about 20 to 26 km from the main station.
+06  0:39.5 – 0:48.5  Stuttgart and Frankfurt have the shortest typical commutes, at around 20 km. Berlin and Hamburg have the longest, at around 26 km.
+07  0:48.5 – 1:02.0  Then, what that distance buys. Picture a single person earning the median wage in the city who spends 30 % of their net pay on warm rent for a flat on a new lease.
+08  1:02.0 – 1:08.5  In the city center, that buys between 40 and 55 m², depending on the city.
+09  1:08.5 – 1:29.5  Twenty kilometres out, the picture splits. In Düsseldorf, the same budget rents 75 m². In Stuttgart, Frankfurt and Cologne it reaches about 60 m², which is a comfortable flat for one person. Hamburg and Berlin stay in the low 50s. Munich, with the highest net pay of the seven, stays below 50 m².
+10  1:29.5 – 1:36.0  This is yet another proof of Munich being the most expensive city in Germany.
+11  1:36.0 – 1:55.0  At the same time, I was a bit surprised how fast the prices drop for Cologne and Düsseldorf. Due to high level of urbanization in Rhine-Ruhr region I expected the prices to be flatter compared to other big cities. Probably this level of development distributes housing demand.
+12  1:55.0 – 2:00.5  (end card, no voice-over)

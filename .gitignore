@@ -6,3 +6,7 @@ dist
 .vscode
 .idea
 *.log
+data-src/ratio/kreise*.geojson
+data-src/ratio/cache/
+__pycache__/
+data-src/ratio/gemeinden_simple.geojson

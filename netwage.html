@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Net Wage Map</title>
+  </head>
+
+  <body data-metric="net">
+    <div class="wm">
+      <aside class="wm-side">
+        <h1>Median net wage</h1>
+        <p class="wm-sub">
+          Median net monthly wage by district, single person, tax class I, 2025 rules. Brighter = higher net pay.
+        </p>
+
+        <div class="wm-controls" role="radiogroup" aria-label="Wage">
+          <label><input type="radio" name="wage" value="wo" checked /> Wage where people live</label>
+          <label><input type="radio" name="wage" value="ao" /> Wage where people work</label>
+        </div>
+
+        <div id="legend" class="wm-legend"></div>
+
+        <div id="info" class="wm-info">Hover or tap a district.</div>
+
+        <div class="wm-ranks">
+          <section>
+            <h2>Highest net wage</h2>
+            <table id="top"></table>
+          </section>
+          <section>
+            <h2>Lowest net wage</h2>
+            <table id="bottom"></table>
+          </section>
+        </div>
+
+        <details class="wm-method">
+          <summary>Method and sources</summary>
+          <ul id="method"></ul>
+        </details>
+      </aside>
+
+      <div id="map" class="wm-map"></div>
+    </div>
+
+    <script type="module" src="/src/warm.js"></script>
+  </body>
+</html>

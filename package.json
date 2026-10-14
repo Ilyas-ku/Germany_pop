@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:ratio": "mapshaper-xl public/data/Germany_Gemeinde.geojson -each \"KRS=AGS.slice(0,5)\" -dissolve KRS -simplify 8% keep-shapes -o precision=0.0001 format=geojson data-src/ratio/kreise.geojson && node scripts/build-ratio.mjs",
+    "ratio:data": "mapshaper-xl public/data/Germany_Gemeinde.geojson -each \"KRS=AGS.slice(0,5)\" -dissolve KRS -o format=geojson data-src/ratio/kreise_full.geojson && python3 scripts/ratio_data.py",
+    "commute:data": "python3 scripts/commute_data.py && python3 scripts/commute_distance.py && PYTHONPATH=scripts python3 scripts/affordability_data.py && node scripts/flats_data.mjs",
+    "build:warm": "PYTHONPATH=scripts python3 scripts/warm_data.py && node scripts/build-warm.mjs",
+    "build:agglo": "mapshaper-xl public/data/Germany_Gemeinde.geojson -simplify 12% keep-shapes -o precision=0.0001 format=geojson data-src/ratio/gemeinden_simple.geojson && PYTHONPATH=scripts python3 scripts/agglo_data.py && node scripts/build-agglo.mjs"
   },
   "dependencies": {
     "@turf/turf": "^7.2.0",
@@ -15,6 +20,8 @@
     "rbush": "^4.0.1"
   },
   "devDependencies": {
+    "lohnsteuerrechner": "^1.0.7",
+    "mapshaper": "^0.6.121",
     "vite": "^7.3.0"
   }
 }
