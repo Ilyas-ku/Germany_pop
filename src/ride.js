@@ -80,7 +80,7 @@ function carSvg() {
   const st = `fill="none" stroke="${C.blue}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"`;
   return `<g id="car">
     <g id="speed" opacity="0"><path d="M-78 -30 H-56 M-90 -20 H-58 M-80 -10 H-60" ${st}/></g>
-    <g filter="url(#glow)">
+    <g filter="url(#glow)" transform="scale(-1 1)"><!-- body drawn facing left, mirrored so the bonnet leads -->
       <path d="M-46 -8 V-18 Q-45 -23 -38 -24 L-22 -25 L-10 -38 Q-7 -41 -2 -41 H19 Q24 -41 27 -37 L35 -25 L43 -23 Q47 -22 47 -16 V-8 Z" fill="${C.bg}" ${st}/>
       <path d="M-16 -25 L-6 -36 H5 V-25 Z M10 -25 V-36 H20 L28 -25 Z" ${st}/>
       <circle cx="0" cy="-31" r="3.6" ${st}/>
