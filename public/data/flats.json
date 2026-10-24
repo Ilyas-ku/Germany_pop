@@ -1,0 +1,3596 @@
+{
+ "meta": {
+  "share": 0.3,
+  "flat_m2": 60,
+  "ticket": 58,
+  "tax_year": 2025,
+  "bands": [
+   "city",
+   "0-10",
+   "10-20",
+   "20-30",
+   "30-40"
+  ],
+  "stops": [
+   "0",
+   "10",
+   "20",
+   "30",
+   "40"
+  ],
+  "assumptions": "Single, tax class I, no children, no church tax, statutory health insurance with average Zusatzbeitrag (2.5 %), 2025 tax and contribution rules. Includes the commuting allowance.",
+  "sources": "BBSR asking rents 2025 per district; Zensus 2022 rents of recent movers per municipality (table 5000H-0009), 1 km and 100 m grids (Destatis); Mikrozensus 2022 utilities and heating (Destatis). Wages: Bundesagentur für Arbeit, workplace, 31.12.2024."
+ },
+ "cities": [
+  {
+   "name": "Berlin",
+   "wage": {
+    "median": 4198,
+    "p25": 3136
+   },
+   "modes": {
+    "edge": {
+     "30-40": {
+      "flats": 57168,
+      "rent_zensus": 5.64,
+      "rent_recent": 6.41,
+      "rent_asking": 8.5,
+      "rent_old_method": 8.72,
+      "small_premium": 1.016,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 55.5,
+      "rent": 11.04,
+      "rent_prev": 10.06,
+      "personas": {
+       "median": {
+        "net": 2787,
+        "cost": 662,
+        "share": 0.238,
+        "share_ticket": 0.258,
+        "m2": 76,
+        "share_prev": 0.217,
+        "m2_old": 144
+       },
+       "p25": {
+        "net": 2198,
+        "cost": 662,
+        "share": 0.301,
+        "share_ticket": 0.328,
+        "m2": 60,
+        "share_prev": 0.275,
+        "m2_old": 113
+       }
+      }
+     },
+     "20-30": {
+      "flats": 49709,
+      "rent_zensus": 6,
+      "rent_recent": 6.92,
+      "rent_asking": 9.65,
+      "rent_old_method": 9.69,
+      "small_premium": 1.014,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 46.2,
+      "rent": 12.19,
+      "rent_prev": 11.03,
+      "personas": {
+       "median": {
+        "net": 2767,
+        "cost": 731,
+        "share": 0.264,
+        "share_ticket": 0.285,
+        "m2": 68,
+        "share_prev": 0.239,
+        "m2_old": 135
+       },
+       "p25": {
+        "net": 2181,
+        "cost": 731,
+        "share": 0.335,
+        "share_ticket": 0.362,
+        "m2": 54,
+        "share_prev": 0.303,
+        "m2_old": 106
+       }
+      }
+     },
+     "10-20": {
+      "flats": 61874,
+      "rent_zensus": 6.57,
+      "rent_recent": 7.84,
+      "rent_asking": 11.17,
+      "rent_old_method": 10.93,
+      "small_premium": 1.001,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 32.4,
+      "rent": 13.58,
+      "rent_prev": 12.14,
+      "personas": {
+       "median": {
+        "net": 2738,
+        "cost": 815,
+        "share": 0.298,
+        "share_ticket": 0.319,
+        "m2": 60,
+        "share_prev": 0.266,
+        "m2_old": 124
+       },
+       "p25": {
+        "net": 2155,
+        "cost": 815,
+        "share": 0.378,
+        "share_ticket": 0.405,
+        "m2": 48,
+        "share_prev": 0.338,
+        "m2_old": 97
+       }
+      }
+     },
+     "0-10": {
+      "flats": 218514,
+      "rent_zensus": 7.54,
+      "rent_recent": 8.99,
+      "rent_asking": 12.53,
+      "rent_old_method": 12.5,
+      "small_premium": 0.987,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 23,
+      "rent": 14.77,
+      "rent_prev": 13.54,
+      "personas": {
+       "median": {
+        "net": 2717,
+        "cost": 886,
+        "share": 0.326,
+        "share_ticket": 0.347,
+        "m2": 55,
+        "share_prev": 0.299,
+        "m2_old": 108
+       },
+       "p25": {
+        "net": 2136,
+        "cost": 886,
+        "share": 0.415,
+        "share_ticket": 0.442,
+        "m2": 43,
+        "share_prev": 0.38,
+        "m2_old": 85
+       }
+      }
+     },
+     "city": {
+      "flats": 1568174,
+      "rent_zensus": 7.67,
+      "rent_recent": 9.29,
+      "rent_asking": 14.09,
+      "rent_old_method": 14.1,
+      "small_premium": 1.009,
+      "nk_cold": 1.6,
+      "nk_warm": 1.2,
+      "dist_km": 8.2,
+      "rent": 17.02,
+      "rent_prev": 15.83,
+      "personas": {
+       "median": {
+        "net": 2708,
+        "cost": 1021,
+        "share": 0.377,
+        "share_ticket": 0.398,
+        "m2": 48,
+        "share_prev": 0.351,
+        "m2_old": 106
+       },
+       "p25": {
+        "net": 2128,
+        "cost": 1021,
+        "share": 0.48,
+        "share_ticket": 0.507,
+        "m2": 38,
+        "share_prev": 0.446,
+        "m2_old": 83
+       }
+      }
+     }
+    },
+    "centre": {
+     "30-40": {
+      "flats": 56824,
+      "rent_zensus": 6.6,
+      "rent_recent": 7.86,
+      "rent_asking": 11.33,
+      "rent_old_method": 11.11,
+      "small_premium": 0.994,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 34.2,
+      "rent": 13.66,
+      "rent_prev": 12.24,
+      "personas": {
+       "median": {
+        "net": 2742,
+        "cost": 820,
+        "share": 0.299,
+        "share_ticket": 0.32,
+        "m2": 60,
+        "share_prev": 0.268,
+        "m2_old": 123
+       },
+       "p25": {
+        "net": 2158,
+        "cost": 820,
+        "share": 0.38,
+        "share_ticket": 0.407,
+        "m2": 47,
+        "share_prev": 0.34,
+        "m2_old": 97
+       }
+      }
+     },
+     "20-30": {
+      "flats": 167726,
+      "rent_zensus": 7.45,
+      "rent_recent": 8.95,
+      "rent_asking": 12.24,
+      "rent_old_method": 12.2,
+      "small_premium": 0.992,
+      "nk_cold": 1.21,
+      "nk_warm": 1.2,
+      "dist_km": 25,
+      "rent": 14.55,
+      "rent_prev": 13.31,
+      "personas": {
+       "median": {
+        "net": 2721,
+        "cost": 873,
+        "share": 0.321,
+        "share_ticket": 0.342,
+        "m2": 56,
+        "share_prev": 0.293,
+        "m2_old": 109
+       },
+       "p25": {
+        "net": 2140,
+        "cost": 873,
+        "share": 0.408,
+        "share_ticket": 0.435,
+        "m2": 44,
+        "share_prev": 0.373,
+        "m2_old": 86
+       }
+      }
+     },
+     "10-20": {
+      "flats": 570472,
+      "rent_zensus": 7.21,
+      "rent_recent": 9.25,
+      "rent_asking": 13.98,
+      "rent_old_method": 13.15,
+      "small_premium": 0.996,
+      "nk_cold": 1.56,
+      "nk_warm": 1.2,
+      "dist_km": 13.7,
+      "rent": 16.68,
+      "rent_prev": 14.66,
+      "personas": {
+       "median": {
+        "net": 2708,
+        "cost": 1001,
+        "share": 0.37,
+        "share_ticket": 0.391,
+        "m2": 49,
+        "share_prev": 0.325,
+        "m2_old": 113
+       },
+       "p25": {
+        "net": 2128,
+        "cost": 1001,
+        "share": 0.47,
+        "share_ticket": 0.498,
+        "m2": 38,
+        "share_prev": 0.413,
+        "m2_old": 89
+       }
+      }
+     },
+     "city": {
+      "flats": 1568174,
+      "rent_zensus": 7.67,
+      "rent_recent": 9.29,
+      "rent_asking": 14.09,
+      "rent_old_method": 14.1,
+      "small_premium": 1.009,
+      "nk_cold": 1.6,
+      "nk_warm": 1.2,
+      "dist_km": 8.2,
+      "rent": 17.02,
+      "rent_prev": 15.83,
+      "personas": {
+       "median": {
+        "net": 2708,
+        "cost": 1021,
+        "share": 0.377,
+        "share_ticket": 0.398,
+        "m2": 48,
+        "share_prev": 0.351,
+        "m2_old": 106
+       },
+       "p25": {
+        "net": 2128,
+        "cost": 1021,
+        "share": 0.48,
+        "share_ticket": 0.507,
+        "m2": 38,
+        "share_prev": 0.446,
+        "m2_old": 83
+       }
+      }
+     },
+     "0-10": {
+      "flats": 1055207,
+      "rent_zensus": 7.92,
+      "rent_recent": 9.29,
+      "rent_asking": 14.09,
+      "rent_old_method": 14.55,
+      "small_premium": 1.013,
+      "nk_cold": 1.6,
+      "nk_warm": 1.2,
+      "dist_km": 5.6,
+      "rent": 17.07,
+      "rent_prev": 16.34,
+      "personas": {
+       "median": {
+        "net": 2708,
+        "cost": 1024,
+        "share": 0.378,
+        "share_ticket": 0.4,
+        "m2": 48,
+        "share_prev": 0.362,
+        "m2_old": 103
+       },
+       "p25": {
+        "net": 2128,
+        "cost": 1024,
+        "share": 0.481,
+        "share_ticket": 0.509,
+        "m2": 37,
+        "share_prev": 0.461,
+        "m2_old": 81
+       }
+      }
+     }
+    },
+    "stops": {
+     "0": {
+      "flats": 430010,
+      "rent_zensus": 8.25,
+      "rent_recent": 9.29,
+      "rent_asking": 14.09,
+      "rent_old_method": 15.16,
+      "small_premium": 1.021,
+      "nk_cold": 1.6,
+      "nk_warm": 1.2,
+      "dist_km": 3.5,
+      "rent": 17.19,
+      "rent_prev": 17.08,
+      "personas": {
+       "median": {
+        "net": 2708,
+        "cost": 1031,
+        "share": 0.381,
+        "share_ticket": 0.402,
+        "m2": 47,
+        "share_prev": 0.378,
+        "m2_old": 98
+       },
+       "p25": {
+        "net": 2128,
+        "cost": 1031,
+        "share": 0.484,
+        "share_ticket": 0.512,
+        "m2": 37,
+        "share_prev": 0.481,
+        "m2_old": 77
+       }
+      }
+     },
+     "10": {
+      "flats": 1018487,
+      "rent_zensus": 7.5,
+      "rent_recent": 9.29,
+      "rent_asking": 14.09,
+      "rent_old_method": 13.77,
+      "small_premium": 1.005,
+      "nk_cold": 1.6,
+      "nk_warm": 1.2,
+      "dist_km": 9.1,
+      "rent": 16.96,
+      "rent_prev": 15.44,
+      "personas": {
+       "median": {
+        "net": 2708,
+        "cost": 1018,
+        "share": 0.376,
+        "share_ticket": 0.397,
+        "m2": 48,
+        "share_prev": 0.342,
+        "m2_old": 108
+       },
+       "p25": {
+        "net": 2128,
+        "cost": 1018,
+        "share": 0.478,
+        "share_ticket": 0.505,
+        "m2": 38,
+        "share_prev": 0.435,
+        "m2_old": 85
+       }
+      }
+     },
+     "20": {
+      "flats": 258485,
+      "rent_zensus": 7.36,
+      "rent_recent": 9.17,
+      "rent_asking": 13.33,
+      "rent_old_method": 12.8,
+      "small_premium": 0.99,
+      "nk_cold": 1.4,
+      "nk_warm": 1.2,
+      "dist_km": 18.8,
+      "rent": 15.8,
+      "rent_prev": 14.07,
+      "personas": {
+       "median": {
+        "net": 2708,
+        "cost": 948,
+        "share": 0.35,
+        "share_ticket": 0.371,
+        "m2": 51,
+        "share_prev": 0.312,
+        "m2_old": 110
+       },
+       "p25": {
+        "net": 2129,
+        "cost": 948,
+        "share": 0.445,
+        "share_ticket": 0.472,
+        "m2": 40,
+        "share_prev": 0.397,
+        "m2_old": 87
+       }
+      }
+     },
+     "30": {
+      "flats": 122640,
+      "rent_zensus": 7.17,
+      "rent_recent": 8.54,
+      "rent_asking": 11.98,
+      "rent_old_method": 11.94,
+      "small_premium": 0.993,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 28.5,
+      "rent": 14.3,
+      "rent_prev": 13.06,
+      "personas": {
+       "median": {
+        "net": 2729,
+        "cost": 858,
+        "share": 0.314,
+        "share_ticket": 0.336,
+        "m2": 57,
+        "share_prev": 0.287,
+        "m2_old": 113
+       },
+       "p25": {
+        "net": 2147,
+        "cost": 858,
+        "share": 0.4,
+        "share_ticket": 0.427,
+        "m2": 45,
+        "share_prev": 0.365,
+        "m2_old": 89
+       }
+      }
+     },
+     "40": {
+      "flats": 39016,
+      "rent_zensus": 6.16,
+      "rent_recent": 7.26,
+      "rent_asking": 10.19,
+      "rent_old_method": 10.09,
+      "small_premium": 1.004,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 39.6,
+      "rent": 12.63,
+      "rent_prev": 11.33,
+      "personas": {
+       "median": {
+        "net": 2753,
+        "cost": 758,
+        "share": 0.275,
+        "share_ticket": 0.296,
+        "m2": 65,
+        "share_prev": 0.247,
+        "m2_old": 132
+       },
+       "p25": {
+        "net": 2168,
+        "cost": 758,
+        "share": 0.35,
+        "share_ticket": 0.376,
+        "m2": 52,
+        "share_prev": 0.314,
+        "m2_old": 104
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "Hamburg",
+   "wage": {
+    "median": 4527,
+    "p25": 3347
+   },
+   "modes": {
+    "edge": {
+     "30-40": {
+      "flats": 148589,
+      "rent_zensus": 6.89,
+      "rent_recent": 7.84,
+      "rent_asking": 10.51,
+      "rent_old_method": 10.5,
+      "small_premium": 1.058,
+      "nk_cold": 1.27,
+      "nk_warm": 1.17,
+      "dist_km": 55.5,
+      "rent": 13.56,
+      "rent_prev": 12.38,
+      "personas": {
+       "median": {
+        "net": 2964,
+        "cost": 814,
+        "share": 0.275,
+        "share_ticket": 0.294,
+        "m2": 66,
+        "share_prev": 0.251,
+        "m2_old": 125
+       },
+       "p25": {
+        "net": 2318,
+        "cost": 814,
+        "share": 0.351,
+        "share_ticket": 0.376,
+        "m2": 51,
+        "share_prev": 0.32,
+        "m2_old": 98
+       }
+      }
+     },
+     "20-30": {
+      "flats": 66152,
+      "rent_zensus": 7.1,
+      "rent_recent": 7.96,
+      "rent_asking": 10.38,
+      "rent_old_method": 10.33,
+      "small_premium": 1.069,
+      "nk_cold": 1.2,
+      "nk_warm": 1.1,
+      "dist_km": 44.8,
+      "rent": 13.4,
+      "rent_prev": 12.24,
+      "personas": {
+       "median": {
+        "net": 2940,
+        "cost": 804,
+        "share": 0.273,
+        "share_ticket": 0.293,
+        "m2": 66,
+        "share_prev": 0.25,
+        "m2_old": 122
+       },
+       "p25": {
+        "net": 2297,
+        "cost": 804,
+        "share": 0.35,
+        "share_ticket": 0.375,
+        "m2": 51,
+        "share_prev": 0.32,
+        "m2_old": 95
+       }
+      }
+     },
+     "10-20": {
+      "flats": 108039,
+      "rent_zensus": 7.65,
+      "rent_recent": 8.52,
+      "rent_asking": 11.13,
+      "rent_old_method": 11.16,
+      "small_premium": 1.058,
+      "nk_cold": 1.21,
+      "nk_warm": 1.11,
+      "dist_km": 34.3,
+      "rent": 14.1,
+      "rent_prev": 13.02,
+      "personas": {
+       "median": {
+        "net": 2916,
+        "cost": 846,
+        "share": 0.29,
+        "share_ticket": 0.31,
+        "m2": 62,
+        "share_prev": 0.268,
+        "m2_old": 113
+       },
+       "p25": {
+        "net": 2277,
+        "cost": 846,
+        "share": 0.371,
+        "share_ticket": 0.397,
+        "m2": 48,
+        "share_prev": 0.343,
+        "m2_old": 88
+       }
+      }
+     },
+     "0-10": {
+      "flats": 179250,
+      "rent_zensus": 8.57,
+      "rent_recent": 9.58,
+      "rent_asking": 12.63,
+      "rent_old_method": 12.62,
+      "small_premium": 1.042,
+      "nk_cold": 1.25,
+      "nk_warm": 1.15,
+      "dist_km": 19.9,
+      "rent": 15.56,
+      "rent_prev": 14.4,
+      "personas": {
+       "median": {
+        "net": 2884,
+        "cost": 934,
+        "share": 0.324,
+        "share_ticket": 0.344,
+        "m2": 56,
+        "share_prev": 0.3,
+        "m2_old": 101
+       },
+       "p25": {
+        "net": 2248,
+        "cost": 934,
+        "share": 0.415,
+        "share_ticket": 0.441,
+        "m2": 43,
+        "share_prev": 0.384,
+        "m2_old": 79
+       }
+      }
+     },
+     "city": {
+      "flats": 728289,
+      "rent_zensus": 9.17,
+      "rent_recent": 10.87,
+      "rent_asking": 14.68,
+      "rent_old_method": 14.69,
+      "small_premium": 1.001,
+      "nk_cold": 1.6,
+      "nk_warm": 1.3,
+      "dist_km": 7.4,
+      "rent": 17.59,
+      "rent_prev": 16.3,
+      "personas": {
+       "median": {
+        "net": 2882,
+        "cost": 1056,
+        "share": 0.366,
+        "share_ticket": 0.386,
+        "m2": 49,
+        "share_prev": 0.339,
+        "m2_old": 94
+       },
+       "p25": {
+        "net": 2246,
+        "cost": 1056,
+        "share": 0.47,
+        "share_ticket": 0.496,
+        "m2": 38,
+        "share_prev": 0.436,
+        "m2_old": 73
+       }
+      }
+     }
+    },
+    "centre": {
+     "30-40": {
+      "flats": 79729,
+      "rent_zensus": 7.44,
+      "rent_recent": 8.29,
+      "rent_asking": 10.89,
+      "rent_old_method": 10.9,
+      "small_premium": 1.062,
+      "nk_cold": 1.22,
+      "nk_warm": 1.12,
+      "dist_km": 34.3,
+      "rent": 13.91,
+      "rent_prev": 12.8,
+      "personas": {
+       "median": {
+        "net": 2916,
+        "cost": 834,
+        "share": 0.286,
+        "share_ticket": 0.306,
+        "m2": 63,
+        "share_prev": 0.263,
+        "m2_old": 116
+       },
+       "p25": {
+        "net": 2277,
+        "cost": 834,
+        "share": 0.366,
+        "share_ticket": 0.392,
+        "m2": 49,
+        "share_prev": 0.337,
+        "m2_old": 91
+       }
+      }
+     },
+     "20-30": {
+      "flats": 102395,
+      "rent_zensus": 8.36,
+      "rent_recent": 9.28,
+      "rent_asking": 12.17,
+      "rent_old_method": 12.23,
+      "small_premium": 1.049,
+      "nk_cold": 1.22,
+      "nk_warm": 1.12,
+      "dist_km": 24.6,
+      "rent": 15.11,
+      "rent_prev": 14.05,
+      "personas": {
+       "median": {
+        "net": 2895,
+        "cost": 906,
+        "share": 0.313,
+        "share_ticket": 0.333,
+        "m2": 57,
+        "share_prev": 0.291,
+        "m2_old": 103
+       },
+       "p25": {
+        "net": 2257,
+        "cost": 906,
+        "share": 0.402,
+        "share_ticket": 0.427,
+        "m2": 45,
+        "share_prev": 0.373,
+        "m2_old": 81
+       }
+      }
+     },
+     "10-20": {
+      "flats": 301211,
+      "rent_zensus": 8.42,
+      "rent_recent": 10.54,
+      "rent_asking": 14.16,
+      "rent_old_method": 13.16,
+      "small_premium": 1.01,
+      "nk_cold": 1.5,
+      "nk_warm": 1.26,
+      "dist_km": 13.6,
+      "rent": 17.06,
+      "rent_prev": 14.79,
+      "personas": {
+       "median": {
+        "net": 2882,
+        "cost": 1024,
+        "share": 0.355,
+        "share_ticket": 0.375,
+        "m2": 51,
+        "share_prev": 0.308,
+        "m2_old": 103
+       },
+       "p25": {
+        "net": 2246,
+        "cost": 1024,
+        "share": 0.456,
+        "share_ticket": 0.482,
+        "m2": 39,
+        "share_prev": 0.395,
+        "m2_old": 80
+       }
+      }
+     },
+     "city": {
+      "flats": 728289,
+      "rent_zensus": 9.17,
+      "rent_recent": 10.87,
+      "rent_asking": 14.68,
+      "rent_old_method": 14.69,
+      "small_premium": 1.001,
+      "nk_cold": 1.6,
+      "nk_warm": 1.3,
+      "dist_km": 7.4,
+      "rent": 17.59,
+      "rent_prev": 16.3,
+      "personas": {
+       "median": {
+        "net": 2882,
+        "cost": 1056,
+        "share": 0.366,
+        "share_ticket": 0.386,
+        "m2": 49,
+        "share_prev": 0.339,
+        "m2_old": 94
+       },
+       "p25": {
+        "net": 2246,
+        "cost": 1056,
+        "share": 0.47,
+        "share_ticket": 0.496,
+        "m2": 38,
+        "share_prev": 0.436,
+        "m2_old": 73
+       }
+      }
+     },
+     "0-10": {
+      "flats": 520643,
+      "rent_zensus": 9.52,
+      "rent_recent": 10.88,
+      "rent_asking": 14.68,
+      "rent_old_method": 15.26,
+      "small_premium": 0.999,
+      "nk_cold": 1.6,
+      "nk_warm": 1.3,
+      "dist_km": 5.4,
+      "rent": 17.57,
+      "rent_prev": 16.84,
+      "personas": {
+       "median": {
+        "net": 2882,
+        "cost": 1054,
+        "share": 0.366,
+        "share_ticket": 0.386,
+        "m2": 49,
+        "share_prev": 0.351,
+        "m2_old": 91
+       },
+       "p25": {
+        "net": 2246,
+        "cost": 1054,
+        "share": 0.469,
+        "share_ticket": 0.495,
+        "m2": 38,
+        "share_prev": 0.45,
+        "m2_old": 71
+       }
+      }
+     }
+    },
+    "stops": {
+     "0": {
+      "flats": 256901,
+      "rent_zensus": 10.3,
+      "rent_recent": 10.88,
+      "rent_asking": 14.68,
+      "rent_old_method": 16.51,
+      "small_premium": 0.992,
+      "nk_cold": 1.6,
+      "nk_warm": 1.3,
+      "dist_km": 3.5,
+      "rent": 17.46,
+      "rent_prev": 17.98,
+      "personas": {
+       "median": {
+        "net": 2882,
+        "cost": 1048,
+        "share": 0.364,
+        "share_ticket": 0.384,
+        "m2": 50,
+        "share_prev": 0.374,
+        "m2_old": 84
+       },
+       "p25": {
+        "net": 2246,
+        "cost": 1048,
+        "share": 0.466,
+        "share_ticket": 0.492,
+        "m2": 39,
+        "share_prev": 0.48,
+        "m2_old": 65
+       }
+      }
+     },
+     "10": {
+      "flats": 479951,
+      "rent_zensus": 8.55,
+      "rent_recent": 10.8,
+      "rent_asking": 14.57,
+      "rent_old_method": 13.63,
+      "small_premium": 1.003,
+      "nk_cold": 1.58,
+      "nk_warm": 1.29,
+      "dist_km": 9.5,
+      "rent": 17.48,
+      "rent_prev": 15.25,
+      "personas": {
+       "median": {
+        "net": 2882,
+        "cost": 1049,
+        "share": 0.364,
+        "share_ticket": 0.384,
+        "m2": 49,
+        "share_prev": 0.318,
+        "m2_old": 101
+       },
+       "p25": {
+        "net": 2246,
+        "cost": 1049,
+        "share": 0.467,
+        "share_ticket": 0.493,
+        "m2": 39,
+        "share_prev": 0.407,
+        "m2_old": 79
+       }
+      }
+     },
+     "20": {
+      "flats": 133188,
+      "rent_zensus": 8.72,
+      "rent_recent": 9.92,
+      "rent_asking": 13.15,
+      "rent_old_method": 13.07,
+      "small_premium": 1.031,
+      "nk_cold": 1.32,
+      "nk_warm": 1.18,
+      "dist_km": 18.9,
+      "rent": 16.06,
+      "rent_prev": 14.8,
+      "personas": {
+       "median": {
+        "net": 2882,
+        "cost": 963,
+        "share": 0.334,
+        "share_ticket": 0.354,
+        "m2": 54,
+        "share_prev": 0.308,
+        "m2_old": 99
+       },
+       "p25": {
+        "net": 2246,
+        "cost": 963,
+        "share": 0.429,
+        "share_ticket": 0.455,
+        "m2": 42,
+        "share_prev": 0.395,
+        "m2_old": 77
+       }
+      }
+     },
+     "30": {
+      "flats": 98119,
+      "rent_zensus": 7.82,
+      "rent_recent": 8.74,
+      "rent_asking": 11.49,
+      "rent_old_method": 11.48,
+      "small_premium": 1.056,
+      "nk_cold": 1.24,
+      "nk_warm": 1.14,
+      "dist_km": 29.2,
+      "rent": 14.51,
+      "rent_prev": 13.36,
+      "personas": {
+       "median": {
+        "net": 2905,
+        "cost": 871,
+        "share": 0.3,
+        "share_ticket": 0.32,
+        "m2": 60,
+        "share_prev": 0.276,
+        "m2_old": 111
+       },
+       "p25": {
+        "net": 2267,
+        "cost": 871,
+        "share": 0.384,
+        "share_ticket": 0.41,
+        "m2": 47,
+        "share_prev": 0.354,
+        "m2_old": 86
+       }
+      }
+     },
+     "40": {
+      "flats": 81915,
+      "rent_zensus": 7.54,
+      "rent_recent": 8.35,
+      "rent_asking": 10.76,
+      "rent_old_method": 10.86,
+      "small_premium": 1.071,
+      "nk_cold": 1.16,
+      "nk_warm": 1.06,
+      "dist_km": 40.3,
+      "rent": 13.74,
+      "rent_prev": 12.79,
+      "personas": {
+       "median": {
+        "net": 2930,
+        "cost": 825,
+        "share": 0.281,
+        "share_ticket": 0.301,
+        "m2": 64,
+        "share_prev": 0.262,
+        "m2_old": 115
+       },
+       "p25": {
+        "net": 2288,
+        "cost": 825,
+        "share": 0.36,
+        "share_ticket": 0.386,
+        "m2": 50,
+        "share_prev": 0.335,
+        "m2_old": 89
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "München",
+   "wage": {
+    "median": 5362,
+    "p25": 3882
+   },
+   "modes": {
+    "edge": {
+     "30-40": {
+      "flats": 144697,
+      "rent_zensus": 8.38,
+      "rent_recent": 9.77,
+      "rent_asking": 13.29,
+      "rent_old_method": 13.11,
+      "small_premium": 1.07,
+      "nk_cold": 1.33,
+      "nk_warm": 1.33,
+      "dist_km": 48.4,
+      "rent": 16.88,
+      "rent_prev": 15.36,
+      "personas": {
+       "median": {
+        "net": 3381,
+        "cost": 1013,
+        "share": 0.3,
+        "share_ticket": 0.317,
+        "m2": 60,
+        "share_prev": 0.273,
+        "m2_old": 118
+       },
+       "p25": {
+        "net": 2601,
+        "cost": 1013,
+        "share": 0.389,
+        "share_ticket": 0.412,
+        "m2": 46,
+        "share_prev": 0.354,
+        "m2_old": 91
+       }
+      }
+     },
+     "20-30": {
+      "flats": 73065,
+      "rent_zensus": 9.49,
+      "rent_recent": 10.8,
+      "rent_asking": 14.28,
+      "rent_old_method": 14.26,
+      "small_premium": 1.087,
+      "nk_cold": 1.39,
+      "nk_warm": 1.39,
+      "dist_km": 34.8,
+      "rent": 18.3,
+      "rent_prev": 16.89,
+      "personas": {
+       "median": {
+        "net": 3348,
+        "cost": 1098,
+        "share": 0.328,
+        "share_ticket": 0.345,
+        "m2": 55,
+        "share_prev": 0.303,
+        "m2_old": 105
+       },
+       "p25": {
+        "net": 2572,
+        "cost": 1098,
+        "share": 0.427,
+        "share_ticket": 0.449,
+        "m2": 42,
+        "share_prev": 0.394,
+        "m2_old": 80
+       }
+      }
+     },
+     "10-20": {
+      "flats": 66466,
+      "rent_zensus": 10.13,
+      "rent_recent": 11.48,
+      "rent_asking": 15.34,
+      "rent_old_method": 15.42,
+      "small_premium": 1.073,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 26.7,
+      "rent": 19.26,
+      "rent_prev": 17.95,
+      "personas": {
+       "median": {
+        "net": 3328,
+        "cost": 1156,
+        "share": 0.347,
+        "share_ticket": 0.365,
+        "m2": 52,
+        "share_prev": 0.324,
+        "m2_old": 98
+       },
+       "p25": {
+        "net": 2555,
+        "cost": 1156,
+        "share": 0.452,
+        "share_ticket": 0.475,
+        "m2": 40,
+        "share_prev": 0.421,
+        "m2_old": 75
+       }
+      }
+     },
+     "0-10": {
+      "flats": 169582,
+      "rent_zensus": 11.31,
+      "rent_recent": 13.11,
+      "rent_asking": 17.78,
+      "rent_old_method": 17.78,
+      "small_premium": 1.045,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 15,
+      "rent": 21.38,
+      "rent_prev": 19.98,
+      "personas": {
+       "median": {
+        "net": 3308,
+        "cost": 1283,
+        "share": 0.388,
+        "share_ticket": 0.405,
+        "m2": 46,
+        "share_prev": 0.362,
+        "m2_old": 88
+       },
+       "p25": {
+        "net": 2539,
+        "cost": 1283,
+        "share": 0.505,
+        "share_ticket": 0.528,
+        "m2": 36,
+        "share_prev": 0.472,
+        "m2_old": 67
+       }
+      }
+     },
+     "city": {
+      "flats": 576268,
+      "rent_zensus": 12.89,
+      "rent_recent": 15.68,
+      "rent_asking": 21.01,
+      "rent_old_method": 21.01,
+      "small_premium": 1.037,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 4.8,
+      "rent": 24.59,
+      "rent_prev": 23.19,
+      "personas": {
+       "median": {
+        "net": 3308,
+        "cost": 1475,
+        "share": 0.446,
+        "share_ticket": 0.463,
+        "m2": 40,
+        "share_prev": 0.421,
+        "m2_old": 77
+       },
+       "p25": {
+        "net": 2539,
+        "cost": 1475,
+        "share": 0.581,
+        "share_ticket": 0.604,
+        "m2": 31,
+        "share_prev": 0.548,
+        "m2_old": 59
+       }
+      }
+     }
+    },
+    "centre": {
+     "30-40": {
+      "flats": 77965,
+      "rent_zensus": 9.65,
+      "rent_recent": 11,
+      "rent_asking": 14.49,
+      "rent_old_method": 14.46,
+      "small_premium": 1.085,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 33.5,
+      "rent": 18.52,
+      "rent_prev": 17.09,
+      "personas": {
+       "median": {
+        "net": 3344,
+        "cost": 1111,
+        "share": 0.332,
+        "share_ticket": 0.35,
+        "m2": 54,
+        "share_prev": 0.307,
+        "m2_old": 103
+       },
+       "p25": {
+        "net": 2570,
+        "cost": 1111,
+        "share": 0.432,
+        "share_ticket": 0.455,
+        "m2": 42,
+        "share_prev": 0.399,
+        "m2_old": 79
+       }
+      }
+     },
+     "20-30": {
+      "flats": 74518,
+      "rent_zensus": 10.28,
+      "rent_recent": 11.64,
+      "rent_asking": 15.69,
+      "rent_old_method": 15.79,
+      "small_premium": 1.067,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 24.8,
+      "rent": 19.54,
+      "rent_prev": 18.25,
+      "personas": {
+       "median": {
+        "net": 3323,
+        "cost": 1172,
+        "share": 0.353,
+        "share_ticket": 0.37,
+        "m2": 51,
+        "share_prev": 0.329,
+        "m2_old": 97
+       },
+       "p25": {
+        "net": 2551,
+        "cost": 1172,
+        "share": 0.46,
+        "share_ticket": 0.482,
+        "m2": 39,
+        "share_prev": 0.429,
+        "m2_old": 74
+       }
+      }
+     },
+     "10-20": {
+      "flats": 149258,
+      "rent_zensus": 11.44,
+      "rent_recent": 13.5,
+      "rent_asking": 18.26,
+      "rent_old_method": 18.08,
+      "small_premium": 1.045,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 14.3,
+      "rent": 21.88,
+      "rent_prev": 20.29,
+      "personas": {
+       "median": {
+        "net": 3308,
+        "cost": 1313,
+        "share": 0.397,
+        "share_ticket": 0.414,
+        "m2": 45,
+        "share_prev": 0.368,
+        "m2_old": 87
+       },
+       "p25": {
+        "net": 2539,
+        "cost": 1313,
+        "share": 0.517,
+        "share_ticket": 0.54,
+        "m2": 35,
+        "share_prev": 0.48,
+        "m2_old": 67
+       }
+      }
+     },
+     "0-10": {
+      "flats": 576198,
+      "rent_zensus": 12.89,
+      "rent_recent": 15.63,
+      "rent_asking": 20.95,
+      "rent_old_method": 20.99,
+      "small_premium": 1.036,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 4.7,
+      "rent": 24.5,
+      "rent_prev": 23.15,
+      "personas": {
+       "median": {
+        "net": 3308,
+        "cost": 1470,
+        "share": 0.444,
+        "share_ticket": 0.462,
+        "m2": 41,
+        "share_prev": 0.42,
+        "m2_old": 77
+       },
+       "p25": {
+        "net": 2539,
+        "cost": 1470,
+        "share": 0.579,
+        "share_ticket": 0.602,
+        "m2": 31,
+        "share_prev": 0.547,
+        "m2_old": 59
+       }
+      }
+     },
+     "city": {
+      "flats": 576268,
+      "rent_zensus": 12.89,
+      "rent_recent": 15.68,
+      "rent_asking": 21.01,
+      "rent_old_method": 21.01,
+      "small_premium": 1.037,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 4.8,
+      "rent": 24.59,
+      "rent_prev": 23.19,
+      "personas": {
+       "median": {
+        "net": 3308,
+        "cost": 1475,
+        "share": 0.446,
+        "share_ticket": 0.463,
+        "m2": 40,
+        "share_prev": 0.421,
+        "m2_old": 77
+       },
+       "p25": {
+        "net": 2539,
+        "cost": 1475,
+        "share": 0.581,
+        "share_ticket": 0.604,
+        "m2": 31,
+        "share_prev": 0.548,
+        "m2_old": 59
+       }
+      }
+     }
+    },
+    "stops": {
+     "0": {
+      "flats": 338364,
+      "rent_zensus": 13.48,
+      "rent_recent": 15.68,
+      "rent_asking": 21.01,
+      "rent_old_method": 21.98,
+      "small_premium": 1.04,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 3.1,
+      "rent": 24.65,
+      "rent_prev": 24.26,
+      "personas": {
+       "median": {
+        "net": 3308,
+        "cost": 1479,
+        "share": 0.447,
+        "share_ticket": 0.465,
+        "m2": 40,
+        "share_prev": 0.44,
+        "m2_old": 74
+       },
+       "p25": {
+        "net": 2539,
+        "cost": 1479,
+        "share": 0.583,
+        "share_ticket": 0.605,
+        "m2": 31,
+        "share_prev": 0.573,
+        "m2_old": 57
+       }
+      }
+     },
+     "10": {
+      "flats": 330325,
+      "rent_zensus": 11.93,
+      "rent_recent": 15.13,
+      "rent_asking": 20.34,
+      "rent_old_method": 19.31,
+      "small_premium": 1.035,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 8.6,
+      "rent": 23.85,
+      "rent_prev": 21.39,
+      "personas": {
+       "median": {
+        "net": 3308,
+        "cost": 1431,
+        "share": 0.433,
+        "share_ticket": 0.45,
+        "m2": 42,
+        "share_prev": 0.388,
+        "m2_old": 83
+       },
+       "p25": {
+        "net": 2539,
+        "cost": 1431,
+        "share": 0.564,
+        "share_ticket": 0.587,
+        "m2": 32,
+        "share_prev": 0.505,
+        "m2_old": 64
+       }
+      }
+     },
+     "20": {
+      "flats": 101527,
+      "rent_zensus": 10.86,
+      "rent_recent": 12.32,
+      "rent_asking": 16.6,
+      "rent_old_method": 16.75,
+      "small_premium": 1.056,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 19.7,
+      "rent": 20.33,
+      "rent_prev": 19.09,
+      "personas": {
+       "median": {
+        "net": 3311,
+        "cost": 1220,
+        "share": 0.368,
+        "share_ticket": 0.386,
+        "m2": 49,
+        "share_prev": 0.346,
+        "m2_old": 91
+       },
+       "p25": {
+        "net": 2541,
+        "cost": 1220,
+        "share": 0.48,
+        "share_ticket": 0.503,
+        "m2": 37,
+        "share_prev": 0.451,
+        "m2_old": 70
+       }
+      }
+     },
+     "30": {
+      "flats": 87129,
+      "rent_zensus": 9.91,
+      "rent_recent": 11.29,
+      "rent_asking": 14.97,
+      "rent_old_method": 14.96,
+      "small_premium": 1.075,
+      "nk_cold": 1.4,
+      "nk_warm": 1.4,
+      "dist_km": 30.6,
+      "rent": 18.89,
+      "rent_prev": 17.48,
+      "personas": {
+       "median": {
+        "net": 3337,
+        "cost": 1134,
+        "share": 0.34,
+        "share_ticket": 0.357,
+        "m2": 53,
+        "share_prev": 0.314,
+        "m2_old": 100
+       },
+       "p25": {
+        "net": 2564,
+        "cost": 1134,
+        "share": 0.442,
+        "share_ticket": 0.465,
+        "m2": 41,
+        "share_prev": 0.409,
+        "m2_old": 77
+       }
+      }
+     },
+     "40": {
+      "flats": 59816,
+      "rent_zensus": 8.69,
+      "rent_recent": 9.99,
+      "rent_asking": 13.48,
+      "rent_old_method": 13.4,
+      "small_premium": 1.078,
+      "nk_cold": 1.39,
+      "nk_warm": 1.39,
+      "dist_km": 41.1,
+      "rent": 17.31,
+      "rent_prev": 15.84,
+      "personas": {
+       "median": {
+        "net": 3363,
+        "cost": 1039,
+        "share": 0.309,
+        "share_ticket": 0.326,
+        "m2": 58,
+        "share_prev": 0.283,
+        "m2_old": 114
+       },
+       "p25": {
+        "net": 2586,
+        "cost": 1039,
+        "share": 0.402,
+        "share_ticket": 0.424,
+        "m2": 45,
+        "share_prev": 0.367,
+        "m2_old": 88
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "Köln",
+   "wage": {
+    "median": 4498,
+    "p25": 3342
+   },
+   "modes": {
+    "edge": {
+     "30-40": {
+      "flats": 471939,
+      "rent_zensus": 6.26,
+      "rent_recent": 6.8,
+      "rent_asking": 8.82,
+      "rent_old_method": 8.95,
+      "small_premium": 1.032,
+      "nk_cold": 1.37,
+      "nk_warm": 1.11,
+      "dist_km": 50.1,
+      "rent": 11.58,
+      "rent_prev": 10.61,
+      "personas": {
+       "median": {
+        "net": 2936,
+        "cost": 695,
+        "share": 0.237,
+        "share_ticket": 0.256,
+        "m2": 76,
+        "share_prev": 0.217,
+        "m2_old": 137
+       },
+       "p25": {
+        "net": 2305,
+        "cost": 695,
+        "share": 0.302,
+        "share_ticket": 0.327,
+        "m2": 60,
+        "share_prev": 0.276,
+        "m2_old": 108
+       }
+      }
+     },
+     "20-30": {
+      "flats": 403285,
+      "rent_zensus": 6.68,
+      "rent_recent": 7.36,
+      "rent_asking": 9.73,
+      "rent_old_method": 9.76,
+      "small_premium": 1.028,
+      "nk_cold": 1.39,
+      "nk_warm": 1.12,
+      "dist_km": 39.3,
+      "rent": 12.51,
+      "rent_prev": 11.42,
+      "personas": {
+       "median": {
+        "net": 2912,
+        "cost": 751,
+        "share": 0.258,
+        "share_ticket": 0.278,
+        "m2": 70,
+        "share_prev": 0.235,
+        "m2_old": 129
+       },
+       "p25": {
+        "net": 2284,
+        "cost": 751,
+        "share": 0.329,
+        "share_ticket": 0.354,
+        "m2": 55,
+        "share_prev": 0.3,
+        "m2_old": 101
+       }
+      }
+     },
+     "10-20": {
+      "flats": 543628,
+      "rent_zensus": 8.23,
+      "rent_recent": 9.26,
+      "rent_asking": 11.95,
+      "rent_old_method": 12.05,
+      "small_premium": 1.044,
+      "nk_cold": 1.4,
+      "nk_warm": 1.13,
+      "dist_km": 30.2,
+      "rent": 15.01,
+      "rent_prev": 13.98,
+      "personas": {
+       "median": {
+        "net": 2892,
+        "cost": 900,
+        "share": 0.311,
+        "share_ticket": 0.331,
+        "m2": 58,
+        "share_prev": 0.29,
+        "m2_old": 104
+       },
+       "p25": {
+        "net": 2266,
+        "cost": 900,
+        "share": 0.397,
+        "share_ticket": 0.423,
+        "m2": 45,
+        "share_prev": 0.37,
+        "m2_old": 82
+       }
+      }
+     },
+     "0-10": {
+      "flats": 335842,
+      "rent_zensus": 7.69,
+      "rent_recent": 8.76,
+      "rent_asking": 11.58,
+      "rent_old_method": 11.42,
+      "small_premium": 1.037,
+      "nk_cold": 1.4,
+      "nk_warm": 1.18,
+      "dist_km": 17.4,
+      "rent": 14.59,
+      "rent_prev": 13.24,
+      "personas": {
+       "median": {
+        "net": 2866,
+        "cost": 875,
+        "share": 0.305,
+        "share_ticket": 0.326,
+        "m2": 59,
+        "share_prev": 0.277,
+        "m2_old": 112
+       },
+       "p25": {
+        "net": 2243,
+        "cost": 875,
+        "share": 0.39,
+        "share_ticket": 0.416,
+        "m2": 46,
+        "share_prev": 0.354,
+        "m2_old": 88
+       }
+      }
+     },
+     "city": {
+      "flats": 399829,
+      "rent_zensus": 9.39,
+      "rent_recent": 11.06,
+      "rent_asking": 13.79,
+      "rent_old_method": 13.79,
+      "small_premium": 1.042,
+      "nk_cold": 1.4,
+      "nk_warm": 1.2,
+      "dist_km": 5,
+      "rent": 16.97,
+      "rent_prev": 15.77,
+      "personas": {
+       "median": {
+        "net": 2866,
+        "cost": 1018,
+        "share": 0.355,
+        "share_ticket": 0.375,
+        "m2": 51,
+        "share_prev": 0.33,
+        "m2_old": 92
+       },
+       "p25": {
+        "net": 2243,
+        "cost": 1018,
+        "share": 0.454,
+        "share_ticket": 0.48,
+        "m2": 40,
+        "share_prev": 0.422,
+        "m2_old": 72
+       }
+      }
+     }
+    },
+    "centre": {
+     "30-40": {
+      "flats": 538328,
+      "rent_zensus": 7.76,
+      "rent_recent": 8.62,
+      "rent_asking": 11.28,
+      "rent_old_method": 11.4,
+      "small_premium": 1.038,
+      "nk_cold": 1.4,
+      "nk_warm": 1.12,
+      "dist_km": 34.8,
+      "rent": 14.23,
+      "rent_prev": 13.23,
+      "personas": {
+       "median": {
+        "net": 2902,
+        "cost": 854,
+        "share": 0.294,
+        "share_ticket": 0.314,
+        "m2": 61,
+        "share_prev": 0.274,
+        "m2_old": 111
+       },
+       "p25": {
+        "net": 2275,
+        "cost": 854,
+        "share": 0.375,
+        "share_ticket": 0.401,
+        "m2": 48,
+        "share_prev": 0.349,
+        "m2_old": 87
+       }
+      }
+     },
+     "20-30": {
+      "flats": 359268,
+      "rent_zensus": 7.72,
+      "rent_recent": 8.88,
+      "rent_asking": 11.41,
+      "rent_old_method": 11.23,
+      "small_premium": 1.051,
+      "nk_cold": 1.4,
+      "nk_warm": 1.16,
+      "dist_km": 25.5,
+      "rent": 14.55,
+      "rent_prev": 13.2,
+      "personas": {
+       "median": {
+        "net": 2881,
+        "cost": 873,
+        "share": 0.303,
+        "share_ticket": 0.323,
+        "m2": 59,
+        "share_prev": 0.275,
+        "m2_old": 111
+       },
+       "p25": {
+        "net": 2256,
+        "cost": 873,
+        "share": 0.387,
+        "share_ticket": 0.413,
+        "m2": 47,
+        "share_prev": 0.351,
+        "m2_old": 87
+       }
+      }
+     },
+     "10-20": {
+      "flats": 238591,
+      "rent_zensus": 7.65,
+      "rent_recent": 8.79,
+      "rent_asking": 11.6,
+      "rent_old_method": 11.37,
+      "small_premium": 1.035,
+      "nk_cold": 1.4,
+      "nk_warm": 1.19,
+      "dist_km": 14.5,
+      "rent": 14.6,
+      "rent_prev": 13.17,
+      "personas": {
+       "median": {
+        "net": 2866,
+        "cost": 876,
+        "share": 0.306,
+        "share_ticket": 0.326,
+        "m2": 59,
+        "share_prev": 0.276,
+        "m2_old": 112
+       },
+       "p25": {
+        "net": 2243,
+        "cost": 876,
+        "share": 0.39,
+        "share_ticket": 0.416,
+        "m2": 46,
+        "share_prev": 0.352,
+        "m2_old": 88
+       }
+      }
+     },
+     "city": {
+      "flats": 399829,
+      "rent_zensus": 9.39,
+      "rent_recent": 11.06,
+      "rent_asking": 13.79,
+      "rent_old_method": 13.79,
+      "small_premium": 1.042,
+      "nk_cold": 1.4,
+      "nk_warm": 1.2,
+      "dist_km": 5,
+      "rent": 16.97,
+      "rent_prev": 15.77,
+      "personas": {
+       "median": {
+        "net": 2866,
+        "cost": 1018,
+        "share": 0.355,
+        "share_ticket": 0.375,
+        "m2": 51,
+        "share_prev": 0.33,
+        "m2_old": 92
+       },
+       "p25": {
+        "net": 2243,
+        "cost": 1018,
+        "share": 0.454,
+        "share_ticket": 0.48,
+        "m2": 40,
+        "share_prev": 0.422,
+        "m2_old": 72
+       }
+      }
+     },
+     "0-10": {
+      "flats": 385028,
+      "rent_zensus": 9.44,
+      "rent_recent": 10.99,
+      "rent_asking": 13.74,
+      "rent_old_method": 13.88,
+      "small_premium": 1.041,
+      "nk_cold": 1.4,
+      "nk_warm": 1.2,
+      "dist_km": 4.6,
+      "rent": 16.9,
+      "rent_prev": 15.85,
+      "personas": {
+       "median": {
+        "net": 2866,
+        "cost": 1014,
+        "share": 0.354,
+        "share_ticket": 0.374,
+        "m2": 51,
+        "share_prev": 0.332,
+        "m2_old": 91
+       },
+       "p25": {
+        "net": 2243,
+        "cost": 1014,
+        "share": 0.452,
+        "share_ticket": 0.478,
+        "m2": 40,
+        "share_prev": 0.424,
+        "m2_old": 71
+       }
+      }
+     }
+    },
+    "stops": {
+     "0": {
+      "flats": 254140,
+      "rent_zensus": 9.9,
+      "rent_recent": 11.06,
+      "rent_asking": 13.79,
+      "rent_old_method": 14.54,
+      "small_premium": 1.042,
+      "nk_cold": 1.4,
+      "nk_warm": 1.2,
+      "dist_km": 3.1,
+      "rent": 16.97,
+      "rent_prev": 16.55,
+      "personas": {
+       "median": {
+        "net": 2866,
+        "cost": 1018,
+        "share": 0.355,
+        "share_ticket": 0.375,
+        "m2": 51,
+        "share_prev": 0.346,
+        "m2_old": 87
+       },
+       "p25": {
+        "net": 2243,
+        "cost": 1018,
+        "share": 0.454,
+        "share_ticket": 0.48,
+        "m2": 40,
+        "share_prev": 0.443,
+        "m2_old": 68
+       }
+      }
+     },
+     "10": {
+      "flats": 274522,
+      "rent_zensus": 8.14,
+      "rent_recent": 9.94,
+      "rent_asking": 12.76,
+      "rent_old_method": 12.05,
+      "small_premium": 1.032,
+      "nk_cold": 1.4,
+      "nk_warm": 1.2,
+      "dist_km": 10.1,
+      "rent": 15.77,
+      "rent_prev": 13.84,
+      "personas": {
+       "median": {
+        "net": 2866,
+        "cost": 946,
+        "share": 0.33,
+        "share_ticket": 0.35,
+        "m2": 55,
+        "share_prev": 0.29,
+        "m2_old": 106
+       },
+       "p25": {
+        "net": 2243,
+        "cost": 946,
+        "share": 0.422,
+        "share_ticket": 0.448,
+        "m2": 43,
+        "share_prev": 0.37,
+        "m2_old": 83
+       }
+      }
+     },
+     "20": {
+      "flats": 241835,
+      "rent_zensus": 7.6,
+      "rent_recent": 8.62,
+      "rent_asking": 11.28,
+      "rent_old_method": 11.19,
+      "small_premium": 1.043,
+      "nk_cold": 1.4,
+      "nk_warm": 1.17,
+      "dist_km": 20.8,
+      "rent": 14.34,
+      "rent_prev": 13.07,
+      "personas": {
+       "median": {
+        "net": 2871,
+        "cost": 860,
+        "share": 0.3,
+        "share_ticket": 0.32,
+        "m2": 60,
+        "share_prev": 0.273,
+        "m2_old": 113
+       },
+       "p25": {
+        "net": 2247,
+        "cost": 860,
+        "share": 0.383,
+        "share_ticket": 0.409,
+        "m2": 47,
+        "share_prev": 0.349,
+        "m2_old": 89
+       }
+      }
+     },
+     "30": {
+      "flats": 489952,
+      "rent_zensus": 7.91,
+      "rent_recent": 8.97,
+      "rent_asking": 11.57,
+      "rent_old_method": 11.55,
+      "small_premium": 1.046,
+      "nk_cold": 1.4,
+      "nk_warm": 1.13,
+      "dist_km": 30.3,
+      "rent": 14.63,
+      "rent_prev": 13.48,
+      "personas": {
+       "median": {
+        "net": 2892,
+        "cost": 878,
+        "share": 0.304,
+        "share_ticket": 0.324,
+        "m2": 59,
+        "share_prev": 0.28,
+        "m2_old": 109
+       },
+       "p25": {
+        "net": 2266,
+        "cost": 878,
+        "share": 0.387,
+        "share_ticket": 0.413,
+        "m2": 46,
+        "share_prev": 0.357,
+        "m2_old": 85
+       }
+      }
+     },
+     "40": {
+      "flats": 453563,
+      "rent_zensus": 7.04,
+      "rent_recent": 7.77,
+      "rent_asking": 10.24,
+      "rent_old_method": 10.32,
+      "small_premium": 1.034,
+      "nk_cold": 1.39,
+      "nk_warm": 1.12,
+      "dist_km": 39.4,
+      "rent": 13.1,
+      "rent_prev": 12.06,
+      "personas": {
+       "median": {
+        "net": 2913,
+        "cost": 786,
+        "share": 0.27,
+        "share_ticket": 0.29,
+        "m2": 67,
+        "share_prev": 0.248,
+        "m2_old": 122
+       },
+       "p25": {
+        "net": 2284,
+        "cost": 786,
+        "share": 0.344,
+        "share_ticket": 0.37,
+        "m2": 52,
+        "share_prev": 0.317,
+        "m2_old": 96
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "Frankfurt am Main",
+   "wage": {
+    "median": 5202,
+    "p25": 3723
+   },
+   "modes": {
+    "edge": {
+     "30-40": {
+      "flats": 133658,
+      "rent_zensus": 7.14,
+      "rent_recent": 7.98,
+      "rent_asking": 10.52,
+      "rent_old_method": 10.64,
+      "small_premium": 1.106,
+      "nk_cold": 1.17,
+      "nk_warm": 1.14,
+      "dist_km": 46.1,
+      "rent": 13.95,
+      "rent_prev": 12.94,
+      "personas": {
+       "median": {
+        "net": 3294,
+        "cost": 837,
+        "share": 0.254,
+        "share_ticket": 0.272,
+        "m2": 71,
+        "share_prev": 0.236,
+        "m2_old": 136
+       },
+       "p25": {
+        "net": 2509,
+        "cost": 837,
+        "share": 0.334,
+        "share_ticket": 0.357,
+        "m2": 54,
+        "share_prev": 0.309,
+        "m2_old": 103
+       }
+      }
+     },
+     "20-30": {
+      "flats": 159750,
+      "rent_zensus": 7.85,
+      "rent_recent": 9,
+      "rent_asking": 11.68,
+      "rent_old_method": 11.56,
+      "small_premium": 1.091,
+      "nk_cold": 1.27,
+      "nk_warm": 1.21,
+      "dist_km": 35.3,
+      "rent": 15.22,
+      "rent_prev": 13.88,
+      "personas": {
+       "median": {
+        "net": 3268,
+        "cost": 913,
+        "share": 0.28,
+        "share_ticket": 0.297,
+        "m2": 64,
+        "share_prev": 0.255,
+        "m2_old": 123
+       },
+       "p25": {
+        "net": 2487,
+        "cost": 913,
+        "share": 0.367,
+        "share_ticket": 0.391,
+        "m2": 49,
+        "share_prev": 0.335,
+        "m2_old": 94
+       }
+      }
+     },
+     "10-20": {
+      "flats": 310660,
+      "rent_zensus": 8.89,
+      "rent_recent": 10.06,
+      "rent_asking": 12.93,
+      "rent_old_method": 13.05,
+      "small_premium": 1.066,
+      "nk_cold": 1.34,
+      "nk_warm": 1.26,
+      "dist_km": 27.7,
+      "rent": 16.38,
+      "rent_prev": 15.25,
+      "personas": {
+       "median": {
+        "net": 3249,
+        "cost": 983,
+        "share": 0.303,
+        "share_ticket": 0.32,
+        "m2": 60,
+        "share_prev": 0.282,
+        "m2_old": 109
+       },
+       "p25": {
+        "net": 2471,
+        "cost": 983,
+        "share": 0.398,
+        "share_ticket": 0.421,
+        "m2": 45,
+        "share_prev": 0.37,
+        "m2_old": 83
+       }
+      }
+     },
+     "0-10": {
+      "flats": 290750,
+      "rent_zensus": 8.85,
+      "rent_recent": 10.19,
+      "rent_asking": 13.35,
+      "rent_old_method": 13.28,
+      "small_premium": 1.047,
+      "nk_cold": 1.4,
+      "nk_warm": 1.3,
+      "dist_km": 13.4,
+      "rent": 16.68,
+      "rent_prev": 15.3,
+      "personas": {
+       "median": {
+        "net": 3228,
+        "cost": 1001,
+        "share": 0.31,
+        "share_ticket": 0.328,
+        "m2": 58,
+        "share_prev": 0.284,
+        "m2_old": 109
+       },
+       "p25": {
+        "net": 2453,
+        "cost": 1001,
+        "share": 0.408,
+        "share_ticket": 0.432,
+        "m2": 44,
+        "share_prev": 0.374,
+        "m2_old": 83
+       }
+      }
+     },
+     "city": {
+      "flats": 300565,
+      "rent_zensus": 10.57,
+      "rent_recent": 13.09,
+      "rent_asking": 16.64,
+      "rent_old_method": 16.62,
+      "small_premium": 1.045,
+      "nk_cold": 1.4,
+      "nk_warm": 1.3,
+      "dist_km": 4.4,
+      "rent": 20.09,
+      "rent_prev": 18.77,
+      "personas": {
+       "median": {
+        "net": 3228,
+        "cost": 1205,
+        "share": 0.373,
+        "share_ticket": 0.391,
+        "m2": 48,
+        "share_prev": 0.349,
+        "m2_old": 92
+       },
+       "p25": {
+        "net": 2453,
+        "cost": 1205,
+        "share": 0.491,
+        "share_ticket": 0.515,
+        "m2": 37,
+        "share_prev": 0.459,
+        "m2_old": 70
+       }
+      }
+     }
+    },
+    "centre": {
+     "30-40": {
+      "flats": 265537,
+      "rent_zensus": 8.49,
+      "rent_recent": 9.68,
+      "rent_asking": 12.46,
+      "rent_old_method": 12.43,
+      "small_premium": 1.086,
+      "nk_cold": 1.25,
+      "nk_warm": 1.2,
+      "dist_km": 33.8,
+      "rent": 15.98,
+      "rent_prev": 14.75,
+      "personas": {
+       "median": {
+        "net": 3264,
+        "cost": 959,
+        "share": 0.294,
+        "share_ticket": 0.312,
+        "m2": 61,
+        "share_prev": 0.271,
+        "m2_old": 114
+       },
+       "p25": {
+        "net": 2484,
+        "cost": 959,
+        "share": 0.386,
+        "share_ticket": 0.409,
+        "m2": 47,
+        "share_prev": 0.356,
+        "m2_old": 87
+       }
+      }
+     },
+     "20-30": {
+      "flats": 223682,
+      "rent_zensus": 8.56,
+      "rent_recent": 9.74,
+      "rent_asking": 12.61,
+      "rent_old_method": 12.7,
+      "small_premium": 1.069,
+      "nk_cold": 1.38,
+      "nk_warm": 1.29,
+      "dist_km": 25.6,
+      "rent": 16.15,
+      "rent_prev": 14.96,
+      "personas": {
+       "median": {
+        "net": 3244,
+        "cost": 969,
+        "share": 0.299,
+        "share_ticket": 0.317,
+        "m2": 60,
+        "share_prev": 0.277,
+        "m2_old": 113
+       },
+       "p25": {
+        "net": 2467,
+        "cost": 969,
+        "share": 0.393,
+        "share_ticket": 0.416,
+        "m2": 46,
+        "share_prev": 0.364,
+        "m2_old": 86
+       }
+      }
+     },
+     "10-20": {
+      "flats": 213480,
+      "rent_zensus": 8.83,
+      "rent_recent": 10.28,
+      "rent_asking": 13.4,
+      "rent_old_method": 13.2,
+      "small_premium": 1.045,
+      "nk_cold": 1.4,
+      "nk_warm": 1.3,
+      "dist_km": 14.5,
+      "rent": 16.7,
+      "rent_prev": 15.19,
+      "personas": {
+       "median": {
+        "net": 3228,
+        "cost": 1002,
+        "share": 0.31,
+        "share_ticket": 0.328,
+        "m2": 58,
+        "share_prev": 0.282,
+        "m2_old": 110
+       },
+       "p25": {
+        "net": 2453,
+        "cost": 1002,
+        "share": 0.409,
+        "share_ticket": 0.432,
+        "m2": 44,
+        "share_prev": 0.372,
+        "m2_old": 83
+       }
+      }
+     },
+     "city": {
+      "flats": 300565,
+      "rent_zensus": 10.57,
+      "rent_recent": 13.09,
+      "rent_asking": 16.64,
+      "rent_old_method": 16.62,
+      "small_premium": 1.045,
+      "nk_cold": 1.4,
+      "nk_warm": 1.3,
+      "dist_km": 4.4,
+      "rent": 20.09,
+      "rent_prev": 18.77,
+      "personas": {
+       "median": {
+        "net": 3228,
+        "cost": 1205,
+        "share": 0.373,
+        "share_ticket": 0.391,
+        "m2": 48,
+        "share_prev": 0.349,
+        "m2_old": 92
+       },
+       "p25": {
+        "net": 2453,
+        "cost": 1205,
+        "share": 0.491,
+        "share_ticket": 0.515,
+        "m2": 37,
+        "share_prev": 0.459,
+        "m2_old": 70
+       }
+      }
+     },
+     "0-10": {
+      "flats": 362323,
+      "rent_zensus": 10.32,
+      "rent_recent": 12.57,
+      "rent_asking": 16.07,
+      "rent_old_method": 16.14,
+      "small_premium": 1.046,
+      "nk_cold": 1.4,
+      "nk_warm": 1.3,
+      "dist_km": 4.9,
+      "rent": 19.51,
+      "rent_prev": 18.28,
+      "personas": {
+       "median": {
+        "net": 3228,
+        "cost": 1171,
+        "share": 0.363,
+        "share_ticket": 0.381,
+        "m2": 50,
+        "share_prev": 0.34,
+        "m2_old": 94
+       },
+       "p25": {
+        "net": 2453,
+        "cost": 1171,
+        "share": 0.477,
+        "share_ticket": 0.501,
+        "m2": 38,
+        "share_prev": 0.447,
+        "m2_old": 71
+       }
+      }
+     }
+    },
+    "stops": {
+     "0": {
+      "flats": 193889,
+      "rent_zensus": 11.32,
+      "rent_recent": 13.08,
+      "rent_asking": 16.64,
+      "rent_old_method": 17.81,
+      "small_premium": 1.042,
+      "nk_cold": 1.4,
+      "nk_warm": 1.3,
+      "dist_km": 2.8,
+      "rent": 20.04,
+      "rent_prev": 19.96,
+      "personas": {
+       "median": {
+        "net": 3228,
+        "cost": 1202,
+        "share": 0.372,
+        "share_ticket": 0.39,
+        "m2": 48,
+        "share_prev": 0.371,
+        "m2_old": 86
+       },
+       "p25": {
+        "net": 2453,
+        "cost": 1202,
+        "share": 0.49,
+        "share_ticket": 0.514,
+        "m2": 37,
+        "share_prev": 0.488,
+        "m2_old": 65
+       }
+      }
+     },
+     "10": {
+      "flats": 297933,
+      "rent_zensus": 9.11,
+      "rent_recent": 11.39,
+      "rent_asking": 14.71,
+      "rent_old_method": 13.91,
+      "small_premium": 1.04,
+      "nk_cold": 1.4,
+      "nk_warm": 1.3,
+      "dist_km": 9.5,
+      "rent": 18,
+      "rent_prev": 15.87,
+      "personas": {
+       "median": {
+        "net": 3228,
+        "cost": 1080,
+        "share": 0.335,
+        "share_ticket": 0.352,
+        "m2": 54,
+        "share_prev": 0.295,
+        "m2_old": 106
+       },
+       "p25": {
+        "net": 2453,
+        "cost": 1080,
+        "share": 0.44,
+        "share_ticket": 0.464,
+        "m2": 41,
+        "share_prev": 0.388,
+        "m2_old": 81
+       }
+      }
+     },
+     "20": {
+      "flats": 172525,
+      "rent_zensus": 8.33,
+      "rent_recent": 9.67,
+      "rent_asking": 12.64,
+      "rent_old_method": 12.48,
+      "small_premium": 1.061,
+      "nk_cold": 1.4,
+      "nk_warm": 1.3,
+      "dist_km": 20.1,
+      "rent": 16.11,
+      "rent_prev": 14.64,
+      "personas": {
+       "median": {
+        "net": 3231,
+        "cost": 967,
+        "share": 0.299,
+        "share_ticket": 0.317,
+        "m2": 60,
+        "share_prev": 0.272,
+        "m2_old": 116
+       },
+       "p25": {
+        "net": 2455,
+        "cost": 967,
+        "share": 0.394,
+        "share_ticket": 0.417,
+        "m2": 46,
+        "share_prev": 0.358,
+        "m2_old": 88
+       }
+      }
+     },
+     "30": {
+      "flats": 315886,
+      "rent_zensus": 8.87,
+      "rent_recent": 10,
+      "rent_asking": 12.85,
+      "rent_old_method": 12.99,
+      "small_premium": 1.077,
+      "nk_cold": 1.32,
+      "nk_warm": 1.25,
+      "dist_km": 30.2,
+      "rent": 16.41,
+      "rent_prev": 15.31,
+      "personas": {
+       "median": {
+        "net": 3256,
+        "cost": 985,
+        "share": 0.302,
+        "share_ticket": 0.32,
+        "m2": 60,
+        "share_prev": 0.282,
+        "m2_old": 109
+       },
+       "p25": {
+        "net": 2476,
+        "cost": 985,
+        "share": 0.398,
+        "share_ticket": 0.421,
+        "m2": 45,
+        "share_prev": 0.371,
+        "m2_old": 83
+       }
+      }
+     },
+     "40": {
+      "flats": 131395,
+      "rent_zensus": 7.36,
+      "rent_recent": 8.38,
+      "rent_asking": 10.94,
+      "rent_old_method": 10.92,
+      "small_premium": 1.093,
+      "nk_cold": 1.2,
+      "nk_warm": 1.16,
+      "dist_km": 39.2,
+      "rent": 14.32,
+      "rent_prev": 13.14,
+      "personas": {
+       "median": {
+        "net": 3277,
+        "cost": 859,
+        "share": 0.262,
+        "share_ticket": 0.28,
+        "m2": 69,
+        "share_prev": 0.24,
+        "m2_old": 132
+       },
+       "p25": {
+        "net": 2495,
+        "cost": 859,
+        "share": 0.344,
+        "share_ticket": 0.368,
+        "m2": 52,
+        "share_prev": 0.316,
+        "m2_old": 100
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "Stuttgart",
+   "wage": {
+    "median": 5329,
+    "p25": 3873
+   },
+   "modes": {
+    "edge": {
+     "30-40": {
+      "flats": 136440,
+      "rent_zensus": 7.34,
+      "rent_recent": 8.61,
+      "rent_asking": 11.05,
+      "rent_old_method": 11.11,
+      "small_premium": 1.096,
+      "nk_cold": 1.19,
+      "nk_warm": 1.2,
+      "dist_km": 43.7,
+      "rent": 14.5,
+      "rent_prev": 13.37,
+      "personas": {
+       "median": {
+        "net": 3353,
+        "cost": 870,
+        "share": 0.26,
+        "share_ticket": 0.277,
+        "m2": 69,
+        "share_prev": 0.239,
+        "m2_old": 135
+       },
+       "p25": {
+        "net": 2586,
+        "cost": 870,
+        "share": 0.336,
+        "share_ticket": 0.359,
+        "m2": 54,
+        "share_prev": 0.31,
+        "m2_old": 104
+       }
+      }
+     },
+     "20-30": {
+      "flats": 181796,
+      "rent_zensus": 7.96,
+      "rent_recent": 9.45,
+      "rent_asking": 11.76,
+      "rent_old_method": 11.8,
+      "small_premium": 1.09,
+      "nk_cold": 1.17,
+      "nk_warm": 1.2,
+      "dist_km": 34.6,
+      "rent": 15.19,
+      "rent_prev": 14.03,
+      "personas": {
+       "median": {
+        "net": 3330,
+        "cost": 911,
+        "share": 0.274,
+        "share_ticket": 0.291,
+        "m2": 66,
+        "share_prev": 0.253,
+        "m2_old": 124
+       },
+       "p25": {
+        "net": 2567,
+        "cost": 911,
+        "share": 0.355,
+        "share_ticket": 0.378,
+        "m2": 51,
+        "share_prev": 0.328,
+        "m2_old": 96
+       }
+      }
+     },
+     "10-20": {
+      "flats": 143484,
+      "rent_zensus": 8.31,
+      "rent_recent": 9.74,
+      "rent_asking": 12.46,
+      "rent_old_method": 12.5,
+      "small_premium": 1.077,
+      "nk_cold": 1.18,
+      "nk_warm": 1.2,
+      "dist_km": 24.4,
+      "rent": 15.8,
+      "rent_prev": 14.64,
+      "personas": {
+       "median": {
+        "net": 3305,
+        "cost": 948,
+        "share": 0.287,
+        "share_ticket": 0.304,
+        "m2": 63,
+        "share_prev": 0.266,
+        "m2_old": 119
+       },
+       "p25": {
+        "net": 2546,
+        "cost": 948,
+        "share": 0.372,
+        "share_ticket": 0.395,
+        "m2": 48,
+        "share_prev": 0.345,
+        "m2_old": 91
+       }
+      }
+     },
+     "0-10": {
+      "flats": 235304,
+      "rent_zensus": 9.11,
+      "rent_recent": 10.71,
+      "rent_asking": 13.84,
+      "rent_old_method": 13.76,
+      "small_premium": 1.066,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 13.1,
+      "rent": 17.15,
+      "rent_prev": 15.87,
+      "personas": {
+       "median": {
+        "net": 3292,
+        "cost": 1029,
+        "share": 0.313,
+        "share_ticket": 0.33,
+        "m2": 58,
+        "share_prev": 0.289,
+        "m2_old": 108
+       },
+       "p25": {
+        "net": 2534,
+        "cost": 1029,
+        "share": 0.406,
+        "share_ticket": 0.429,
+        "m2": 44,
+        "share_prev": 0.376,
+        "m2_old": 83
+       }
+      }
+     },
+     "city": {
+      "flats": 193813,
+      "rent_zensus": 10.4,
+      "rent_recent": 12.44,
+      "rent_asking": 16.02,
+      "rent_old_method": 16.03,
+      "small_premium": 1.05,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 4.4,
+      "rent": 19.22,
+      "rent_prev": 18.03,
+      "personas": {
+       "median": {
+        "net": 3292,
+        "cost": 1153,
+        "share": 0.35,
+        "share_ticket": 0.368,
+        "m2": 51,
+        "share_prev": 0.329,
+        "m2_old": 95
+       },
+       "p25": {
+        "net": 2534,
+        "cost": 1153,
+        "share": 0.455,
+        "share_ticket": 0.478,
+        "m2": 40,
+        "share_prev": 0.427,
+        "m2_old": 73
+       }
+      }
+     }
+    },
+    "centre": {
+     "30-40": {
+      "flats": 196526,
+      "rent_zensus": 7.9,
+      "rent_recent": 9.4,
+      "rent_asking": 11.71,
+      "rent_old_method": 11.72,
+      "small_premium": 1.088,
+      "nk_cold": 1.17,
+      "nk_warm": 1.2,
+      "dist_km": 35.1,
+      "rent": 15.11,
+      "rent_prev": 13.92,
+      "personas": {
+       "median": {
+        "net": 3332,
+        "cost": 907,
+        "share": 0.272,
+        "share_ticket": 0.29,
+        "m2": 66,
+        "share_prev": 0.251,
+        "m2_old": 125
+       },
+       "p25": {
+        "net": 2568,
+        "cost": 907,
+        "share": 0.353,
+        "share_ticket": 0.376,
+        "m2": 51,
+        "share_prev": 0.325,
+        "m2_old": 96
+       }
+      }
+     },
+     "20-30": {
+      "flats": 133590,
+      "rent_zensus": 8.35,
+      "rent_recent": 9.79,
+      "rent_asking": 12.47,
+      "rent_old_method": 12.52,
+      "small_premium": 1.079,
+      "nk_cold": 1.18,
+      "nk_warm": 1.2,
+      "dist_km": 25,
+      "rent": 15.84,
+      "rent_prev": 14.69,
+      "personas": {
+       "median": {
+        "net": 3307,
+        "cost": 950,
+        "share": 0.287,
+        "share_ticket": 0.305,
+        "m2": 63,
+        "share_prev": 0.267,
+        "m2_old": 118
+       },
+       "p25": {
+        "net": 2547,
+        "cost": 950,
+        "share": 0.373,
+        "share_ticket": 0.396,
+        "m2": 48,
+        "share_prev": 0.346,
+        "m2_old": 91
+       }
+      }
+     },
+     "10-20": {
+      "flats": 202632,
+      "rent_zensus": 9.04,
+      "rent_recent": 10.58,
+      "rent_asking": 13.67,
+      "rent_old_method": 13.64,
+      "small_premium": 1.068,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 14.6,
+      "rent": 17,
+      "rent_prev": 15.77,
+      "personas": {
+       "median": {
+        "net": 3292,
+        "cost": 1020,
+        "share": 0.31,
+        "share_ticket": 0.327,
+        "m2": 58,
+        "share_prev": 0.287,
+        "m2_old": 109
+       },
+       "p25": {
+        "net": 2534,
+        "cost": 1020,
+        "share": 0.403,
+        "share_ticket": 0.425,
+        "m2": 45,
+        "share_prev": 0.373,
+        "m2_old": 84
+       }
+      }
+     },
+     "city": {
+      "flats": 193813,
+      "rent_zensus": 10.4,
+      "rent_recent": 12.44,
+      "rent_asking": 16.02,
+      "rent_old_method": 16.03,
+      "small_premium": 1.05,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 4.4,
+      "rent": 19.22,
+      "rent_prev": 18.03,
+      "personas": {
+       "median": {
+        "net": 3292,
+        "cost": 1153,
+        "share": 0.35,
+        "share_ticket": 0.368,
+        "m2": 51,
+        "share_prev": 0.329,
+        "m2_old": 95
+       },
+       "p25": {
+        "net": 2534,
+        "cost": 1153,
+        "share": 0.455,
+        "share_ticket": 0.478,
+        "m2": 40,
+        "share_prev": 0.427,
+        "m2_old": 73
+       }
+      }
+     },
+     "0-10": {
+      "flats": 239048,
+      "rent_zensus": 10.17,
+      "rent_recent": 12.16,
+      "rent_asking": 15.68,
+      "rent_old_method": 15.65,
+      "small_premium": 1.053,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 5.1,
+      "rent": 18.91,
+      "rent_prev": 17.68,
+      "personas": {
+       "median": {
+        "net": 3292,
+        "cost": 1135,
+        "share": 0.345,
+        "share_ticket": 0.362,
+        "m2": 52,
+        "share_prev": 0.322,
+        "m2_old": 97
+       },
+       "p25": {
+        "net": 2534,
+        "cost": 1135,
+        "share": 0.448,
+        "share_ticket": 0.471,
+        "m2": 40,
+        "share_prev": 0.419,
+        "m2_old": 75
+       }
+      }
+     }
+    },
+    "stops": {
+     "0": {
+      "flats": 119307,
+      "rent_zensus": 10.75,
+      "rent_recent": 12.44,
+      "rent_asking": 16.02,
+      "rent_old_method": 16.57,
+      "small_premium": 1.042,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 2.8,
+      "rent": 19.09,
+      "rent_prev": 18.47,
+      "personas": {
+       "median": {
+        "net": 3292,
+        "cost": 1146,
+        "share": 0.348,
+        "share_ticket": 0.366,
+        "m2": 52,
+        "share_prev": 0.337,
+        "m2_old": 92
+       },
+       "p25": {
+        "net": 2534,
+        "cost": 1146,
+        "share": 0.452,
+        "share_ticket": 0.475,
+        "m2": 40,
+        "share_prev": 0.437,
+        "m2_old": 71
+       }
+      }
+     },
+     "10": {
+      "flats": 234376,
+      "rent_zensus": 9.39,
+      "rent_recent": 11.37,
+      "rent_asking": 14.67,
+      "rent_old_method": 14.29,
+      "small_premium": 1.065,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 9.8,
+      "rent": 18.02,
+      "rent_prev": 16.42,
+      "personas": {
+       "median": {
+        "net": 3292,
+        "cost": 1081,
+        "share": 0.329,
+        "share_ticket": 0.346,
+        "m2": 55,
+        "share_prev": 0.299,
+        "m2_old": 105
+       },
+       "p25": {
+        "net": 2534,
+        "cost": 1081,
+        "share": 0.427,
+        "share_ticket": 0.45,
+        "m2": 42,
+        "share_prev": 0.389,
+        "m2_old": 81
+       }
+      }
+     },
+     "20": {
+      "flats": 150976,
+      "rent_zensus": 8.69,
+      "rent_recent": 10.03,
+      "rent_asking": 12.97,
+      "rent_old_method": 13.11,
+      "small_premium": 1.07,
+      "nk_cold": 1.2,
+      "nk_warm": 1.2,
+      "dist_km": 19.4,
+      "rent": 16.28,
+      "rent_prev": 15.23,
+      "personas": {
+       "median": {
+        "net": 3293,
+        "cost": 977,
+        "share": 0.297,
+        "share_ticket": 0.314,
+        "m2": 61,
+        "share_prev": 0.277,
+        "m2_old": 114
+       },
+       "p25": {
+        "net": 2535,
+        "cost": 977,
+        "share": 0.385,
+        "share_ticket": 0.408,
+        "m2": 47,
+        "share_prev": 0.36,
+        "m2_old": 87
+       }
+      }
+     },
+     "30": {
+      "flats": 163901,
+      "rent_zensus": 8.23,
+      "rent_recent": 9.85,
+      "rent_asking": 12.36,
+      "rent_old_method": 12.25,
+      "small_premium": 1.086,
+      "nk_cold": 1.16,
+      "nk_warm": 1.2,
+      "dist_km": 30.3,
+      "rent": 15.78,
+      "rent_prev": 14.46,
+      "personas": {
+       "median": {
+        "net": 3320,
+        "cost": 947,
+        "share": 0.285,
+        "share_ticket": 0.303,
+        "m2": 63,
+        "share_prev": 0.261,
+        "m2_old": 120
+       },
+       "p25": {
+        "net": 2558,
+        "cost": 947,
+        "share": 0.37,
+        "share_ticket": 0.393,
+        "m2": 49,
+        "share_prev": 0.339,
+        "m2_old": 92
+       }
+      }
+     },
+     "40": {
+      "flats": 174580,
+      "rent_zensus": 7.57,
+      "rent_recent": 8.9,
+      "rent_asking": 11.18,
+      "rent_old_method": 11.31,
+      "small_premium": 1.09,
+      "nk_cold": 1.19,
+      "nk_warm": 1.2,
+      "dist_km": 39.6,
+      "rent": 14.58,
+      "rent_prev": 13.52,
+      "personas": {
+       "median": {
+        "net": 3343,
+        "cost": 875,
+        "share": 0.262,
+        "share_ticket": 0.279,
+        "m2": 69,
+        "share_prev": 0.243,
+        "m2_old": 130
+       },
+       "p25": {
+        "net": 2578,
+        "cost": 875,
+        "share": 0.339,
+        "share_ticket": 0.362,
+        "m2": 53,
+        "share_prev": 0.315,
+        "m2_old": 100
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "Düsseldorf",
+   "wage": {
+    "median": 4760,
+    "p25": 3461
+   },
+   "modes": {
+    "edge": {
+     "30-40": {
+      "flats": 518300,
+      "rent_zensus": 6.17,
+      "rent_recent": 6.94,
+      "rent_asking": 8.79,
+      "rent_old_method": 8.71,
+      "small_premium": 1.03,
+      "nk_cold": 1.32,
+      "nk_warm": 1.13,
+      "dist_km": 46.4,
+      "rent": 11.5,
+      "rent_prev": 10.29,
+      "personas": {
+       "median": {
+        "net": 3066,
+        "cost": 690,
+        "share": 0.225,
+        "share_ticket": 0.244,
+        "m2": 80,
+        "share_prev": 0.201,
+        "m2_old": 146
+       },
+       "p25": {
+        "net": 2364,
+        "cost": 690,
+        "share": 0.292,
+        "share_ticket": 0.316,
+        "m2": 62,
+        "share_prev": 0.261,
+        "m2_old": 112
+       }
+      }
+     },
+     "20-30": {
+      "flats": 758656,
+      "rent_zensus": 7.33,
+      "rent_recent": 8.26,
+      "rent_asking": 10.41,
+      "rent_old_method": 10.53,
+      "small_premium": 1.034,
+      "nk_cold": 1.36,
+      "nk_warm": 1.14,
+      "dist_km": 35.8,
+      "rent": 13.26,
+      "rent_prev": 12.25,
+      "personas": {
+       "median": {
+        "net": 3042,
+        "cost": 796,
+        "share": 0.262,
+        "share_ticket": 0.281,
+        "m2": 69,
+        "share_prev": 0.242,
+        "m2_old": 123
+       },
+       "p25": {
+        "net": 2343,
+        "cost": 796,
+        "share": 0.34,
+        "share_ticket": 0.364,
+        "m2": 53,
+        "share_prev": 0.314,
+        "m2_old": 95
+       }
+      }
+     },
+     "10-20": {
+      "flats": 882600,
+      "rent_zensus": 6.84,
+      "rent_recent": 7.78,
+      "rent_asking": 9.9,
+      "rent_old_method": 9.79,
+      "small_premium": 1.02,
+      "nk_cold": 1.4,
+      "nk_warm": 1.12,
+      "dist_km": 27.3,
+      "rent": 12.62,
+      "rent_prev": 11.39,
+      "personas": {
+       "median": {
+        "net": 3022,
+        "cost": 757,
+        "share": 0.251,
+        "share_ticket": 0.27,
+        "m2": 72,
+        "share_prev": 0.226,
+        "m2_old": 132
+       },
+       "p25": {
+        "net": 2326,
+        "cost": 757,
+        "share": 0.325,
+        "share_ticket": 0.35,
+        "m2": 55,
+        "share_prev": 0.294,
+        "m2_old": 101
+       }
+      }
+     },
+     "0-10": {
+      "flats": 408659,
+      "rent_zensus": 6.97,
+      "rent_recent": 7.67,
+      "rent_asking": 9.92,
+      "rent_old_method": 10.01,
+      "small_premium": 1.01,
+      "nk_cold": 1.4,
+      "nk_warm": 1.11,
+      "dist_km": 16.4,
+      "rent": 12.53,
+      "rent_prev": 11.51,
+      "personas": {
+       "median": {
+        "net": 3003,
+        "cost": 752,
+        "share": 0.25,
+        "share_ticket": 0.27,
+        "m2": 72,
+        "share_prev": 0.23,
+        "m2_old": 129
+       },
+       "p25": {
+        "net": 2309,
+        "cost": 752,
+        "share": 0.326,
+        "share_ticket": 0.351,
+        "m2": 55,
+        "share_prev": 0.299,
+        "m2_old": 99
+       }
+      }
+     },
+     "city": {
+      "flats": 253302,
+      "rent_zensus": 9.24,
+      "rent_recent": 10.54,
+      "rent_asking": 13.77,
+      "rent_old_method": 13.76,
+      "small_premium": 1.008,
+      "nk_cold": 1.4,
+      "nk_warm": 1.1,
+      "dist_km": 3.8,
+      "rent": 16.38,
+      "rent_prev": 15.27,
+      "personas": {
+       "median": {
+        "net": 3003,
+        "cost": 983,
+        "share": 0.327,
+        "share_ticket": 0.347,
+        "m2": 55,
+        "share_prev": 0.305,
+        "m2_old": 97
+       },
+       "p25": {
+        "net": 2309,
+        "cost": 983,
+        "share": 0.426,
+        "share_ticket": 0.451,
+        "m2": 42,
+        "share_prev": 0.397,
+        "m2_old": 75
+       }
+      }
+     }
+    },
+    "centre": {
+     "30-40": {
+      "flats": 876743,
+      "rent_zensus": 7.45,
+      "rent_recent": 8.43,
+      "rent_asking": 10.61,
+      "rent_old_method": 10.71,
+      "small_premium": 1.036,
+      "nk_cold": 1.37,
+      "nk_warm": 1.15,
+      "dist_km": 34.4,
+      "rent": 13.51,
+      "rent_prev": 12.47,
+      "personas": {
+       "median": {
+        "net": 3038,
+        "cost": 811,
+        "share": 0.267,
+        "share_ticket": 0.286,
+        "m2": 67,
+        "share_prev": 0.246,
+        "m2_old": 121
+       },
+       "p25": {
+        "net": 2340,
+        "cost": 811,
+        "share": 0.346,
+        "share_ticket": 0.371,
+        "m2": 52,
+        "share_prev": 0.32,
+        "m2_old": 93
+       }
+      }
+     },
+     "20-30": {
+      "flats": 780240,
+      "rent_zensus": 6.57,
+      "rent_recent": 7.39,
+      "rent_asking": 9.46,
+      "rent_old_method": 9.39,
+      "small_premium": 1.015,
+      "nk_cold": 1.4,
+      "nk_warm": 1.12,
+      "dist_km": 25.7,
+      "rent": 12.12,
+      "rent_prev": 10.93,
+      "personas": {
+       "median": {
+        "net": 3018,
+        "cost": 727,
+        "share": 0.241,
+        "share_ticket": 0.26,
+        "m2": 75,
+        "share_prev": 0.217,
+        "m2_old": 137
+       },
+       "p25": {
+        "net": 2323,
+        "cost": 727,
+        "share": 0.313,
+        "share_ticket": 0.338,
+        "m2": 57,
+        "share_prev": 0.282,
+        "m2_old": 105
+       }
+      }
+     },
+     "10-20": {
+      "flats": 260923,
+      "rent_zensus": 7.12,
+      "rent_recent": 7.9,
+      "rent_asking": 10.28,
+      "rent_old_method": 10.28,
+      "small_premium": 1.008,
+      "nk_cold": 1.4,
+      "nk_warm": 1.1,
+      "dist_km": 16,
+      "rent": 12.86,
+      "rent_prev": 11.76,
+      "personas": {
+       "median": {
+        "net": 3003,
+        "cost": 772,
+        "share": 0.257,
+        "share_ticket": 0.276,
+        "m2": 70,
+        "share_prev": 0.235,
+        "m2_old": 127
+       },
+       "p25": {
+        "net": 2309,
+        "cost": 772,
+        "share": 0.334,
+        "share_ticket": 0.359,
+        "m2": 54,
+        "share_prev": 0.306,
+        "m2_old": 97
+       }
+      }
+     },
+     "city": {
+      "flats": 253302,
+      "rent_zensus": 9.24,
+      "rent_recent": 10.54,
+      "rent_asking": 13.77,
+      "rent_old_method": 13.76,
+      "small_premium": 1.008,
+      "nk_cold": 1.4,
+      "nk_warm": 1.1,
+      "dist_km": 3.8,
+      "rent": 16.38,
+      "rent_prev": 15.27,
+      "personas": {
+       "median": {
+        "net": 3003,
+        "cost": 983,
+        "share": 0.327,
+        "share_ticket": 0.347,
+        "m2": 55,
+        "share_prev": 0.305,
+        "m2_old": 97
+       },
+       "p25": {
+        "net": 2309,
+        "cost": 983,
+        "share": 0.426,
+        "share_ticket": 0.451,
+        "m2": 42,
+        "share_prev": 0.397,
+        "m2_old": 75
+       }
+      }
+     },
+     "0-10": {
+      "flats": 310939,
+      "rent_zensus": 8.9,
+      "rent_recent": 10.09,
+      "rent_asking": 13.19,
+      "rent_old_method": 13.22,
+      "small_premium": 1.015,
+      "nk_cold": 1.4,
+      "nk_warm": 1.1,
+      "dist_km": 4.6,
+      "rent": 15.89,
+      "rent_prev": 14.82,
+      "personas": {
+       "median": {
+        "net": 3003,
+        "cost": 953,
+        "share": 0.317,
+        "share_ticket": 0.337,
+        "m2": 57,
+        "share_prev": 0.296,
+        "m2_old": 101
+       },
+       "p25": {
+        "net": 2309,
+        "cost": 953,
+        "share": 0.413,
+        "share_ticket": 0.438,
+        "m2": 44,
+        "share_prev": 0.385,
+        "m2_old": 78
+       }
+      }
+     }
+    },
+    "stops": {
+     "0": {
+      "flats": 190401,
+      "rent_zensus": 9.48,
+      "rent_recent": 10.54,
+      "rent_asking": 13.77,
+      "rent_old_method": 14.12,
+      "small_premium": 1.012,
+      "nk_cold": 1.4,
+      "nk_warm": 1.1,
+      "dist_km": 2.6,
+      "rent": 16.44,
+      "rent_prev": 15.69,
+      "personas": {
+       "median": {
+        "net": 3003,
+        "cost": 986,
+        "share": 0.328,
+        "share_ticket": 0.348,
+        "m2": 55,
+        "share_prev": 0.314,
+        "m2_old": 95
+       },
+       "p25": {
+        "net": 2309,
+        "cost": 986,
+        "share": 0.427,
+        "share_ticket": 0.452,
+        "m2": 42,
+        "share_prev": 0.408,
+        "m2_old": 73
+       }
+      }
+     },
+     "10": {
+      "flats": 215961,
+      "rent_zensus": 7.85,
+      "rent_recent": 9.09,
+      "rent_asking": 11.9,
+      "rent_old_method": 11.55,
+      "small_premium": 1.011,
+      "nk_cold": 1.4,
+      "nk_warm": 1.1,
+      "dist_km": 9.8,
+      "rent": 14.53,
+      "rent_prev": 13.08,
+      "personas": {
+       "median": {
+        "net": 3003,
+        "cost": 872,
+        "share": 0.29,
+        "share_ticket": 0.31,
+        "m2": 62,
+        "share_prev": 0.261,
+        "m2_old": 115
+       },
+       "p25": {
+        "net": 2309,
+        "cost": 872,
+        "share": 0.378,
+        "share_ticket": 0.403,
+        "m2": 48,
+        "share_prev": 0.34,
+        "m2_old": 88
+       }
+      }
+     },
+     "20": {
+      "flats": 494346,
+      "rent_zensus": 6.61,
+      "rent_recent": 7.31,
+      "rent_asking": 9.46,
+      "rent_old_method": 9.48,
+      "small_premium": 1.012,
+      "nk_cold": 1.4,
+      "nk_warm": 1.11,
+      "dist_km": 21.2,
+      "rent": 12.08,
+      "rent_prev": 10.99,
+      "personas": {
+       "median": {
+        "net": 3008,
+        "cost": 725,
+        "share": 0.241,
+        "share_ticket": 0.26,
+        "m2": 75,
+        "share_prev": 0.219,
+        "m2_old": 136
+       },
+       "p25": {
+        "net": 2314,
+        "cost": 725,
+        "share": 0.313,
+        "share_ticket": 0.338,
+        "m2": 57,
+        "share_prev": 0.285,
+        "m2_old": 105
+       }
+      }
+     },
+     "30": {
+      "flats": 973451,
+      "rent_zensus": 7.25,
+      "rent_recent": 8.18,
+      "rent_asking": 10.33,
+      "rent_old_method": 10.39,
+      "small_premium": 1.028,
+      "nk_cold": 1.4,
+      "nk_warm": 1.14,
+      "dist_km": 30.3,
+      "rent": 13.16,
+      "rent_prev": 12.08,
+      "personas": {
+       "median": {
+        "net": 3029,
+        "cost": 790,
+        "share": 0.261,
+        "share_ticket": 0.28,
+        "m2": 69,
+        "share_prev": 0.239,
+        "m2_old": 124
+       },
+       "p25": {
+        "net": 2332,
+        "cost": 790,
+        "share": 0.339,
+        "share_ticket": 0.363,
+        "m2": 53,
+        "share_prev": 0.311,
+        "m2_old": 96
+       }
+      }
+     },
+     "40": {
+      "flats": 626214,
+      "rent_zensus": 6.71,
+      "rent_recent": 7.66,
+      "rent_asking": 9.63,
+      "rent_old_method": 9.55,
+      "small_premium": 1.032,
+      "nk_cold": 1.33,
+      "nk_warm": 1.13,
+      "dist_km": 39.6,
+      "rent": 12.4,
+      "rent_prev": 11.19,
+      "personas": {
+       "median": {
+        "net": 3050,
+        "cost": 744,
+        "share": 0.244,
+        "share_ticket": 0.263,
+        "m2": 74,
+        "share_prev": 0.22,
+        "m2_old": 134
+       },
+       "p25": {
+        "net": 2351,
+        "cost": 744,
+        "share": 0.316,
+        "share_ticket": 0.341,
+        "m2": 57,
+        "share_prev": 0.286,
+        "m2_old": 103
+       }
+      }
+     }
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Commuter Ride</title>
+  </head>
+
+  <body>
+    <main class="rd">
+      <div class="rd-wrap" id="wrap">
+        <div class="rd-stage" id="stage" aria-label="Animation: the further from the city centre, the bigger the flat 30 % of net pay rents">
+          <svg id="scene" viewBox="0 0 1080 1350" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+
+          <header class="rd-head">
+            <div class="rd-kicker" id="kicker">Commuter maths · Germany's 7 largest cities</div>
+            <h1 class="rd-title" id="title"></h1>
+            <div class="rd-chips" id="chips"></div>
+          </header>
+
+          <section class="rd-blocks" id="blocks"></section>
+
+          <footer class="rd-foot" id="foot"></footer>
+          <div class="rd-fade" id="fade"></div>
+        </div>
+      </div>
+      <div class="rd-controls">
+        <button type="button" id="play">Pause</button>
+        <button type="button" id="replay">Replay</button>
+      </div>
+    </main>
+
+    <script type="module" src="/src/ride.js"></script>
+  </body>
+</html>

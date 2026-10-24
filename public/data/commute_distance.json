@@ -1,0 +1,93 @@
+{
+ "meta": {
+  "year": 2024,
+  "note": "In-commuters only (live outside the city). Straight-line distance to the main station.",
+  "attribution": "Pendleratlas der Statistischen Ämter des Bundes und der Länder 2024; BA Pendlerverflechtungen 30.06.2023."
+ },
+ "cities": [
+  {
+   "name": "Berlin",
+   "in_commuters": 477448,
+   "exact_share": 0.665,
+   "median_km": 42.1,
+   "q25_km": 23.9,
+   "q75_km": 252.1,
+   "median_km_exact_only": 26.0,
+   "median_km_within_100": 25.6,
+   "share_within_100": 0.608,
+   "placed_share": 0.992
+  },
+  {
+   "name": "Hamburg",
+   "in_commuters": 465948,
+   "exact_share": 0.656,
+   "median_km": 34.9,
+   "q25_km": 20.4,
+   "q75_km": 121.5,
+   "median_km_exact_only": 25.6,
+   "median_km_within_100": 26.2,
+   "share_within_100": 0.731,
+   "placed_share": 1.001
+  },
+  {
+   "name": "München",
+   "in_commuters": 529834,
+   "exact_share": 0.568,
+   "median_km": 44.5,
+   "q25_km": 18.3,
+   "q75_km": 144.4,
+   "median_km_exact_only": 20.5,
+   "median_km_within_100": 25.2,
+   "share_within_100": 0.709,
+   "placed_share": 1.0
+  },
+  {
+   "name": "Köln",
+   "in_commuters": 373902,
+   "exact_share": 0.711,
+   "median_km": 28.5,
+   "q25_km": 16.4,
+   "q75_km": 57.4,
+   "median_km_exact_only": 21.4,
+   "median_km_within_100": 22.7,
+   "share_within_100": 0.825,
+   "placed_share": 0.989
+  },
+  {
+   "name": "Frankfurt am Main",
+   "in_commuters": 472643,
+   "exact_share": 0.668,
+   "median_km": 28.5,
+   "q25_km": 15.0,
+   "q75_km": 70.2,
+   "median_km_exact_only": 18.9,
+   "median_km_within_100": 21.0,
+   "share_within_100": 0.793,
+   "placed_share": 0.995
+  },
+  {
+   "name": "Stuttgart",
+   "in_commuters": 318695,
+   "exact_share": 0.599,
+   "median_km": 21.9,
+   "q25_km": 13.4,
+   "q75_km": 47.1,
+   "median_km_exact_only": 14.1,
+   "median_km_within_100": 19.6,
+   "share_within_100": 0.867,
+   "placed_share": 1.001
+  },
+  {
+   "name": "Düsseldorf",
+   "in_commuters": 341422,
+   "exact_share": 0.751,
+   "median_km": 27.4,
+   "q25_km": 17.1,
+   "q75_km": 51.8,
+   "median_km_exact_only": 24.2,
+   "median_km_within_100": 24.8,
+   "share_within_100": 0.838,
+   "placed_share": 0.997
+  }
+ ]
+}

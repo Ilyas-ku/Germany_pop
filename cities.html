@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flat for 30 % of Pay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" />
+  </head>
+
+  <body>
+    <main class="ag" id="sheet">
+      <h1>How much flat does 30 % of net pay rent?</h1>
+      <p class="ag-sub" id="sub"></p>
+      <div class="ag-legend-top">
+        <span><i class="lo"></i>under 60 m²</span>
+        <span><i class="hi"></i>60 m² or more</span>
+      </div>
+      <div class="ag-controls" role="radiogroup" aria-label="Income">
+        <span>Income</span>
+        <label><input type="radio" name="persona" value="median" checked /> median earner</label>
+        <label><input type="radio" name="persona" value="p25" /> lower quarter</label>
+      </div>
+      <div class="ag-story"><div id="compare"></div></div>
+      <p class="ag-note">Distance from the main station, ±5 km. Warm rent: BBSR asking rents 2025, Zensus 2022, Mikrozensus 2022. Net pay: BA wage 2024, single, tax class I, 2025 rules.</p>
+    </main>
+
+    <script type="module" src="/src/cities.js"></script>
+  </body>
+</html>

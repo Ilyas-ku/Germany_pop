@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Commuter Maths Video</title>
+  </head>
+
+  <body>
+    <main class="st">
+      <div class="st-wrap" id="wrap">
+        <div class="st-stage" id="stage" aria-label="Video: how quickly rents fall as you move away from the city centre">
+          <svg class="st-journey" id="journey" viewBox="0 0 1080 130" aria-hidden="true"></svg>
+          <div class="st-top">
+            <span class="st-kicker">Commuter maths · 7 largest cities</span>
+            <span class="st-count" id="count"></span>
+          </div>
+          <div id="scenes"></div>
+          <div class="st-src" id="src"></div>
+        </div>
+      </div>
+      <div class="st-controls">
+        <button type="button" id="play">Pause</button>
+        <button type="button" id="replay">Replay</button>
+        <span id="time" class="st-time"></span>
+      </div>
+    </main>
+
+    <script type="module" src="/src/story.js"></script>
+  </body>
+</html>
