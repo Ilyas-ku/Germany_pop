@@ -1,7 +1,6 @@
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./style.css";
 import maplibregl from "maplibre-gl";
-import { Protocol, PMTiles } from "pmtiles";
 import * as turf from "@turf/turf";
 
 // --- Years / fields / Berlin population ---
@@ -127,17 +126,13 @@ updateTitle();
 updateYearMeta();
 window.addEventListener("load", () => renderTicks());
 
-// --- PMTiles protocol ---
-const protocol = new Protocol();
-maplibregl.addProtocol("pmtiles", protocol.tile);
-
-const PMTILES_URL = new URL(
-  `${import.meta.env.BASE_URL}data/gemeinden.pmtiles`,
-  window.location.href
-).toString();
-
-const p = new PMTiles(PMTILES_URL);
-protocol.add(p);
+// --- Municipality vector tiles ---
+// Static {z}/{x}/{y}.pbf files unpacked from gemeinden.pmtiles
+// (scripts/pmtiles-to-dir.mjs). GitHub Pages gzips .pmtiles and breaks
+// Range requests in some browsers, so the archive is not read directly.
+const TILES_URL =
+  new URL(`${import.meta.env.BASE_URL}data/tiles/`, window.location.href).toString() +
+  "{z}/{x}/{y}.pbf";
 
 // --- Worker ---
 const worker = new Worker(new URL("./selector.worker.js", import.meta.url), { type: "module" });
@@ -183,7 +178,9 @@ const style = {
     },
     gemeinden: {
       type: "vector",
-      url: `pmtiles://${PMTILES_URL}`,
+      tiles: [TILES_URL],
+      minzoom: 5,
+      maxzoom: 12,
       promoteId: "AGS"
     }
   },
