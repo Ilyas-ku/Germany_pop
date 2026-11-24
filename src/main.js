@@ -181,6 +181,7 @@ const style = {
       tiles: [TILES_URL],
       minzoom: 5,
       maxzoom: 12,
+      bounds: [5.86625, 47.270124, 15.041814, 55.058384],
       promoteId: "AGS"
     }
   },
