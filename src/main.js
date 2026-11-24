@@ -176,9 +176,10 @@ const style = {
   sources: {
     osm: {
       type: "raster",
-      tiles: ["https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"],
+      tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"],
       tileSize: 256,
-      attribution: "© OpenStreetMap contributors © CARTO"
+      maxzoom: 16,
+      attribution: "Basemap © Esri, HERE, Garmin, © OpenStreetMap contributors"
     },
     gemeinden: {
       type: "vector",
